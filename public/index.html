@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Royalties</title>
+
+    <style>
+        body {
+            background-color: #00915c;
+            font-family: "Raleway";
+            color: #ffffff;
+            font-size: 1.2rem;
+        }
+
+        .center-modal {
+            margin: auto;
+            width: fit-content;
+            min-width: 20vw;
+            padding: 1em 2em;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 8px
+        }
+
+        .page-top {
+            height: 30vh;
+        }
+
+        form {
+            padding-top: 0.7em;
+        }
+
+        input {
+            padding: 0.5em 0.5em;
+            margin: 0.5em 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            width: 100%;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+            font-weight: 600;
+        }
+
+        input:focus {
+            border: 3px solid #ffcc00;
+        }
+
+        input:hover {
+            border: 3px solid #ffcc00;
+        }
+
+        input[type=submit]:hover {
+            background-color: #ffcc00;
+        }
+
+        .tooNarrow {
+            display: none
+        }
+
+        .tooNarrow p {
+            font-size: 1.5rem;
+        }
+
+        @media screen and (max-width: 289px) {
+            .tooNarrow {
+                display: block
+            }
+            .page-top {
+                height: 10vh;
+            }
+        }
+
+        form p {
+            margin: 0.5rem 0rem;
+            max-width: 400px;
+        }
+
+        .warning {
+            color: #ffcc00;
+            display: none;
+        }
+    </style>
+    <link href="/fonts/fonts.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="tooNarrow">
+        <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
+    </div>
+    <div class="page-top"></div>
+    <div class="center-modal">
+        <h1 style="text-align: center; font-size: 3rem; margin: 0;">Royalties</h1>
+        <form action="/login" method="post">
+            <p class="warning" id="wrongdetails">
+                ⚠️ Incorrect username or password.
+            </p>
+            <p class="warning" id="notloggedin">
+                ⚠️ Log in to view that page.
+            </p>
+            <input type="text" name="username" placeholder="Username" id="username" required>
+            <br />
+            <input type="password" name="password" placeholder="Password" id="password" required>
+            <br />
+            <input type="submit" value="Log in">
+            <p>
+                By clicking "Login", you agree to our use of cookies to keep you logged in until you close your browser.
+            </p>
+        </form>
+    </div>
+    <script>
+        if (window.location.search != "") {
+            switch (window.location.search) {
+                case "?wrongdetails":
+                    document.getElementById("wrongdetails").style.display = "block";
+                    break;
+                case "?notloggedin":
+                    document.getElementById("notloggedin").style.display = "block";
+                    break;
+                default:
+                    break;
+            }
+        }
+    </script>
+</body>
+
+</html>
