@@ -71,11 +71,11 @@ app.post("/login", function (req, res) {
 
 app.get("/logout", function (req, res) {
     if (req.session.loggedin) {
-		req.session.loggedin = false;
-        req.session.username = "";
-        res.redirect("/?loggedout")
+		req.session.destroy(function() {
+            res.redirect("/?loggedout");
+        });
 	}
-    else res.end()
+    else res.redirect("/")
 });
 
 app.get("/dashboard", function (req, res) {
