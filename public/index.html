@@ -83,6 +83,11 @@
             color: #ffcc00;
             display: none;
         }
+
+        .info {
+            color: #05faa0;
+            display: none;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
 </head>
@@ -100,6 +105,9 @@
             </p>
             <p class="warning" id="notloggedin">
                 ⚠️ Log in to view that page.
+            </p>
+            <p class="info" id="loggedout">
+                ✅ Successfully logged out.
             </p>
             <input type="text" name="username" placeholder="Username" id="username" required>
             <br />
@@ -119,6 +127,9 @@
                     break;
                 case "?notloggedin":
                     document.getElementById("notloggedin").style.display = "block";
+                    break;
+                case "?loggedout":
+                    document.getElementById("loggedout").style.display = "block";
                     break;
                 default:
                     break;

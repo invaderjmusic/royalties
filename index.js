@@ -69,6 +69,15 @@ app.post("/login", function (req, res) {
     else res.status(400).end()
 });
 
+app.get("/logout", function (req, res) {
+    if (req.session.loggedin) {
+		req.session.loggedin = false;
+        req.session.username = "";
+        res.redirect("/?loggedout")
+	}
+    else res.end()
+});
+
 app.get("/dashboard", function (req, res) {
     if (req.session.loggedin) {
 		res.send('Welcome back, ' + req.session.username + '!');
@@ -76,6 +85,11 @@ app.get("/dashboard", function (req, res) {
 		res.redirect("/?notloggedin")
 	}
 })
+
+// 404 function, keep last
+app.get('*', function(req, res){
+    res.status(404).redirect("/dashboard")
+ });
 
 
 // dummy login checker for testing purposes
