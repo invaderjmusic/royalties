@@ -50,7 +50,8 @@ app.use(function (req, res, next) {
 });
 
 app.get("/", function(req, res) {
-    res.sendFile(process.cwd() + "/public/index.html")
+    if (req.session.loggedin) res.redirect("/dashboard");
+    else res.sendFile(process.cwd() + "/public/index.html");
 });
 
 app.use("/fonts", express.static(process.cwd() + "/public/fonts"));
@@ -96,7 +97,7 @@ app.get("/dashboard", function (req, res) {
 
 // 404 function, keep last
 app.get('*', function(req, res){
-    res.status(404).redirect("/dashboard")
+    res.status(404).redirect("/")
  });
 
 
