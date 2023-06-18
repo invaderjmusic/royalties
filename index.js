@@ -57,13 +57,20 @@ app.use("/fonts", express.static(process.cwd() + "/public/fonts"));
 
 app.post("/login", function (req, res) {
     if (req.body.username && req.body.password) {
-        if (loginDetailsCorrect(req.body.username, req.body.password)) {
-            req.session.loggedin = true;
-            req.session.username = req.body.username;
-            res.redirect("/dashboard")
-        }
-        else {
-            res.redirect("/?wrongdetails")
+        switch (getUserRole(req.body.username, req.body.password)) {
+            case "none":
+                res.redirect("/?wrongdetails");
+                break;
+            case "admin":
+                req.session.admin = true;
+            case "user":
+                req.session.loggedin = true;
+                req.session.username = req.body.username;
+                res.redirect("/dashboard")
+                break;
+            default:
+                res.status(500).end()
+                console.error("[LOGIN] Error: reached the impossible default case on login.")
         }
     }
     else res.status(400).end()
@@ -80,7 +87,8 @@ app.get("/logout", function (req, res) {
 
 app.get("/dashboard", function (req, res) {
     if (req.session.loggedin) {
-		res.send('Welcome back, ' + req.session.username + '!');
+        let role = req.session.admin ? "admin " : "user "
+		res.send('Welcome back, ' + role + req.session.username + '!');
 	} else {
 		res.redirect("/?notloggedin")
 	}
@@ -93,9 +101,9 @@ app.get('*', function(req, res){
 
 
 // dummy login checker for testing purposes
-function loginDetailsCorrect(username, password) {
+function getUserRole(username, password) {
     if (username == "mousedroid" && password == "testing") {
-        return true;
+        return "user";
     }
-    else return false;
+    else return "none";
 }
