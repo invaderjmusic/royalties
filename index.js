@@ -1,10 +1,14 @@
 require("dotenv").config();
 
+// Third-party modules
 const fs = require("fs");
 const express = require("express");
 const session = require("express-session");
 const app = express();
 const http = require('http').Server(app);
+
+// Libs
+const users = require("./lib/users.js");
 
 let sessionOptions = {
     secret: process.env.COOKIESECRET,
@@ -55,15 +59,20 @@ app.get("/", function(req, res) {
 });
 
 app.use("/fonts", express.static(process.cwd() + "/public/fonts"));
+app.use("/.well-known", express.static(process.cwd() + "/public/well-known"));
 
-app.post("/login", function (req, res) {
+app.post("/login", async function (req, res) {
     if (req.body.username && req.body.password) {
-        switch (getUserRole(req.body.username, req.body.password)) {
+        switch (await users.getUserRole(req.body.username, req.body.password)) {
             case "none":
                 res.redirect("/?wrongdetails");
                 break;
             case "admin":
                 req.session.admin = true;
+                req.session.loggedin = true;
+                req.session.username = req.body.username;
+                res.redirect("/dashboard")
+                break;
             case "user":
                 req.session.loggedin = true;
                 req.session.username = req.body.username;
