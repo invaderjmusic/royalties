@@ -9,7 +9,9 @@ const http = require('http').Server(app);
 
 // Libs
 const users = require("./lib/users.js");
-const api = require("./lib/api.js");
+const api = require("./routes/api.js");
+const dashboard = require("./routes/dashboard.js");
+const admin = require("./routes/admin.js")
 
 let sessionOptions = {
     secret: process.env.COOKIESECRET,
@@ -61,7 +63,10 @@ app.get("/", function(req, res) {
 
 app.use("/fonts", express.static(process.cwd() + "/public/fonts"));
 app.use("/.well-known", express.static(process.cwd() + "/public/well-known"));
+
 app.use("/api", api);
+app.use("/dashboard", dashboard);
+app.use("/admin", admin);
 
 app.post("/login", async function (req, res) {
     if (req.body.username && req.body.password) {
@@ -96,43 +101,6 @@ app.get("/logout", function (req, res) {
 	}
     else res.redirect("/")
 });
-
-app.get("/dashboard", function (req, res) {
-    if (req.session.loggedin) {
-        res.sendFile(process.cwd() + "/dashboard/index.html");
-	} else {
-		res.redirect("/?notloggedin");
-	}
-})
-
-app.get("/dashboard.js", function (req, res) {
-    if (req.session.loggedin) {
-        res.sendFile(process.cwd() + "/dashboard/dashboard.js");
-	} else {
-		res.status(401).end();
-	}
-})
-
-app.get("/admin", function (req, res) {
-    if (req.session.loggedin) {
-        if (req.session.admin) {
-            res.sendFile(process.cwd() + "/admin/index.html");
-        }
-        else {
-            res.redirect("/dashboard");
-        }
-    } else {
-        res.redirect("/?notloggedin");
-    }
-})
-
-app.get("/admin.js", function (req, res) {
-    if (req.session.loggedin && req.session.admin) {
-        res.sendFile(process.cwd() + "/admin/admin.js");
-	} else {
-		res.status(401).end();
-	}
-})
 
 // 404 function, keep last
 app.get('*', function(req, res){
