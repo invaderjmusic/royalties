@@ -37,7 +37,9 @@ module default {
     required property primary_contact -> str;
     property password_salt -> str;
     property password_hash -> str;
-    multi link splits -> Split;
+    multi link splits -> Split {
+      on target delete allow;
+    }
   }
 
   type Earning {
