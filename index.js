@@ -104,6 +104,8 @@ app.get("/logout", function (req, res) {
 
 // 404 function, keep last
 app.get('*', function(req, res){
-    res.status(404).redirect("/");
+    if (req.session.loggedin) {
+        res.status(404).redirect("/dashboard?404")
+    }
+    else res.status(404).redirect("/");
 });
-

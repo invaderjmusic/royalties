@@ -141,6 +141,21 @@
             background-clip: text;
             color: transparent;
         }
+
+        .message {
+            display: none;
+            width: 100%;
+            background-color: red;
+            color: white;
+            margin: 0;
+            padding: 1em 1em;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .message .fas {
+            margin-right: 0.5em;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -173,6 +188,7 @@
             </ul>
         </div>
     </nav>
+    <p class="message" id="404"><span class="fas"></span>The page you tried to navigate to does not exist.</p>
     <section>
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
