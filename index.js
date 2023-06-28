@@ -61,7 +61,7 @@ app.get("/", function(req, res) {
 
 app.use("/fonts", express.static(process.cwd() + "/public/fonts"));
 app.use("/.well-known", express.static(process.cwd() + "/public/well-known"));
-app.use("/api", api)
+app.use("/api", api);
 
 app.post("/login", async function (req, res) {
     if (req.body.username && req.body.password) {
@@ -82,10 +82,10 @@ app.post("/login", async function (req, res) {
                 break;
             default:
                 res.status(500).end()
-                console.error("[LOGIN] Error: reached the impossible default case on login.")
+                console.error("[LOGIN] Error: reached the impossible default case on login.");
         }
     }
-    else res.status(400).end()
+    else res.status(400).end();
 });
 
 app.get("/logout", function (req, res) {
@@ -99,22 +99,43 @@ app.get("/logout", function (req, res) {
 
 app.get("/dashboard", function (req, res) {
     if (req.session.loggedin) {
-        res.sendFile(process.cwd() + "/dashboard/index.html")
+        res.sendFile(process.cwd() + "/dashboard/index.html");
 	} else {
-		res.redirect("/?notloggedin")
+		res.redirect("/?notloggedin");
 	}
 })
 
 app.get("/dashboard.js", function (req, res) {
     if (req.session.loggedin) {
-        res.sendFile(process.cwd() + "/dashboard/dashboard.js")
+        res.sendFile(process.cwd() + "/dashboard/dashboard.js");
 	} else {
-		res.status(401).end()
+		res.status(401).end();
+	}
+})
+
+app.get("/admin", function (req, res) {
+    if (req.session.loggedin) {
+        if (req.session.admin) {
+            res.sendFile(process.cwd() + "/admin/index.html");
+        }
+        else {
+            res.redirect("/dashboard");
+        }
+    } else {
+        res.redirect("/?notloggedin");
+    }
+})
+
+app.get("/admin.js", function (req, res) {
+    if (req.session.loggedin && req.session.admin) {
+        res.sendFile(process.cwd() + "/admin/admin.js");
+	} else {
+		res.status(401).end();
 	}
 })
 
 // 404 function, keep last
 app.get('*', function(req, res){
-    res.status(404).redirect("/")
- });
+    res.status(404).redirect("/");
+});
 

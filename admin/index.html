@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dashboard | Royalties</title>
+    <title>Admin View | Royalties</title>
 
     <style>
         body {
@@ -126,10 +126,6 @@
             padding: 0.5em;
         }
 
-        #adminLink {
-            display: none;
-        }
-
         .bigHeading {
             text-align: center;
             font-weight: 700;
@@ -145,7 +141,7 @@
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
-    <script src="/dashboard.js"></script>
+    <script src="/admin.js"></script>
 </head>
 
 <body>
@@ -154,14 +150,14 @@
             <ul>
                 <div class="dropdown">
                     <button class="dropbtn" id="userDropdownLabel" onclick="toggleUserDropdown()">
-                        <span class="fas"></span>
-                        <span class="username"></span>
+                        <span class="fas"></span>
+                        <span>Administrator</span>
                         <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                     </button>
                     <div class="dropdown-content" id="userDropdown">
-                        <a href="/admin" id="adminLink">
-                            <span class="fas"></span>
-                            Admin View
+                        <a href="/dashboard">
+                            <span class="fas"></span>
+                            <span class="username"></span>
                         </a>
                         <a href="/logout">
                             <span class="fas"></span>
@@ -171,6 +167,8 @@
                 </div>
                 <li><a class="active" href="#">Dashboard</a></li>
                 <li><a href="#royalties">Royalties</a></li>
+                <li><a href="#newrelease">New Release</a></li>
+                <li><a href="#newuser">New User</a></li>
             </ul>
         </div>
     </nav>
@@ -178,7 +176,7 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="username gradient"></span></h1>
+        <h1 class="bigHeading"><span class="gradient">Admin</span></h1>
     </section>
 </body>
 
