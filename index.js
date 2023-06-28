@@ -9,6 +9,7 @@ const http = require('http').Server(app);
 
 // Libs
 const users = require("./lib/users.js");
+const api = require("./lib/api.js");
 
 let sessionOptions = {
     secret: process.env.COOKIESECRET,
@@ -60,6 +61,7 @@ app.get("/", function(req, res) {
 
 app.use("/fonts", express.static(process.cwd() + "/public/fonts"));
 app.use("/.well-known", express.static(process.cwd() + "/public/well-known"));
+app.use("/api", api)
 
 app.post("/login", async function (req, res) {
     if (req.body.username && req.body.password) {
@@ -97,10 +99,17 @@ app.get("/logout", function (req, res) {
 
 app.get("/dashboard", function (req, res) {
     if (req.session.loggedin) {
-        let role = req.session.admin ? "admin " : "user "
-		res.send('Welcome back, ' + role + req.session.username + '!');
+        res.sendFile(process.cwd() + "/dashboard/index.html")
 	} else {
 		res.redirect("/?notloggedin")
+	}
+})
+
+app.get("/dashboard.js", function (req, res) {
+    if (req.session.loggedin) {
+        res.sendFile(process.cwd() + "/dashboard/dashboard.js")
+	} else {
+		res.status(401).end()
 	}
 })
 
@@ -109,11 +118,3 @@ app.get('*', function(req, res){
     res.status(404).redirect("/")
  });
 
-
-// dummy login checker for testing purposes
-function getUserRole(username, password) {
-    if (username == "mousedroid" && password == "testing") {
-        return "user";
-    }
-    else return "none";
-}
