@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>New Release | Royalties</title>
+
+    <style>
+        body {
+            font-family: "Raleway";
+            font-size: 1.2rem;
+            background-color: #fdfff5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #00915c;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #ffffff;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.7em 0.5em;
+        }
+
+        .header-content {
+            margin: auto;
+            width: fit-content;
+            min-width: 20vw;
+        }
+
+        .tooNarrow {
+            display: none
+        }
+
+        @media screen and (max-width: 289px) {
+            .tooNarrow {
+                display: block
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            color: white;
+            display: block;
+            text-align: center;
+            padding: 0.5em 1.3em;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active),
+        .dropdown:hover .dropbtn,
+        .dropbtn:focus {
+            color: #ffcc00;
+        }
+
+        .active {
+            color: #ffcc00
+        }
+
+        .dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            cursor: pointer;
+            font-size: 1.3rem;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 0.5em 1.3em;
+            background-color: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+            margin: 0;
+        }
+
+        .dropbtn>* {
+            pointer-events: none;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 260px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 0.6em 1.3em;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .dropdown .fas {
+            padding-right: 0.5em;
+        }
+
+        section {
+            padding: 0.5em;
+        }
+
+        .bigHeading {
+            text-align: center;
+            font-weight: 700;
+            font-size: 4rem;
+        }
+
+        .gradient {
+            background-image: linear-gradient(45deg, #00915c, #ffcc00);
+            background-size: 100%;
+            background-clip: text;
+            color: transparent;
+        }
+
+        form {
+            margin: auto;
+            max-width: 50%;
+        }
+
+        input,
+        select {
+            padding: 0.5em 0.5em;
+            margin: 0.5em 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            width: 100%;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+        }
+
+        select {
+            background-color: white;
+        }
+
+        form button {
+            padding: 0.5em 0.5em;
+            margin: 0.5em 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+        }
+
+        input:focus,
+        select:focus {
+            border: 3px solid #ffcc00;
+        }
+
+        input:hover,
+        form button:hover,
+        select:hover {
+            border: 3px solid #ffcc00;
+        }
+
+        input[type=submit]:hover,
+        form button:hover {
+            background-color: #ffcc00;
+        }
+
+        .song {
+            background-color: #00915c;
+            color: white;
+            margin-bottom: 1em;
+        }
+
+        .song::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .vertical {
+            float: left;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .songinputs {
+            float: left;
+            width: 90%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .fourtyfivebox {
+            float: left;
+            box-sizing: border-box;
+            width: 45%;
+            padding-right: 1em;
+            padding-top: 0.7em;
+        }
+
+        .tenbox {
+            float: left;
+            width: 10%;
+            box-sizing: border-box;
+            padding-top: 0.7em;
+        }
+
+        .contributor::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .deletebtn {
+            padding: 0.5em 0.7em;
+        }
+
+        .deletebtn:hover {
+            background-color: red;
+            color: white;
+            border: 3px solid red;
+        }
+
+        .vertical .deletebtn {
+            margin: 0;
+        }
+
+        .contributor .deletebtn {
+            float: right;
+        }
+
+        .error {
+            background-color: #f79292;
+        }
+
+        .message {
+            display: none;
+            width: 100%;
+            background-color: red;
+            color: white;
+            margin: 0;
+            padding: 1em 1em;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 0.5em;
+        }
+
+        .message .fas {
+            margin-right: 0.5em;
+        }
+    </style>
+    <link href="/fonts/fonts.css" rel="stylesheet" />
+    <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
+    <script src="/admin/index.js"></script>
+    <script src="/admin/newrelease.js"></script>
+</head>
+
+<body>
+    <nav class="header">
+        <div class="header-content">
+            <ul>
+                <div class="dropdown">
+                    <button class="dropbtn" id="userDropdownLabel" onclick="toggleUserDropdown()">
+                        <span class="fas"></span>
+                        <span>Administrator</span>
+                        <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
+                    </button>
+                    <div class="dropdown-content" id="userDropdown">
+                        <a href="/dashboard">
+                            <span class="fas"></span>
+                            <span class="username"></span>
+                        </a>
+                        <a href="/logout">
+                            <span class="fas"></span>
+                            Log Out
+                        </a>
+                    </div>
+                </div>
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="#royalties">Royalties</a></li>
+                <li><a href="#royalties">Report Royalties</a></li>
+                <li><a class="active" href="/admin/newrelease">New Release</a></li>
+                <li><a href="#newuser">New User</a></li>
+            </ul>
+        </div>
+    </nav>
+    <section>
+        <div class="tooNarrow">
+            <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
+        </div>
+        <h1 class="bigHeading"><span class="gradient">New Release</span></h1>
+        <form id="releaseform">
+            <label for="releasename">Name</label><br />
+            <input type="text" name="releasename" id="releasename" required>
+            <br />
+            <label for="releasedate">Release Date</label><br />
+            <input type="date" name="releasedate" id="releasedate" required>
+            <br />
+            <button onclick="addSong()">Add a song</button>
+            <div id="songs">
+                <div class="song" id="song0">
+                    <div class="vertical">
+                        <button class="deletebtn fas" id="deletesong0" onclick="deleteSong(event)"></button>
+                    </div>
+                    <div class="songinputs" id="songinputs0">
+                        <label for="songname0">Song Name</label><br />
+                        <input type="text" name="songname0" id="songname0" required>
+                        <br />
+                        <div class="contributor" id="song0artist0">
+                            <div class="fourtyfivebox">
+                                <label for="song0artistname0">Contributor</label><br />
+                                <select name="song0artistname0" id="song0artistname0" onchange="addArtist(event)"
+                                    required>
+                                    <option value="" disabled selected>Loading...</option>
+                                </select>
+                            </div>
+                            <div class="fourtyfivebox">
+                                <label for="song0split0">Split (%)</label><br />
+                                <input type="number" name="song0split0" id="song0split0" min="1" max="100" onchange="checkHighlight(this)" required>
+                            </div>
+                            <div class="tenbox">
+                                <br />
+                                <button class="deletebtn fas" id="deletesong0artist0"
+                                    onclick="deleteArtist(event)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="message" id="percenterror"><span class="fas"></span>The splits for some songs do not add up to
+                100.</p>
+            <p class="message" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice for
+                some songs.</p>
+            <input type="submit" value="Create">
+        </form>
+    </section>
+</body>
+
+</html>

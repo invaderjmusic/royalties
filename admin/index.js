@@ -1,4 +1,6 @@
-async function hydrate() {
+let datastore = {};
+
+async function getData() {
     let res = await fetch("/api/userInfo");
     let data = await res.json();
     
@@ -6,8 +8,13 @@ async function hydrate() {
     for (let element of usernames) {
         element.textContent = data.username;
     }
+
+    let res2 = await fetch("/admin/getUsers");
+    datastore.users = await res2.json();
+
+    document.body.dispatchEvent(new Event("dataready"));
 }
-hydrate()
+getData()
 
 function toggleUserDropdown() {
     document.getElementById("userDropdown").classList.toggle("show");

@@ -1,4 +1,4 @@
-async function hydrate() {
+async function getData() {
     let res = await fetch("/api/userInfo");
     let data = await res.json();
     
@@ -11,7 +11,7 @@ async function hydrate() {
         document.getElementById("adminLink").style.display = "block";
     }
 }
-hydrate()
+getData()
 
 function toggleUserDropdown() {
     document.getElementById("userDropdown").classList.toggle("show");
