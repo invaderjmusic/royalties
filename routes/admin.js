@@ -33,14 +33,40 @@ router.get("/newrelease.js", (req, res) => {
 })
 
 // Admin API routes
-router.post("/addRelease", (req, res) => {
-    console.log(req.body)
-    res.status(201).send("success");
-})
-
 router.get("/getUsers", async (req, res) => {
     let users = await database.getUsersOverview();
     res.send(users);
+})
+
+// No data verification here, I'm relying on the frontend (probably bad practice but oh well, it is a protected API route)
+router.post("/addRelease", async (req, res) => {
+    let date = req.body.release_date.split("-");
+    let songnames = []
+    for (let i = 0; i < req.body.songs.length; i++) {
+        songnames[i] = req.body.songs[i].name;
+    }
+
+    try {
+        await database.addRelease(req.body.name, parseInt(date[0]), parseInt(date[1]), parseInt(date[2]), songnames);
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
+
+    for (let i = 0; i < req.body.songs.length; i++) {
+        for (let k = 0; k < req.body.songs[i].contributors.length; k++) {
+            try {
+                await database.addUserSplit(req.body.songs[i].contributors[k].name, req.body.songs[i].name, req.body.songs[i].contributors[k].percentage);
+            }
+            catch (err) {
+                console.error(err);
+                res.status(500).send(err);
+            }
+        }
+    }
+
+    res.status(201).send("success");
 })
 
 module.exports = router

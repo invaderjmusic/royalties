@@ -1,8 +1,6 @@
-let form;
 let songs = { 0: [true] };
 let counter = 0;
 let artistSelectString = `<option value="" disabled selected>Select a contributor</option>`;
-let numContributors = 0
 
 async function submitForm(e) {
     e.preventDefault();
@@ -14,6 +12,18 @@ async function submitForm(e) {
     if (datastore.dupeusererror) {
         datastore.dupeusererror = false;
         document.getElementById("dupeusererror").style.display = "none";
+    }
+    if (datastore.success) {
+        datastore.success = false;
+        document.getElementById("success").style.display = "none";
+    }
+    if (datastore.servererror) {
+        datastore.servererror = false;
+        document.getElementById("servererror").style.display = "none";
+    }
+    if (datastore.serveroffline) {
+        datastore.serveroffline = false;
+        document.getElementById("serveroffline").style.display = "none";
     }
     let erroritems = document.getElementsByClassName("error");
     for (let i = 0; i < erroritems.length; i++) {
@@ -82,21 +92,36 @@ async function submitForm(e) {
         body: JSON.stringify(data)
     };
 
-    let response = await fetch('/admin/addRelease', options);
-    let resdata = await response.text();
-    console.log(resdata)
+    let response, resdata;
+    try {
+        response = await fetch('/admin/addRelease', options);
+        resdata = await response.text();
+    }
+    catch (err) {
+        console.log("A Network Error occurred.")
+        datastore.serveroffline = true;
+        document.getElementById("serveroffline").style.display = "block";
+        return;
+    }
+    console.log(resdata);
+    if (resdata == "success") {
+        datastore.success = true;
+        document.getElementById("success").style.display = "block";
+    }
+    else {
+        datastore.servererror = true;
+        document.getElementById("servererror").style.display = "block";
+    }
 };
 
 window.onload = function (event) {
-    form = document.getElementById("releaseform")
-    form.addEventListener("submit", submitForm);
+    document.getElementById("releaseform").addEventListener("submit", submitForm);
 
     document.body.addEventListener("dataready", (e) => {
         for (let i = 0; i < datastore.users.length; i++) {
             artistSelectString = artistSelectString + `<option value="${datastore.users[i].username}">${datastore.users[i].username}</option>`
         }
         document.getElementById("song0artistname0").innerHTML = artistSelectString;
-        numContributors = datastore.users.length;
     })
 };
 
@@ -153,7 +178,7 @@ function addArtist(event) {
     if (event.target.className == "error") event.target.className = "";
     let songid = event.target.id.split("song")[1].split("artist")[0];
     let songint = parseInt(songid);
-    if (songs[parseInt(songint)].filter(item => item == true).length < numContributors) {
+    if (songs[parseInt(songint)].filter(item => item == true).length < datastore.users.length) {
         let artistid = songs[songint].length.toString();
         songs[songint].push(true);
 

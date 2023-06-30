@@ -259,13 +259,20 @@
         .message {
             display: none;
             width: 100%;
-            background-color: red;
             color: white;
             margin: 0;
             padding: 1em 1em;
             text-align: center;
             box-sizing: border-box;
             margin-bottom: 0.5em;
+        }
+
+        .warning {
+            background-color: red;
+        }
+
+        .success {
+            background-color: #01633f;
         }
 
         .message .fas {
@@ -350,10 +357,13 @@
                     </div>
                 </div>
             </div>
-            <p class="message" id="percenterror"><span class="fas"></span>The splits for some songs do not add up to
+            <p class="message warning" id="percenterror"><span class="fas"></span>The splits for some songs do not add up to
                 100.</p>
-            <p class="message" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice for
+            <p class="message warning" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice for
                 some songs.</p>
+            <p class="message success" id="success"><span class="fas"></span>Release created successfully.</p>
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.</p>
+            <p class="message warning" id="serveroffline"><span class="fas"></span>Can't connect to server.</p>
             <input type="submit" value="Create">
         </form>
     </section>
