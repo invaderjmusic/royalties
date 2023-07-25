@@ -8,11 +8,7 @@ async function getData() {
     for (let element of usernames) {
         element.textContent = data.username;
     }
-
-    let res2 = await fetch("/admin/getUsers");
-    datastore.users = await res2.json();
-
-    document.body.dispatchEvent(new Event("dataready"));
+    datastore.username = data.username;
 }
 getData()
 

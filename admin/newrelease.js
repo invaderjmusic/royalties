@@ -2,6 +2,18 @@ let songs = { 0: [true] };
 let counter = 0;
 let artistSelectString = `<option value="" disabled selected>Select a contributor</option>`;
 
+async function getUsers() {
+    let res = await fetch("/admin/getUsers");
+    datastore.users = await res.json();
+
+    for (let i = 0; i < datastore.users.length; i++) {
+        artistSelectString = artistSelectString + `<option value="${datastore.users[i].username}">${datastore.users[i].username}</option>`
+    }
+    
+    document.body.dispatchEvent(new Event("dataready"));
+}
+getUsers()
+
 async function submitForm(e) {
     e.preventDefault();
 
@@ -118,9 +130,6 @@ window.onload = function (event) {
     document.getElementById("releaseform").addEventListener("submit", submitForm);
 
     document.body.addEventListener("dataready", (e) => {
-        for (let i = 0; i < datastore.users.length; i++) {
-            artistSelectString = artistSelectString + `<option value="${datastore.users[i].username}">${datastore.users[i].username}</option>`
-        }
         document.getElementById("song0artistname0").innerHTML = artistSelectString;
     })
 };
