@@ -1,6 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const database = require("../lib/database.js")
+const express = require('express');
+const router = express.Router();
+const database = require("../lib/database.js");
+const royalties = require("../lib/royalties.js");
 
 router.use((req, res, next) => {
     if (req.session.loggedin) {
@@ -30,6 +31,14 @@ router.get("/newrelease", (req, res) => {
 
 router.get("/newrelease.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/newrelease.js");
+})
+
+router.get("/report", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/report.html");
+})
+
+router.get("/report.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/report.js");
 })
 
 // Admin API routes
@@ -66,6 +75,24 @@ router.post("/addRelease", async (req, res) => {
         }
     }
 
+    res.status(201).send("success");
+})
+
+router.get("/getPendingRoyalties", async (req, res) => {
+    let releases = await royalties.getReleasesWithPendingRoyalties();
+    res.send(releases);
+})
+
+router.post("/addRoyalties", async (req, res) => {
+    for (let i = 0; i < req.body.royalties.length; i++) {
+        try {
+            await royalties.addRoyaltyToSong(req.body.date[0], req.body.date[1], req.body.royalties[i].name, req.body.royalties[i].royalty);
+        }
+        catch (err) {
+            console.error(err);
+            res.status(500).send(err)
+        }
+    }
     res.status(201).send("success");
 })
 
