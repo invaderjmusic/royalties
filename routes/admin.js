@@ -25,12 +25,12 @@ router.get("/index.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/index.js");
 })
 
-router.get("/newrelease", (req, res) => {
-    res.sendFile(process.cwd() + "/admin/newrelease.html");
+router.get("/royalties", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/royalties.html");
 })
 
-router.get("/newrelease.js", (req, res) => {
-    res.sendFile(process.cwd() + "/admin/newrelease.js");
+router.get("/royalties.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/royalties.js");
 })
 
 router.get("/report", (req, res) => {
@@ -39,6 +39,14 @@ router.get("/report", (req, res) => {
 
 router.get("/report.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/report.js");
+})
+
+router.get("/newrelease", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newrelease.html");
+})
+
+router.get("/newrelease.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newrelease.js");
 })
 
 // Admin API routes
