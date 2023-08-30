@@ -283,6 +283,16 @@
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
     <script src="/admin/newrelease.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#00915c">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#00915c">
 </head>
 
 <body>
@@ -307,7 +317,7 @@
                     </div>
                 </div>
                 <li><a href="/admin">Dashboard</a></li>
-                <li><a href="#royalties">Royalties</a></li>
+                <li><a href="/admin/royalties">Royalties</a></li>
                 <li><a href="/admin/report">Report Royalties</a></li>
                 <li><a class="active" href="/admin/newrelease">New Release</a></li>
                 <li><a href="#newuser">New User</a></li>
@@ -346,7 +356,8 @@
                             </div>
                             <div class="fourtyfivebox">
                                 <label for="song0split0">Split (%)</label><br />
-                                <input type="number" name="song0split0" id="song0split0" min="1" max="100" onchange="checkHighlight(this)" required>
+                                <input type="number" name="song0split0" id="song0split0" min="1" max="100"
+                                    onchange="checkHighlight(this)" required>
                             </div>
                             <div class="tenbox">
                                 <br />
@@ -357,12 +368,15 @@
                     </div>
                 </div>
             </div>
-            <p class="message warning" id="percenterror"><span class="fas"></span>The splits for some songs do not add up to
+            <p class="message warning" id="percenterror"><span class="fas"></span>The splits for some songs do not add
+                up to
                 100.</p>
-            <p class="message warning" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice for
+            <p class="message warning" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice
+                for
                 some songs.</p>
             <p class="message success" id="success"><span class="fas"></span>Release created successfully.</p>
-            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.</p>
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.
+            </p>
             <p class="message warning" id="serveroffline"><span class="fas"></span>Can't connect to the server.</p>
             <input type="submit" value="Create">
         </form>
