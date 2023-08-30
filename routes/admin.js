@@ -47,7 +47,7 @@ router.get("/getUsers", async (req, res) => {
     res.send(users);
 })
 
-// No data verification here, I'm relying on the frontend (probably bad practice but oh well, it is a protected API route)
+// No data validation here, I'm relying on the frontend (probably bad practice but oh well, it is a protected API route)
 router.post("/addRelease", async (req, res) => {
     let date = req.body.release_date.split("-");
     let songnames = []

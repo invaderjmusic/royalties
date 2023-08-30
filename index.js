@@ -62,7 +62,7 @@ app.get("/", function(req, res) {
 });
 
 app.use("/fonts", express.static(process.cwd() + "/public/fonts"));
-app.use("/.well-known", express.static(process.cwd() + "/public/well-known"));
+app.use("/.well-known", express.static(process.cwd() + "/public/.well-known"));
 
 app.use("/api", api);
 app.use("/dashboard", dashboard);
