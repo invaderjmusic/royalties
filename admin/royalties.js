@@ -1,5 +1,7 @@
-let songs = []
+let songs = [];
+let currentPage = 0;
 let songSelectString = `<option value="" disabled selected>Select a song</option>`;
+let splitPie = null;
 
 async function getData() {
     let res = await fetch("/admin/getSongList");
@@ -21,7 +23,7 @@ window.onload = function (event) {
     })
 }
 
-async function loadRoyalties() {
+async function loadRoyalties(pageNumber, loadSplits) {
     document.getElementById("status").textContent = "";
     document.getElementById("royaltyTable").style.display = "none";
 
@@ -33,14 +35,61 @@ async function loadRoyalties() {
         datastore.noroyalties = false;
         document.getElementById("noroyalties").style.display = "none";
     }
+    if (datastore.nomore) {
+        datastore.nomore = false;
+        document.getElementById("nomore").style.display = "none";
+    }
 
     let select = document.getElementById("songselect");
     select.disabled = true;
 
-    let response, resdata;
+    if (loadSplits) {
+        let response, resdata;
+        try {
+            response = await fetch(`/admin/getSongSplits?song=${select.value}`);
+            resdata = await response.json();
+        }
+        catch (err) {
+            console.log("An error occurred.")
+            datastore.servererror = true;
+            document.getElementById("servererror").style.display = "block";
+            document.getElementById("status").textContent = "";
+            select.disabled = false;
+            return;
+        }
+
+        let piedata = []
+        for (let i = 0; i < resdata.length; i++) {
+            piedata.push({value: resdata[i].percentage, name: resdata[i].user[0] + ": " + resdata[i].percentage.toString() + "%", label: {show: false}});
+        }
+
+        let pieOption = {
+            legend: {
+                orient: 'vertical',
+                left: 0,
+                type: 'scroll',
+                textStyle: {
+                    color: '#fff'
+                  }
+              },
+            series: [
+                {
+                    type: 'pie',
+                    data: piedata,
+                }
+            ]
+        };
+        
+        document.getElementById("infosection").style.display = "block";
+
+        if (splitPie == null) splitPie = echarts.init(document.getElementById('piecontainer'));
+        splitPie.setOption(pieOption);
+    }
+
+    let response2, resdata2;
     try {
-        response = await fetch(`/admin/getFullRoyalties?song=${select.value}&page=1`);
-        resdata = await response.json();
+        response2 = await fetch(`/admin/getFullRoyalties?song=${select.value}&page=${pageNumber.toString()}`);
+        resdata2 = await response2.json();
     }
     catch (err) {
         console.log("An error occurred.")
@@ -51,10 +100,19 @@ async function loadRoyalties() {
         return;
     }
 
-    if (resdata == "") {
-        datastore.noroyalties = true;
-        document.getElementById("noroyalties").style.display = "block";
-        document.getElementById("status").textContent = "";
+    if (resdata2 == "") {
+        if (pageNumber == 1) {
+            datastore.noroyalties = true;
+            document.getElementById("noroyalties").style.display = "block";
+            document.getElementById("timecontrols").style.display = "none";
+            document.getElementById("status").textContent = "";
+        }
+        else {
+            datastore.nomore = true;
+            document.getElementById("nomore").style.display = "block";
+            document.getElementById("royaltyTable").style.display = "table";
+            document.getElementById("status").textContent = "";
+        }
     }
     else {
         let tbody = document.getElementById("royaltyBody");
@@ -63,7 +121,7 @@ async function loadRoyalties() {
         let nameList = document.getElementById("nameList");
         nameList.innerHTML = "";
 
-        let sorted = resdata//.sort(function (a,b) {
+        let sorted = resdata2//.sort(function (a,b) {
         //    let adate = new Date(a.date);
         //    let bdate = new Date(b.date);
         //    if (adate == bdate) return 0;
@@ -104,9 +162,34 @@ async function loadRoyalties() {
 
             tbody.appendChild(tr);
         }
+
+        let startdate = new Date(sorted[sorted.length - 1].date);
+        let startmonth = startdate.toLocaleDateString("en-GB", {month: "long"});
+        let startyear = sorted[sorted.length - 1].date.split("-")[0];
+
+        let enddate = new Date(sorted[0].date);
+        let endmonth = enddate.toLocaleDateString("en-GB", {month: "long"});
+        let endyear = sorted[0].date.split("-")[0];
+
+        document.getElementById("durationtext").innerHTML = `From ${startmonth} ${startyear}<br />to ${endmonth} ${endyear}`;
+        document.getElementById("timecontrols").style.display = "block";
+
+        currentPage = pageNumber;
+
+        document.getElementById("forwardbutton").disabled = sorted.length == 12 ? false : true;
+        document.getElementById("backbutton").disabled = currentPage > 1 ? false : true;
+
         document.getElementById("royaltyTable").style.display = "table";
         document.getElementById("status").textContent = "";
     }
 
     select.disabled = false;
+}
+
+function pageForward() {
+    loadRoyalties(currentPage + 1, false)
+}
+
+function pageBackward() {
+    loadRoyalties(currentPage - 1, false)
 }

@@ -117,4 +117,12 @@ router.get("/getFullRoyalties", async (req, res) => {
     else res.status(400).end();
 })
 
+router.get("/getSongSplits", async (req, res) => {
+    if (req.query.song) {
+        let splits = await database.getSongSplits(req.query.song);
+        res.send(splits);
+    }
+    else res.status(400).end();
+})
+
 module.exports = router

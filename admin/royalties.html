@@ -144,7 +144,7 @@
             margin: auto;
         }
 
-        select {
+        select, button {
             padding: 0.5em 0.5em;
             box-sizing: border-box;
             border: 3px solid #ccc;
@@ -152,7 +152,19 @@
             outline: none;
             font-size: 1.2rem;
             font-family: "Raleway";
+        }
+
+        select {
             background-color: white;
+        }
+
+        button {
+            background-color: #e8e8e8;
+            margin: 0.2em 0.2em;
+        }
+
+        button:disabled {
+            background-color: #ccc;
         }
 
         select:focus {
@@ -163,12 +175,50 @@
             border: 3px solid #ffcc00;
         }
 
+        button:hover:not(:disabled) {
+            background-color: #ffcc00;
+            border: 3px solid #ffcc00;
+        }
+
         .banner {
-            background-color: #00915c;
             color: white;
             padding: 0.8em 1em;
             text-align: center;
             margin-bottom: 1em;
+        }
+
+        .green {
+            background-color: #00915c;
+        }
+
+        .info {
+            background-color: #070782;
+        }
+
+        .info p {
+            margin: 0;
+            padding: 0.6em 0;
+            font-weight: 600;
+        }
+
+        .thirtyfivebox {
+            float: left;
+            width: 35%;
+        }
+
+        .thirtybox {
+            float: left;
+            width: 30%;
+        }
+
+        .info .thirtybox {
+            text-align: right;
+        }
+
+        .info::after {
+            content: "";
+            clear: both;
+            display: table;
         }
 
         .banner select {
@@ -227,6 +277,7 @@
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
     <script src="/admin/royalties.js"></script>
+    <script src="/assets/echarts.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -274,17 +325,34 @@
         </div>
         <h1 class="bigHeading"><span class="gradient">Royalties</span></h1>
         <div class="center">
-            <div class="banner">
+            <div class="banner green">
                 <label for="songselect">Choose a song to view royalties for: </label>
-                <select name="songselect" id="songselect" onchange="loadRoyalties()">
+                <select name="songselect" id="songselect" onchange="loadRoyalties(1, true)">
                     <option value="" disabled selected>Loading...</option>
                 </select>
                 <span class="fas" id="status"></span>
             </div>
+
+            <div class="banner info" id="infosection" style="display: none">
+                <div class="thirtyfivebox">
+                    <p>Splits</p>
+                    <div id="piecontainer" style="height: 100px; width: 100%"></div>
+                </div>
+                <div class="thirtyfivebox" style="height: 1px">
+                    
+                </div>
+                <div class="thirtybox" id="timecontrols" style="display: none">
+                    <p id="durationtext"></p>
+                    <button id="backbutton" onclick="pageBackward()" disabled>Newer</button>
+                    <button id="forwardbutton" onclick="pageForward()" disabled>Older</button>
+                </div>
+            </div>
+
             <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error.
             </p>
             <p class="message orange" id="noroyalties"><span class="fas"></span>This song has no reported royalties
                 yet.</p>
+            <p class="message orange" id="nomore"><span class="fas"></span>No older royalties to display.</p>
 
             <table id="royaltyTable" style="display: none">
                 <thead>
@@ -294,29 +362,9 @@
                         <td id="earningsHeading" colspan="2">Earnings</td>
                     </tr>
                     <tr id="nameList">
-                        <td>Rabi</td>
-                        <td>Harris</td>
                     </tr>
                 </thead>
                 <tbody id="royaltyBody">
-                    <tr>
-                        <td>January 2022</td>
-                        <td>$0.6000</td>
-                        <td>$0.1200</td>
-                        <td>$0.1200</td>
-                    </tr>
-                    <tr>
-                        <td>January 2022</td>
-                        <td>$0.6000</td>
-                        <td>$0.1200</td>
-                        <td>$0.1200</td>
-                    </tr>
-                    <tr>
-                        <td>January 2022</td>
-                        <td>$0.6000</td>
-                        <td>$0.1200</td>
-                        <td>$0.1200</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
