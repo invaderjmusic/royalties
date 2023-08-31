@@ -99,6 +99,7 @@ window.onload = function (event) {
         document.getElementById("loading").style.display = "none";
         if (mode == "none") {
             document.getElementById("noroyalties").style.display = "block";
+            document.getElementById("submitbtn").style.display = "none";
             return;
         }
         else if (mode == "loading") {
