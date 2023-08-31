@@ -104,4 +104,17 @@ router.post("/addRoyalties", async (req, res) => {
     res.status(201).send("success");
 })
 
+router.get("/getSongList", async (req, res) => {
+    let list = await database.getCreditedSongs();
+    res.send(list);
+})
+
+router.get("/getFullRoyalties", async (req, res) => {
+    if (req.query.song && parseInt(req.query.page) > 0) {
+        let royalties = await database.getFullRoyalties(req.query.song, parseInt(req.query.page));
+        res.send(royalties);
+    }
+    else res.status(400).end();
+})
+
 module.exports = router

@@ -138,10 +138,95 @@
             background-clip: text;
             color: transparent;
         }
+
+        .center {
+            width: 50%;
+            margin: auto;
+        }
+
+        select {
+            padding: 0.5em 0.5em;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+            background-color: white;
+        }
+
+        select:focus {
+            border: 3px solid #ffcc00;
+        }
+
+        select:hover {
+            border: 3px solid #ffcc00;
+        }
+
+        .banner {
+            background-color: #00915c;
+            color: white;
+            padding: 0.8em 1em;
+            text-align: center;
+            margin-bottom: 1em;
+        }
+
+        .banner select {
+            margin: 0 0.5em;
+        }
+
+        .message {
+            display: none;
+            width: 100%;
+            color: white;
+            margin: 0;
+            padding: 1em 1em;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 0.5em;
+        }
+
+        .warning {
+            background-color: red;
+        }
+
+        .orange {
+            background-color: #ff6a00;
+        }
+
+        .message .fas {
+            margin-right: 0.5em;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #b5b5b5;
+            padding: 8px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        tbody tr:hover {
+            background-color: #ffd633;
+        }
+
+        thead {
+            background-color: #00915c;
+            color: white;
+            font-weight: 600;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
+    <script src="/admin/royalties.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -151,7 +236,7 @@
     <link rel="shortcut icon" href="/favicon/favicon.ico">
     <meta name="msapplication-TileColor" content="#00a300">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#00915c">    
+    <meta name="theme-color" content="#00915c">
 </head>
 
 <body>
@@ -188,6 +273,53 @@
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
         <h1 class="bigHeading"><span class="gradient">Royalties</span></h1>
+        <div class="center">
+            <div class="banner">
+                <label for="songselect">Choose a song to view royalties for: </label>
+                <select name="songselect" id="songselect" onchange="loadRoyalties()">
+                    <option value="" disabled selected>Loading...</option>
+                </select>
+                <span class="fas" id="status"></span>
+            </div>
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error.
+            </p>
+            <p class="message orange" id="noroyalties"><span class="fas"></span>This song has no reported royalties
+                yet.</p>
+
+            <table id="royaltyTable" style="display: none">
+                <thead>
+                    <tr>
+                        <td rowspan="2">Month</td>
+                        <td rowspan="2">Total Royalties</td>
+                        <td id="earningsHeading" colspan="2">Earnings</td>
+                    </tr>
+                    <tr id="nameList">
+                        <td>Rabi</td>
+                        <td>Harris</td>
+                    </tr>
+                </thead>
+                <tbody id="royaltyBody">
+                    <tr>
+                        <td>January 2022</td>
+                        <td>$0.6000</td>
+                        <td>$0.1200</td>
+                        <td>$0.1200</td>
+                    </tr>
+                    <tr>
+                        <td>January 2022</td>
+                        <td>$0.6000</td>
+                        <td>$0.1200</td>
+                        <td>$0.1200</td>
+                    </tr>
+                    <tr>
+                        <td>January 2022</td>
+                        <td>$0.6000</td>
+                        <td>$0.1200</td>
+                        <td>$0.1200</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 </body>
 
