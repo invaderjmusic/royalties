@@ -144,7 +144,7 @@
             margin: auto;
         }
 
-        select, button {
+        select, button:not(.dropbtn) {
             padding: 0.5em 0.5em;
             box-sizing: border-box;
             border: 3px solid #ccc;
@@ -158,12 +158,12 @@
             background-color: white;
         }
 
-        button {
+        button:not(.dropbtn) {
             background-color: #e8e8e8;
             margin: 0.2em 0.2em;
         }
 
-        button:disabled {
+        button:disabled:not(.dropbtn) {
             background-color: #ccc;
         }
 
@@ -175,7 +175,7 @@
             border: 3px solid #ffcc00;
         }
 
-        button:hover:not(:disabled) {
+        button:hover:not(:disabled):not(.dropbtn) {
             background-color: #ffcc00;
             border: 3px solid #ffcc00;
         }
