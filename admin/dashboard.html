@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dashboard | Royalties</title>
+    <title>Admin View | Royalties</title>
 
     <style>
         body {
@@ -96,6 +96,7 @@
             display: none;
             position: absolute;
             background-color: #f9f9f9;
+            min-width: 260px;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
@@ -103,7 +104,7 @@
         .dropdown-content a {
             float: none;
             color: black;
-            padding: 0.6em 1.2em;
+            padding: 0.6em 1.3em;
             text-decoration: none;
             display: block;
             text-align: left;
@@ -125,10 +126,6 @@
             padding: 0.5em;
         }
 
-        #adminLink {
-            display: none;
-        }
-
         .bigHeading {
             text-align: center;
             font-weight: 700;
@@ -142,25 +139,47 @@
             color: transparent;
         }
 
-        .message {
-            display: none;
-            width: 100%;
-            background-color: red;
-            color: white;
-            margin: 0;
-            padding: 1em 1em;
-            text-align: center;
-            box-sizing: border-box;
+        .squareContainer::after {
+            content: "";
+            clear: both;
+            display: table;
         }
 
-        .message .fas {
-            margin-right: 0.5em;
+        .square {
+            float: left;
+            box-sizing: border-box;
+            width: 33%;
+            background-color: #070782;
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-left: 1em solid #fdfff5;
+            border-right: 1em solid #fdfff5;
+        }
+
+        .square p {
+            margin-top: 1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .center {
+            width: 960px;
+            margin: auto;
+        }
+
+        .value {
+            color: #ffcc00;
+            font-size: 2.5rem;
+            margin-top: 0.7rem;
+            margin-bottom: 1rem;
         }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
-    <script src="/dashboard/index.js"></script>
-
+    <script src="/admin/index.js"></script>
+    <script src="/admin/dashboard.js"></script>
+ 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
@@ -170,6 +189,8 @@
     <meta name="msapplication-TileColor" content="#00a300">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml">
     <meta name="theme-color" content="#00915c">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -178,14 +199,14 @@
             <ul>
                 <div class="dropdown">
                     <button class="dropbtn" id="userDropdownLabel" onclick="toggleUserDropdown()">
-                        <span class="fas"></span>
-                        <span class="username"></span>
+                        <span class="fas"></span>
+                        <span>Administrator</span>
                         <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                     </button>
                     <div class="dropdown-content" id="userDropdown">
-                        <a href="/admin" id="adminLink">
-                            <span class="fas"></span>
-                            Admin View
+                        <a href="/dashboard">
+                            <span class="fas"></span>
+                            <span class="username"></span>
                         </a>
                         <a href="/logout">
                             <span class="fas"></span>
@@ -193,17 +214,35 @@
                         </a>
                     </div>
                 </div>
-                <li><a class="active" href="#">Dashboard</a></li>
-                <li><a href="#royalties">Royalties</a></li>
+                <li><a class="active" href="/admin">Dashboard</a></li>
+                <li><a href="/admin/royalties">Royalties</a></li>
+                <li><a href="/admin/report">Report Royalties</a></li>
+                <li><a href="/admin/newrelease">New Release</a></li>
+                <li><a href="#newuser">New User</a></li>
             </ul>
         </div>
     </nav>
-    <p class="message" id="404"><span class="fas"></span>The page you tried to navigate to does not exist.</p>
     <section>
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="username gradient"></span></h1>
+        <h1 class="bigHeading"><span class="gradient">Admin</span></h1>
+        <div class="center">
+            <div class="squareContainer">
+                <div class="square">
+                    <p>Account Lifetime Earnings</p>
+                    <h2 class="value" id="earnings">$...</h2>
+                </div>
+                <div class="square">
+                    <p>Account Balance</p>
+                    <h2 class="value" id="balance">$...</h2>
+                </div>
+                <div class="square">
+                    <p>Estimated Payout</p>
+                    <h2 class="value" id="balancePounds">£...</h2>
+                </div>
+            </div>
+        </div>
     </section>
 </body>
 

@@ -7,11 +7,15 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
-    res.sendFile(process.cwd() + "/dashboard/index.html");
+    res.sendFile(process.cwd() + "/dashboard/dashboard.html");
 })
   
 router.get("/index.js", (req, res) => {
     res.sendFile(process.cwd() + "/dashboard/index.js");
+})
+
+router.get('/dashboard.js', (req, res) => {
+    res.sendFile(process.cwd() + "/dashboard/dashboard.js");
 })
 
 module.exports = router

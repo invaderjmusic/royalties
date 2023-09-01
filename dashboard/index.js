@@ -25,9 +25,3 @@ window.onclick = function (e) {
         }
     }
 }
-
-window.onload = function (event) {
-    if (window.location.search == "?404") {
-        document.getElementById("404").style.display = "block";
-    }
-};
