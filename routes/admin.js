@@ -18,11 +18,15 @@ router.use((req, res, next) => {
 
 // Serving files
 router.get('/', (req, res) => {
-    res.sendFile(process.cwd() + "/admin/index.html");
+    res.sendFile(process.cwd() + "/admin/dashboard.html");
 })
   
 router.get("/index.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/index.js");
+})
+
+router.get('/dashboard.js', (req, res) => {
+    res.sendFile(process.cwd() + "/admin/dashboard.js");
 })
 
 router.get("/royalties", (req, res) => {
@@ -123,6 +127,11 @@ router.get("/getSongSplits", async (req, res) => {
         res.send(splits);
     }
     else res.status(400).end();
+})
+
+router.get("/getAccountBalances", async (req, res) => {
+    let earnings = await database.getAccountEarnings();
+    res.send({earnings});
 })
 
 module.exports = router
