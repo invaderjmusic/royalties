@@ -1,10 +1,9 @@
 let songs = [];
 let currentPage = 0;
 let songSelectString = `<option value="" disabled selected>Select a song</option>`;
-let splitPie = null;
 
 async function getData() {
-    let res = await fetch("/admin/getSongList");
+    let res = await fetch("/api/getSongList");
     let songList = await res.json();
     
     for (let i = 0; i < songList.length; i++) {
@@ -23,7 +22,7 @@ window.onload = function (event) {
     })
 }
 
-async function loadRoyalties(pageNumber, loadSplits) {
+async function loadRoyalties(pageNumber, loadSplit) {
     document.getElementById("status").textContent = "";
     document.getElementById("royaltyTable").style.display = "none";
 
@@ -43,10 +42,10 @@ async function loadRoyalties(pageNumber, loadSplits) {
     let select = document.getElementById("songselect");
     select.disabled = true;
 
-    if (loadSplits) {
+    if (loadSplit) {
         let response, resdata;
         try {
-            response = await fetch(`/admin/getSongInfo?song=${select.value}`);
+            response = await fetch(`/api/getSongInfo?song=${select.value}`);
             resdata = await response.json();
         }
         catch (err) {
@@ -58,43 +57,19 @@ async function loadRoyalties(pageNumber, loadSplits) {
             return;
         }
 
-        let piedata = []
-        for (let i = 0; i < resdata.splits.length; i++) {
-            piedata.push({value: resdata.splits[i].percentage, name: resdata.splits[i].user[0] + ": " + resdata.splits[i].percentage.toString() + "%", label: {show: false}});
-        }
-
-        let pieOption = {
-            legend: {
-                orient: 'vertical',
-                left: 0,
-                type: 'scroll',
-                textStyle: {
-                    color: '#fff'
-                  }
-              },
-            series: [
-                {
-                    type: 'pie',
-                    data: piedata,
-                }
-            ]
-        };
-        
-        document.getElementById("totalRoyalties").textContent = "$" + (resdata.totalRoyalties / 10000).toFixed(4)
+        document.getElementById("split").textContent = resdata.split[0].percentage.toString() + "%"
+        document.getElementById("totalEarning").textContent = "$" + (resdata.totalEarning / 10000).toFixed(4)
 
         document.getElementById("infosection").style.display = "block";
-
-        if (splitPie == null) splitPie = echarts.init(document.getElementById('piecontainer'));
-        splitPie.setOption(pieOption);
     }
 
     let response2, resdata2;
     try {
-        response2 = await fetch(`/admin/getFullRoyalties?song=${select.value}&page=${pageNumber.toString()}`);
+        response2 = await fetch(`/api/getSongRoyalties?song=${select.value}&page=${pageNumber.toString()}`);
         resdata2 = await response2.json();
     }
     catch (err) {
-        console.log("An error occurred.")
+        console.log("An error occurred." + err)
         datastore.servererror = true;
         document.getElementById("servererror").style.display = "block";
         document.getElementById("status").textContent = "";
@@ -120,9 +95,6 @@ async function loadRoyalties(pageNumber, loadSplits) {
         let tbody = document.getElementById("royaltyBody");
         tbody.innerHTML = "";
 
-        let nameList = document.getElementById("nameList");
-        nameList.innerHTML = "";
-
         let sorted = resdata2//.sort(function (a,b) {
         //    let adate = new Date(a.date);
         //    let bdate = new Date(b.date);
@@ -130,15 +102,6 @@ async function loadRoyalties(pageNumber, loadSplits) {
         //    else if (adate > bdate) return -1;
         //    else return 1;
         //});
-
-        let orderNames = [];
-        for (let i = 0; i < sorted[0].earnings.length; i++) {
-            let td = document.createElement("td");
-            td.textContent = sorted[0].earnings[i].name;
-            nameList.appendChild(td);
-            orderNames.push(sorted[0].earnings[i].name);
-        }
-        document.getElementById("earningsHeading").colSpan = orderNames.length;
 
         for (let i = 0; i < sorted.length; i++) {
             let tr = document.createElement("tr");
@@ -155,13 +118,10 @@ async function loadRoyalties(pageNumber, loadSplits) {
             td2.textContent = "$" + dollarRoyalty;
             tr.appendChild(td2);
 
-            for (let k = 0; k < orderNames.length; k++) {
-                let earning = sorted[i].earnings.find(o => o.name == orderNames[k]);
-                let dollarRoyalty = (earning.amount / 10000).toFixed(4);
-                let td = document.createElement("td");
-                td.textContent = "$" + dollarRoyalty;
-                tr.appendChild(td);
-            }
+            let dollarEarning = (sorted[i].earnings[0].amount / 10000).toFixed(4);
+            let td3 = document.createElement("td");
+            td3.textContent = "$" + dollarEarning;
+            tr.appendChild(td3);
 
             tbody.appendChild(tr);
         }

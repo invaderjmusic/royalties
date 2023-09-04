@@ -272,6 +272,14 @@
             color: white;
             font-weight: 600;
         }
+
+        .value {
+            color: #ffcc00;
+            font-size: 3rem;
+            margin: 0;
+            padding-bottom: 0.2em;
+            padding-top: 0.3em;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -340,7 +348,8 @@
                     <div id="piecontainer" style="height: 100px; width: 100%"></div>
                 </div>
                 <div class="thirtyfivebox" style="height: 1px">
-                    
+                    <p>Total Royalties</p>
+                    <h2 class="value" id="totalRoyalties">$...</h2>
                 </div>
                 <div class="thirtybox" id="timecontrols" style="display: none">
                     <p id="durationtext"></p>
@@ -359,7 +368,7 @@
                 <thead>
                     <tr>
                         <td rowspan="2">Month</td>
-                        <td rowspan="2">Total Royalties</td>
+                        <td rowspan="2">Royalty</td>
                         <td id="earningsHeading">Earnings</td>
                     </tr>
                     <tr id="nameList">
@@ -370,6 +379,7 @@
             </table>
         </div>
     </section>
+    <div style="height: 2em"></div>
 </body>
 
 </html>

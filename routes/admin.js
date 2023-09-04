@@ -121,10 +121,11 @@ router.get("/getFullRoyalties", async (req, res) => {
     else res.status(400).end();
 })
 
-router.get("/getSongSplits", async (req, res) => {
+router.get("/getSongInfo", async (req, res) => {
     if (req.query.song) {
         let splits = await database.getSongSplits(req.query.song);
-        res.send(splits);
+        let totalRoyalties = await database.getAccountEarningsBySong(req.query.song);
+        res.send({splits, totalRoyalties});
     }
     else res.status(400).end();
 })
