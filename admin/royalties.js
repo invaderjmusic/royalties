@@ -136,6 +136,7 @@ async function loadRoyalties(pageNumber, loadSplits) {
             nameList.appendChild(td);
             orderNames.push(sorted[0].earnings[i].name);
         }
+        document.getElementById("earningsHeading").colSpan = orderNames.length;
 
         for (let i = 0; i < sorted.length; i++) {
             let tr = document.createElement("tr");
