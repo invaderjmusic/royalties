@@ -13,7 +13,9 @@ router.get('/userInfo', (req, res) => {
 
 router.get('/getUserBalances', async (req, res) => {
     let earnings = await database.getUserEarnings(req.session.username);
-    res.send({earnings})
+    let payouts = await database.getUserPayouts(req.session.username);
+    let balance = earnings - payouts;
+    res.send({earnings, payouts, balance});
 })
 
 router.get("/getSongList", async (req, res) => {
