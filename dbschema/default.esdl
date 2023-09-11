@@ -53,6 +53,7 @@ module default {
   }
 
   type Transaction {
+    required property date -> cal::local_date;
     required property withdrawal -> int64;
     multi link payouts -> Payout {
       on target delete allow;
