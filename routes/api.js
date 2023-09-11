@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const database = require("../lib/database.js");
+const { getExchangeRate } = require("../lib/currency.js");
 
 router.use((req, res, next) => {
     if (req.session.loggedin) next();
@@ -15,7 +16,8 @@ router.get('/getUserBalances', async (req, res) => {
     let earnings = await database.getUserEarnings(req.session.username);
     let payouts = await database.getUserPayouts(req.session.username);
     let balance = earnings - payouts;
-    res.send({earnings, payouts, balance});
+    let balancePounds = balance * getExchangeRate();
+    res.send({earnings, payouts, balance, balancePounds});
 })
 
 router.get("/getSongList", async (req, res) => {

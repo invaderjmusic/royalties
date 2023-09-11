@@ -1,6 +1,7 @@
 let earnings = 0;
 let payouts = 0;
 let balance = 0;
+let balancePounds = 0;
 
 async function getData() {
     let res = await fetch("/api/getUserBalances");
@@ -8,6 +9,7 @@ async function getData() {
     earnings = resdata.earnings;
     payouts = resdata.payouts;
     balance = resdata.balance;
+    balancePounds = resdata.balancePounds;
 
     document.body.dispatchEvent(new Event("dataready"));
 }
@@ -27,6 +29,9 @@ window.onload = function (event) {
 
         let balanceFixed = (balance / 10000).toFixed(4);
         document.getElementById("balance").textContent = "$" + balanceFixed;
+
+        let balancePoundsFixed = (balancePounds / 10000).toFixed(4);
+        document.getElementById("balancePounds").textContent = "£" + balancePoundsFixed;
     })
 
     // tooltip handling

@@ -11,7 +11,8 @@ const http = require('http').Server(app);
 const users = require("./lib/users.js");
 const api = require("./routes/api.js");
 const dashboard = require("./routes/dashboard.js");
-const admin = require("./routes/admin.js")
+const admin = require("./routes/admin.js");
+require("./lib/currency.js").setStartupExchangeRate();
 
 let sessionOptions = {
     secret: process.env.COOKIESECRET,
