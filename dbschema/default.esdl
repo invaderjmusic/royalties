@@ -46,4 +46,16 @@ module default {
     required link user -> User;
     property amount -> int64;
   }
+
+  type Payout {
+    required link user -> User;
+    property amount -> int64;
+  }
+
+  type Transaction {
+    required property withdrawal -> int64;
+    multi link payouts -> Payout {
+      on target delete allow;
+    } 
+  }
 };
