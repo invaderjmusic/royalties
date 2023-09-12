@@ -1,5 +1,7 @@
 # royalties
 
+Some parts of this webapp are highly specific to InVadeRJ. Keep that in mind if you want to adapt it for your own project.
+
 Planned features:
 - Store revenue splits and each month's royalties in an [EdgeDB](https://www.edgedb.com/) database.
 - Display the royalties relevant to each contributor through their own account.
