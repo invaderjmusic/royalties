@@ -139,4 +139,8 @@ router.get("/getAccountBalances", async (req, res) => {
     res.send({earnings, balance, balancePounds});
 })
 
+router.get("/getExchangeRate", async (req, res) => {
+    res.send({exchangeRate: getExchangeRate()});
+})
+
 module.exports = router
