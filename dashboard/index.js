@@ -47,8 +47,8 @@ function onNameReady() {
         document.getElementById("adminLink").style.display = "block";
     }
     else {
-        let number = document.getElementById("userDropdownLabel").offsetWidth - parseFloat(getComputedStyle(document.getElementById("userDropdownLabel"))["padding-right"]) + 8;
-        if (number < 165) number = 170;
+        let number = document.getElementById("userDropdownLabel").offsetWidth - parseFloat(getComputedStyle(document.getElementById("userDropdownLabel"))["padding-right"]) + 14;
+        if (number < 170) number = 170;
         document.getElementById("userDropdown").style.width = number.toString() + "px"
     }
 }

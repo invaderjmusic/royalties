@@ -141,6 +141,7 @@
                     document.getElementById("notloggedin").style.display = "block";
                     break;
                 case "?loggedout":
+                    sessionStorage.clear();
                     document.getElementById("loggedout").style.display = "block";
                     break;
                 default:

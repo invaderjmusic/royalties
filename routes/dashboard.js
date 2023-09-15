@@ -26,4 +26,12 @@ router.get('/royalties.js', (req, res) => {
     res.sendFile(process.cwd() + "/dashboard/royalties.js");
 })
 
+router.get('/payouts', (req, res) => {
+    res.sendFile(process.cwd() + "/dashboard/payouts.html");
+})
+
+router.get('/payouts.js', (req, res) => {
+    res.sendFile(process.cwd() + "/dashboard/payouts.js");
+})
+
 module.exports = router

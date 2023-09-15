@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dashboard | Royalties</title>
+    <title>Your Payouts | Royalties</title>
 
     <style>
         body {
@@ -142,102 +142,71 @@
             color: transparent;
         }
 
+        .center {
+            width: 960px;
+            margin: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #b5b5b5;
+            padding: 8px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        tbody tr:hover {
+            background-color: #ffd633;
+        }
+
+        thead {
+            background-color: #00915c;
+            color: white;
+            font-weight: 600;
+        }
+
+        thead tr {
+            height: 4em;
+        }
+
+        .infobox {
+            background-color: #070782;
+            color: white;
+            padding: 0.2em 1em;
+            margin-bottom: 1em;
+        }
+
         .message {
             display: none;
             width: 100%;
-            background-color: red;
             color: white;
             margin: 0;
             padding: 1em 1em;
             text-align: center;
             box-sizing: border-box;
+            margin-bottom: 0.5em;
+        }
+
+        .warning {
+            background-color: red;
         }
 
         .message .fas {
             margin-right: 0.5em;
         }
 
-        .squareContainer::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .square {
-            float: left;
-            box-sizing: border-box;
-            width: 25%;
-            background-color: #070782;
-            color: white;
-            text-align: center;
-            font-weight: 600;
-            border-left: 0.6em solid #fdfff5;
-            border-right: 0.6em solid #fdfff5;
-            padding: 0 1em;
-        }
-
-        .rectangle {
-            float: left;
-            box-sizing: border-box;
-            width: 50%;
-            background-color: #070782;
-            color: white;
-            text-align: center;
-            font-weight: 600;
-            border-left: 0.6em solid #fdfff5;
-            border-right: 0.6em solid #fdfff5;
-            padding: 0 1em;
-        }
-
-        .square p, .rectangle p {
-            margin-top: 1rem;
-            margin-bottom: 0.7rem;
-        }
-
-        .center {
-            width: 960px;
-            margin: auto;
-        }
-
-        .value {
-            color: #ffcc00;
-            font-size: 2.5rem;
-            margin-top: 0.7rem;
-            margin-bottom: 1rem;
-        }
-
-        .spacer {
-            width: 1em;
-            display: inline-block;
-        }
-
-        .eyecon {
-            font-size: 1.3rem;
-            padding-left: 0.7em;
-            color: #ff6a00;
-            position: relative;
-        }
-
-        .eyecon .tooltiptext {
-            visibility: hidden;
-            width: 240px;
-            background-color: #00915c;
-            color: #ffffff;
-            font-family: 'Raleway';
-            font-weight: 400;
-            font-size: 1.2rem;
-            border-radius: 6px;
-            padding: 5px 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            margin-left: -120px;
-        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/dashboard/index.js"></script>
-    <script src="/dashboard/dashboard.js"></script>
+    <script src="/dashboard/payouts.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -273,33 +242,34 @@
                         </a>
                     </div>
                 </div>
-                <li><a class="active" href="/dashboard">Dashboard</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
                 <li><a href="/dashboard/royalties">Royalties</a></li>
-                <li><a href="/dashboard/payouts">Payouts</a></li>
+                <li><a class="active" href="/dashboard/payouts">Payouts</a></li>
             </ul>
         </div>
     </nav>
-    <p class="message" id="404"><span class="fas"></span>The page you tried to navigate to does not exist.</p>
     <section>
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="username gradient">...</span></h1>
+        <h1 class="bigHeading"><span class="gradient">Payouts</span></h1>
         <div class="center">
-            <div class="squareContainer">
-                <div class="square">
-                    <p>Lifetime Earnings</p>
-                    <h2 class="value" id="earnings">$...</h2>
-                </div>
-                <div class="square">
-                    <p>Total Paid Out</p>
-                    <h2 class="value" id="payouts">$...</h2>
-                </div>
-                <div class="rectangle">
-                    <p>Pending Balance</p>
-                    <h2 class="value"><span id="balance">$...</span><span class="spacer"></span><span id="balancePounds">£...</span><span class="fas eyecon" id="eyecon"><span class="tooltiptext" id="eyeconTooltip">Approximate value in GBP. Exchange rate from within the last 24 hours.</span></span></h2>
-                </div>
+            <div class="infobox">
+                <p>For transparency, you can view any money I've withdrawn from my Amuse account, and all the money I've paid out to you.</p>
+                <p>Think you're due a payout I haven't already reached out about? Contact me via any mode of contact I'll recognise as you.</p>
             </div>
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error. Try refreshing the page.</p>
+            <table id="transactionTable" style="display: none">
+                <thead>
+                    <tr>
+                        <td>Date</td>
+                        <td>Withdrawal</td>
+                        <td>Your Payout</td>
+                    </tr>
+                </thead>
+                <tbody id="transactionBody">
+                </tbody>
+            </table>
         </div>
     </section>
 </body>

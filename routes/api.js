@@ -42,4 +42,9 @@ router.get("/getSongInfo", async (req, res) => {
     else res.status(400).end();
 })
 
+router.get("/listUserPayouts", async (req, res) => {
+    let payouts = await database.listUserPayouts(req.session.username);
+    res.send(payouts);
+})
+
 module.exports = router
