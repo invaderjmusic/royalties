@@ -47,4 +47,9 @@ router.get("/listUserPayouts", async (req, res) => {
     res.send(payouts);
 })
 
+router.get("/getPrimaryContact", async (req, res) => {
+    let contact = await database.getPrimaryContact(req.session.username);
+    res.send(contact);
+})
+
 module.exports = router

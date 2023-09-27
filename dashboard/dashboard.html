@@ -157,6 +157,10 @@
             margin-right: 0.5em;
         }
 
+        .squareContainer {
+            margin-bottom: 1em;
+        }
+
         .squareContainer::after {
             content: "";
             clear: both;
@@ -233,6 +237,52 @@
             bottom: 125%;
             margin-left: -120px;
         }
+
+        .infobox {
+            background-color: #00915c;
+            margin: 0 0.6em;
+            color: white;
+            padding: 1em;
+        }
+
+        .infobox h2 {
+            margin: 0.5em 0;
+        }
+
+        .infobox h3 {
+            margin-top: 1.2em;
+            margin-bottom: 0.4em;
+        }
+
+        .infobox p {
+            margin: 0.5em 0;
+            font-size: 1.3rem;
+        }
+
+        .bold {
+            font-weight: 600;
+            color: #ffcc00;
+        }
+
+        input, .infobox button {
+            padding: 0.3em 0.5em;
+            margin: 0.2em 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+        }
+
+        input:hover, .infobox button:hover, select:hover {
+            border: 3px solid #ffcc00;
+        }
+
+        .infobox button:hover {
+            background-color: #ffcc00;
+        }
+
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -299,6 +349,14 @@
                     <p>Pending Balance</p>
                     <h2 class="value"><span id="balance">$...</span><span class="spacer"></span><span id="balancePounds">£...</span><span class="fas eyecon" id="eyecon"><span class="tooltiptext" id="eyeconTooltip">Approximate value in GBP. Exchange rate from within the last 24 hours.</span></span></h2>
                 </div>
+            </div>
+            <div class="infobox">
+                <h2>Account Settings</h2>
+                <h3>Contact Information</h3>
+                <p>Your <span class="bold" id="modeOfContact"></span> is <span class="bold" id="contactId"></span></p>
+                <button onclick="changeContact()">Edit</button>
+                <h3>Password</h3>
+                <button onclick="changePassword()">Change Password</button>
             </div>
         </div>
     </section>
