@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const database = require("../lib/database.js");
 const { getExchangeRate } = require("../lib/currency.js");
+const { updateUserPassword } = require("../lib/users.js");
 
 router.use((req, res, next) => {
     if (req.session.loggedin) next();
@@ -50,6 +51,46 @@ router.get("/listUserPayouts", async (req, res) => {
 router.get("/getPrimaryContact", async (req, res) => {
     let contact = await database.getPrimaryContact(req.session.username);
     res.send(contact);
+})
+
+router.post("/setPrimaryContact", async (req, res) => {
+    if (req.body.mode && req.body.id) {
+        let mode = req.body.mode.replaceAll("|", "");
+        let id = req.body.id.replaceAll("|", "");
+        let contact = mode + "|" + id;
+
+        try {
+            await database.setPrimaryContact(req.session.username, contact);
+            res.status(200).send("success");
+        }
+        catch (err) {
+            console.error(err);
+            res.status(500).send(err);
+        }
+    }
+    else res.status(400).end();
+})
+
+router.get("/getDriveLink", async (req, res) => {
+    res.send({driveLink: process.env.POLICYLINK})
+})
+
+router.post("/changePassword", async (req, res) => {
+    if (req.body.oldPassword && req.body.newPassword) {
+        let result = await updateUserPassword(req.session.username, req.body.oldPassword, req.body.newPassword);
+        switch (result[0]) {
+            case "success":
+                res.status(200).send("success");
+                break;
+            case "badlogin":
+                res.status(401).send("badlogin");
+                break;
+            case "err":
+                res.status(500).send(result[1]);
+                break;
+        }
+    }
+    else res.status(400).end();
 })
 
 module.exports = router

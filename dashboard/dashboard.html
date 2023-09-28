@@ -246,7 +246,7 @@
         }
 
         .infobox h2 {
-            margin: 0.5em 0;
+            margin-bottom: 0.5em;
         }
 
         .infobox h3 {
@@ -279,10 +279,55 @@
             border: 3px solid #ffcc00;
         }
 
-        .infobox button:hover {
+        .infobox button:hover, input[type="submit"]:hover, input[type="reset"]:hover {
             background-color: #ffcc00;
         }
 
+        input[type="submit"]:disabled {
+            border: 3px solid #ffcc00;
+            background-color: #ffcc00;
+        }
+
+        .message2 {
+            display: none;
+            color: white;
+            margin: 0 0.6em;
+            padding: 1em 1em;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 0.5em;
+        }
+
+        .warning {
+            background-color: red;
+        }
+
+        .success {
+            background-color: #01633f;
+        }
+
+        .green {
+            background-color: #00915c;
+        }
+
+        .message2 .fas {
+            margin-right: 0.5em;
+        }
+
+        #status {
+            font-size: 1.1rem;
+            background-color: #070782;
+            padding: 1em 1em;
+            display: none;
+        }
+
+        #status .fas {
+            margin-right: 0.5em;
+        }
+
+        input[type="reset"] {
+            margin-left: 0.2em;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -350,15 +395,31 @@
                     <h2 class="value"><span id="balance">$...</span><span class="spacer"></span><span id="balancePounds">£...</span><span class="fas eyecon" id="eyecon"><span class="tooltiptext" id="eyeconTooltip">Approximate value in GBP. Exchange rate from within the last 24 hours.</span></span></h2>
                 </div>
             </div>
+            <p class="message2 warning" id="servererror"><span class="fas"></span>The server returned an unknown error.</p>
+            <p class="message2 warning" id="serveroffline"><span class="fas"></span>Can't connect to the server.</p>
             <div class="infobox">
+                <a class="bold" id="driveLink" href="#">Latest version of "How I Calculate Splits"</a>
                 <h2>Account Settings</h2>
-                <h3>Contact Information</h3>
-                <p>Your <span class="bold" id="modeOfContact"></span> is <span class="bold" id="contactId"></span></p>
-                <button onclick="changeContact()">Edit</button>
+                <form id="contactForm">
+                    <h3>Contact Information</h3>
+                    <p>Please make sure this is up to date. This is how I may contact you to discuss payouts or anything formal, or if informal means of communication have failed to reach you.</p>
+                    <p>Your <span class="bold" id="modeOfContact"></span> <input type="text" id="newModeOfContact" placeholder="Mode of Contact" required style="display: none; width: 20%"> is <span class="bold" id="contactId"></span> <input type="text" id="newContactId" placeholder="Contact ID" required style="display: none; width: 40%"> </p>
+                    <input type="submit" id="saveContact" style="display: none" value="Save">
+                </form>
+                <button id="changeContact" onclick="changeContact()">Edit</button>
                 <h3>Password</h3>
-                <button onclick="changePassword()">Change Password</button>
+                <p>I'm able to reset your password if you forget it and can't log in. Simply contact me from the contact information listed above.</p>
+                <button id="changePassword" onclick="changePassword()">Change Password</button>
+                <form id="passwordForm" style="padding-top: 0.3em; display: none">
+                    <input type="password" id="oldPassword" placeholder="Old Password" required> <br/>
+                    <input type="password" id="newPassword" placeholder="New Password" required> <br/>
+                    <input type="submit" id="submitPassword" value="Submit">
+                    <input type="reset" id="cancelPassword" value="Cancel">
+                    <p id="status"></p>
+                </form>
             </div>
         </div>
+        <div style="height: 2em"></div>
     </section>
 </body>
 
