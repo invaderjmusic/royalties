@@ -48,6 +48,9 @@ async function submitForm(e) {
                 errors.push("zero");
                 field.className = "error"
             }
+            else if (royalty < 0) {
+                data.royalties.push({"name": songName, "royalty": 0});
+            }
             else {
                 data.royalties.push({"name": songName, "royalty": royalty});
             }
