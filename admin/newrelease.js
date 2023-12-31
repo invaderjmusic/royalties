@@ -10,7 +10,12 @@ async function getUsers() {
         artistSelectString = artistSelectString + `<option value="${datastore.users[i].username}">${datastore.users[i].username}</option>`
     }
     
-    document.body.dispatchEvent(new Event("dataready"));
+    if (document.readyState === 'complete') {
+        onDataReady()
+    }
+    else {
+        window.addEventListener("load", onDataReady);
+    }
 }
 getUsers()
 
@@ -126,13 +131,13 @@ async function submitForm(e) {
     }
 };
 
-window.onload = function (event) {
+window.addEventListener("load", function (event) {
     document.getElementById("releaseform").addEventListener("submit", submitForm);
+});
 
-    document.body.addEventListener("dataready", (e) => {
-        document.getElementById("song0artistname0").innerHTML = artistSelectString;
-    })
-};
+function onDataReady() {
+    document.getElementById("song0artistname0").innerHTML = artistSelectString;
+}
 
 function addSong() {
     counter++;

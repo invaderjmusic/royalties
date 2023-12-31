@@ -6,7 +6,6 @@ async function getData() {
     if (name) {
         datastore.username = name;
         datastore.admin = admin;
-        window.addEventListener("load", onNameReady);
     }
     else {
         let res = await fetch("/api/userInfo");
@@ -15,7 +14,14 @@ async function getData() {
         sessionStorage.setItem("admin", data.admin);
         datastore.username = data.username;
         datastore.admin = data.admin;
-        document.body.dispatchEvent(new Event("nameready"));
+        
+    }
+    
+    if (document.readyState === 'complete') {
+        onNameReady()
+    }
+    else {
+        window.addEventListener("load", onNameReady);
     }
 }   
 getData()
@@ -32,10 +38,6 @@ window.addEventListener("click", function (e) {
         }
     }
 })
-
-window.addEventListener("load", function (e) {
-    document.body.addEventListener("nameready", onNameReady) 
-});
 
 function onNameReady() {
     let usernames = document.getElementsByClassName("username")

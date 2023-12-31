@@ -21,33 +21,19 @@ async function getData() {
     let resdata3 = await res3.json();
     driveLink = resdata3.driveLink;
 
-    document.body.dispatchEvent(new Event("dataready"));
+    if (document.readyState === 'complete') {
+        onDataReady()
+    }
+    else {
+        window.addEventListener("load", onDataReady);
+    }
 }
 getData();
 
-window.onload = function (event) {
+window.addEventListener("load", function (e) {
     if (window.location.search == "?404") {
         document.getElementById("404").style.display = "block";
     }
-
-    document.body.addEventListener("dataready", (e) => {
-        let earningsFixed = (earnings / 10000).toFixed(4);
-        document.getElementById("earnings").textContent = "$" + earningsFixed;
-
-        let payoutsFixed = (payouts / 10000).toFixed(4);
-        document.getElementById("payouts").textContent = "$" + payoutsFixed;
-
-        let balanceFixed = (balance / 10000).toFixed(4);
-        document.getElementById("balance").textContent = "$" + balanceFixed;
-
-        let balancePoundsFixed = (balancePounds / 10000).toFixed(4);
-        document.getElementById("balancePounds").textContent = "£" + balancePoundsFixed;
-
-        document.getElementById("modeOfContact").textContent = primaryContactArr[0]
-        document.getElementById("contactId").textContent = primaryContactArr[1]
-
-        document.getElementById("driveLink").href = driveLink;
-    })
 
     // tooltip handling
     document.getElementById("eyecon").addEventListener("click", (e) => {
@@ -186,6 +172,20 @@ window.onload = function (event) {
         document.getElementById("passwordForm").style.display = "none";
         document.getElementById("changePassword").style.display = "block";
     })
+});
+
+function onDataReady() {
+    let earningsFixed = (earnings / 10000).toFixed(4);
+    document.getElementById("earnings").textContent = "$" + earningsFixed;
+    let payoutsFixed = (payouts / 10000).toFixed(4);
+    document.getElementById("payouts").textContent = "$" + payoutsFixed;
+    let balanceFixed = (balance / 10000).toFixed(4);
+    document.getElementById("balance").textContent = "$" + balanceFixed;
+    let balancePoundsFixed = (balancePounds / 10000).toFixed(4);
+    document.getElementById("balancePounds").textContent = "£" + balancePoundsFixed;
+    document.getElementById("modeOfContact").textContent = primaryContactArr[0]
+    document.getElementById("contactId").textContent = primaryContactArr[1]
+    document.getElementById("driveLink").href = driveLink;
 }
 
 function changeContact() {

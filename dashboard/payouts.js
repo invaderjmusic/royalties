@@ -1,15 +1,28 @@
+let resdata;
+
 async function getData() {
-    let response, resdata;
+    let response;
+    let error = false;
     try {
         response = await fetch(`/api/listUserPayouts`);
         resdata = await response.json();
     }
     catch (err) {
         console.log("An error occurred." + err)
-        document.getElementById("servererror").style.display = "block";
-        return;
+        error = true;
     }
 
+    if (document.readyState === 'complete') {
+        error == false ? parseResdata() : showServerError()
+    }
+    else {
+        window.addEventListener("load", error == false ? parseResdata : showServerError);
+    }
+}
+
+getData();
+
+function parseResdata() {
     let tbody = document.getElementById("transactionBody");
 
     for (let i = 0; i < resdata.length; i++) {
@@ -56,4 +69,6 @@ async function getData() {
     document.getElementById("transactionTable").style.display = "table";
 }
 
-getData();
+function showServerError() {
+    document.getElementById("servererror").style.display = "block";
+}

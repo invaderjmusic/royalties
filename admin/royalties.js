@@ -12,15 +12,18 @@ async function getData() {
         songSelectString = songSelectString + `<option value="${songList[i]}">${songList[i]}</option>`
     }
     
-    document.body.dispatchEvent(new Event("dataready"));
+    if (document.readyState === 'complete') {
+        onDataReady()
+    }
+    else {
+        window.addEventListener("load", onDataReady);
+    }
 }
 getData();
 
-window.onload = function (event) {
-    document.body.addEventListener("dataready", (e) => {
-        document.getElementById("songselect").innerHTML = songSelectString;
-        document.getElementById("status").textContent = "";
-    })
+function onDataReady() {
+    document.getElementById("songselect").innerHTML = songSelectString;
+    document.getElementById("status").textContent = "";
 }
 
 async function loadRoyalties(pageNumber, loadSplits) {

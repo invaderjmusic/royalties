@@ -1,12 +1,25 @@
 let datastore = {};
 
 async function getData() {
-    let res = await fetch("/api/userInfo");
-    let data = await res.json();
+    let name = sessionStorage.getItem("name");
+    if (name) {
+        datastore.username = name;
+    }
+    else {
+        let res = await fetch("/api/userInfo");
+        let data = await res.json();
+        sessionStorage.setItem("name", data.username);
+        datastore.username = data.username;
+        
+    }
     
-    datastore.username = data.username;
-    document.body.dispatchEvent(new Event("nameready"));
-}
+    if (document.readyState === 'complete') {
+        onNameReady()
+    }
+    else {
+        window.addEventListener("load", onNameReady);
+    }
+}   
 getData()
 
 function toggleUserDropdown() {
@@ -15,18 +28,16 @@ function toggleUserDropdown() {
 
 window.addEventListener("click", function (e) {
     if (!e.target.matches('.dropbtn')) {
-        var myDropdown = document.getElementById("userDropdown");
+        let myDropdown = document.getElementById("userDropdown");
         if (myDropdown.classList.contains('show')) {
             myDropdown.classList.remove('show');
         }
     }
 })
 
-window.addEventListener("load", function (e) {
-    document.body.addEventListener("nameready", (e) => {
-        let usernames = document.getElementsByClassName("username")
-        for (let element of usernames) {
-            element.textContent = datastore.username;
-        }
-    }) 
-})
+function onNameReady() {
+    let usernames = document.getElementsByClassName("username")
+    for (let element of usernames) {
+        element.textContent = datastore.username;
+    }
+}
