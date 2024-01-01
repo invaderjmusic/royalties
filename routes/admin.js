@@ -54,6 +54,14 @@ router.get("/newrelease.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/newrelease.js");
 })
 
+router.get("/transactions", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/transactions.html");
+})
+
+router.get("/transactions.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/transactions.js");
+})
+
 // Admin API routes
 router.get("/getUsers", async (req, res) => {
     let users = await database.getUsersOverview();
@@ -141,6 +149,11 @@ router.get("/getAccountBalances", async (req, res) => {
 
 router.get("/getExchangeRate", (req, res) => {
     res.send({exchangeRate: getExchangeRate()});
+})
+
+router.get("/listAllTransactions", async (req, res) => {
+    let payouts = await database.listAllTransactions(req.session.username);
+    res.send(payouts);
 })
 
 module.exports = router

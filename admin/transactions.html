@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Transactions | Royalties</title>
+
+    <style>
+        body {
+            font-family: "Raleway";
+            font-size: 1.2rem;
+            background-color: #fdfff5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #00915c;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #ffffff;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.7em 0.5em;
+        }
+
+        .header-content {
+            margin: auto;
+            width: fit-content;
+            min-width: 20vw;
+        }
+
+        .tooNarrow {
+            display: none
+        }
+
+        @media screen and (max-width: 289px) {
+            .tooNarrow {
+                display: block
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            color: white;
+            display: block;
+            text-align: center;
+            padding: 0.5em 1.3em;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active),
+        .dropdown:hover .dropbtn,
+        .dropbtn:focus {
+            color: #ffcc00;
+        }
+
+        .active {
+            color: #ffcc00
+        }
+
+        .dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            cursor: pointer;
+            font-size: 1.3rem;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 0.5em 1.3em;
+            background-color: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+            margin: 0;
+        }
+
+        .dropbtn>* {
+            pointer-events: none;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 260px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 0.6em 1.3em;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .dropdown .fas {
+            padding-right: 0.5em;
+        }
+
+        section {
+            padding: 0.5em;
+        }
+
+        .bigHeading {
+            text-align: center;
+            font-weight: 700;
+            font-size: 4rem;
+        }
+
+        .gradient {
+            background-image: linear-gradient(45deg, #00915c, #ffcc00);
+            background-size: 100%;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .squareContainer::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .square {
+            float: left;
+            box-sizing: border-box;
+            width: 33%;
+            background-color: #070782;
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-left: 1em solid #fdfff5;
+            border-right: 1em solid #fdfff5;
+        }
+
+        .square p {
+            margin-top: 1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .center {
+            width: 960px;
+            margin: auto;
+        }
+
+        .value {
+            color: #ffcc00;
+            font-size: 2.5rem;
+            margin-top: 0.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .success {
+            color: #00915c;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .value .fas {
+            font-size: 2rem;
+            display: none;
+        }
+
+        button:not(.dropbtn) {
+            padding: 0.5em 0.5em;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+        }
+
+        .headerButton {
+            margin-left: 2em;
+            vertical-align: middle;
+            background-color: #00915c;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.3rem !important;
+            transition: 0s !important;
+        }
+
+        .headerButton:hover {
+            color: #ffcc00;
+            border: 3px solid #00915c;
+        }
+
+        .message {
+            display: none;
+            width: 100%;
+            color: white;
+            margin: 0;
+            padding: 1em 1em;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 0.5em;
+        }
+
+        .warning {
+            background-color: red;
+        }
+
+        .message .fas {
+            margin-right: 0.5em;
+        }
+
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #b5b5b5;
+            padding: 8px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        tbody tr:hover {
+            background-color: #ffd633;
+        }
+
+        thead {
+            background-color: #00915c;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+    <link href="/fonts/fonts.css" rel="stylesheet" />
+    <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
+    <script src="/admin/index.js"></script>
+    <script src="/admin/transactions.js"></script>
+ 
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#00915c">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#00915c">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <nav class="header">
+        <div class="header-content">
+            <ul>
+                <div class="dropdown">
+                    <button class="dropbtn" id="userDropdownLabel" onclick="toggleUserDropdown()">
+                        <span class="fas"></span>
+                        <span>Administrator</span>
+                        <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
+                    </button>
+                    <div class="dropdown-content" id="userDropdown">
+                        <a href="/dashboard">
+                            <span class="fas"></span>
+                            <span class="username"></span>
+                        </a>
+                        <a href="/logout">
+                            <span class="fas"></span>
+                            Log Out
+                        </a>
+                    </div>
+                </div>
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="/admin/royalties">Royalties</a></li>
+                <li><a class="active" href="/admin/transactions">Transactions</a></li>
+                <li><a href="/admin/newrelease">New Release</a></li>
+                <li><a href="#newuser">New User</a></li>
+            </ul>
+        </div>
+    </nav>
+    <section>
+        <div class="tooNarrow">
+            <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
+        </div>
+        <h1 class="bigHeading"><span class="gradient">Transactions</span><button class="headerButton" onclick='window.location.href = "#"'>New Transaction</button></h1>
+        <div class="center">
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error. Try refreshing the page.</p>
+            <table id="transactionTable" style="display: none">
+                <thead>
+                    <tr>
+                        <td rowspan="2">Date</td>
+                        <td rowspan="2">Withdrawal</td>
+                        <td id="earningsHeading">Payouts</td>
+                    </tr>
+                    <tr id="nameList">
+                    </tr>
+                </thead>
+                <tbody id="transactionBody">
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+
+</html>
