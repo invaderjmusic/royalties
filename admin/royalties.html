@@ -158,7 +158,7 @@
             background-color: white;
         }
 
-        button:not(.dropbtn) {
+        button:not(.dropbtn):not(.headerButton) {
             background-color: #e8e8e8;
             margin: 0.2em 0.2em;
         }
@@ -175,7 +175,7 @@
             border: 3px solid #ffcc00;
         }
 
-        button:hover:not(:disabled):not(.dropbtn) {
+        button:hover:not(:disabled):not(.dropbtn):not(.headerButton) {
             background-color: #ffcc00;
             border: 3px solid #ffcc00;
         }
@@ -280,6 +280,21 @@
             padding-bottom: 0.2em;
             padding-top: 0.3em;
         }
+
+        .headerButton {
+            margin-left: 2em;
+            vertical-align: middle;
+            background-color: #00915c;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.3rem !important;
+            transition: 0s !important;
+        }
+
+        .headerButton:hover {
+            color: #ffcc00;
+            border: 3px solid #00915c;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -322,7 +337,7 @@
                 </div>
                 <li><a href="/admin">Dashboard</a></li>
                 <li><a class="active" href="/admin/royalties">Royalties</a></li>
-                <li><a href="/admin/report">Report Royalties</a></li>
+                <li><a href="/admin/transactions">Transactions</a></li>
                 <li><a href="/admin/newrelease">New Release</a></li>
                 <li><a href="#newuser">New User</a></li>
             </ul>
@@ -332,7 +347,7 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Royalties</span></h1>
+        <h1 class="bigHeading"><span class="gradient">Royalties</span><button class="headerButton" onclick='window.location.href = "/admin/report"'>Report Royalties</button></h1>
         <div class="center">
             <div class="banner green">
                 <label for="songselect">Choose a song to view royalties for: </label>
