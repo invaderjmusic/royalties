@@ -62,13 +62,24 @@ router.get("/transactions.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/transactions.js");
 })
 
-// Admin API routes
+router.get("/newtransaction", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newtransaction.html");
+})
+
+router.get("/newtransaction.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newtransaction.js");
+})
+
+/**
+ * Admin API Routes
+ * Generally no data validation here, we're trusting the frontend.
+**/
+
 router.get("/getUsers", async (req, res) => {
     let users = await database.getUsersOverview();
     res.send(users);
 })
 
-// No data validation here, I'm relying on the frontend (probably bad practice but oh well, it is a protected API route)
 router.post("/addRelease", async (req, res) => {
     let date = req.body.release_date.split("-");
     let songnames = []
@@ -154,6 +165,19 @@ router.get("/getExchangeRate", (req, res) => {
 router.get("/listAllTransactions", async (req, res) => {
     let payouts = await database.listAllTransactions(req.session.username);
     res.send(payouts);
+})
+
+router.post("/addTransaction", async (req, res) => {
+    let date = req.body.date.split("-");
+    try {
+        await database.addTransaction(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]), req.body.withdrawal, req.body.payouts);
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
+
+    res.status(201).send("success");
 })
 
 module.exports = router
