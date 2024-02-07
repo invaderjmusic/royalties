@@ -80,6 +80,16 @@ router.get("/getUsers", async (req, res) => {
     res.send(users);
 })
 
+router.get("/getUsersDetailed", async (req, res) => {
+    let users = await database.getDetailedUsersInfo();
+    for (let i = 0; i < users.length; i++) {
+        balance =  users[i].earnings - users[i].payouts;
+        users[i].balance = balance;
+        users[i].balancePounds = balance * getExchangeRate();
+    }
+    res.send(users);
+})
+
 router.post("/addRelease", async (req, res) => {
     let date = req.body.release_date.split("-");
     let songnames = []
