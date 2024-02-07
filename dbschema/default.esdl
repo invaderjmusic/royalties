@@ -37,6 +37,7 @@ module default {
     required property primary_contact -> str;
     property password_salt -> str;
     property password_hash -> str;
+    property signup_key -> str;
     multi link splits -> Split {
       on target delete allow;
     }
