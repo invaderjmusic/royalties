@@ -62,7 +62,7 @@
 
         li a:hover:not(.active),
         .dropdown:hover .dropbtn,
-        .dropbtn:focus {
+        .dropbtn:focus, .userexpand:hover {
             color: #ffcc00;
         }
 
@@ -187,6 +187,125 @@
             font-size: 2rem;
             display: none;
         }
+
+        .userbox {
+            background-color: #00915c;
+            margin: 0 0.6em 1.5em 0.6em;
+            color: white;
+            padding: 1em;
+            padding-bottom: 0.5em;
+        }
+
+        .userbox h2:not(.value) {
+            margin: 0;
+        }
+
+        .fieldheading {
+            font-size: 1.2em;
+        }
+
+        .usersquare {
+            float: left;
+            box-sizing: border-box;
+            width: 25%;
+            text-align: center;
+            font-weight: 600;
+            border-left: 0.6em solid #00915c;
+            border-right: 0.6em solid #00915c;
+        }
+
+        .userrectangle {
+            float: left;
+            box-sizing: border-box;
+            width: 50%;
+            text-align: center;
+            font-weight: 600;
+            border-left: 0.6em solid #00915c;
+            border-right: 0.6em solid #00915c;
+        }
+
+        .spacer {
+            width: 1em;
+            display: inline-block;
+        }
+
+        .namebox {
+            text-align: left;
+        }
+
+        .name {
+            font-size: 1.4em;
+        }
+
+        .userexpand {
+            cursor: pointer;
+            font-size: 1.3rem;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 0;
+            margin-top: 1.4em;
+            background-color: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+        }
+
+        .userexpand .fas {
+            padding-right: 0.5em;
+        }
+
+        .wordy {
+            padding-top: 0.6em;
+        }
+
+        .wordy p {
+            margin: 0.2em 0;
+        }
+
+        .signup_key {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: inherit;
+            font-size: inherit;
+            color: #4949d6;
+            background-color: white;
+            border-radius: 4px;
+            padding: 3px 5px;
+            margin-top: 1em;
+            border: none;
+        }
+
+        .signup_key:hover {
+            background-color: #ffcc00;
+        }
+
+        .copied {
+            color: #ffcc00;
+            margin: 0.4em 0 0 0;
+            text-align: center;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .resetbutton {
+            padding: 0.3em 0.5em;
+            margin-top: 1.3em;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: "Raleway"; 
+        }
+
+        .resetbutton:hover {
+            border: 3px solid #ffcc00;
+            background-color: #ffcc00;
+        }
+
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -239,7 +358,7 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Admin</span></h1>
+        <h1 class="bigHeading"><span class="gradient">Overview</span></h1>
         <div class="center">
             <div class="squareContainer">
                 <div class="square">
@@ -259,6 +378,8 @@
                     <h2 class="value" id="balancePounds">£...</h2>
                 </div>
             </div>
+            <h1 class="bigHeading"><span class="gradient">Users</span></h1>
+            <div id="userslist" style="display: none"></div>
         </div>
     </section>
 </body>
