@@ -115,10 +115,14 @@ function toggleUserDetails(caller) {
     }
 }
 
-function copySignupUrl(caller) {
+async function copySignupUrl(caller) {
     id = parseInt(caller.id.split("copyurl")[1])
-    // Logic to copy the URL
-    document.getElementById("copiedlabel" + id.toString()).style.display = "block"
+    try {
+        await navigator.clipboard.writeText(window.location.protocol + "//" + window.location.host + "/signup?key=" + users_detailed[id].details.signup_key);
+        document.getElementById("copiedlabel" + id.toString()).style.display = "block"
+      } catch (err) {
+        console.error('Failed to copy URL: ', err);
+      }
 }
 
 function resetPassword(caller) {
