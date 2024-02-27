@@ -12,6 +12,7 @@ const users = require("./lib/users.js");
 const api = require("./routes/api.js");
 const dashboard = require("./routes/dashboard.js");
 const admin = require("./routes/admin.js");
+const signup = require("./routes/signup.js");
 require("./lib/currency.js").setStartupExchangeRate();
 
 let sessionOptions = {
@@ -70,6 +71,7 @@ app.use("/assets", express.static(process.cwd() + "/public/assets"));
 app.use("/api", api);
 app.use("/dashboard", dashboard);
 app.use("/admin", admin);
+app.use("/signup", signup)
 
 app.post("/login", async function (req, res) {
     if (req.body.username && req.body.password) {
