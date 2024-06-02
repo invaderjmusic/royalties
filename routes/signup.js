@@ -6,6 +6,10 @@ router.get('/', (req, res) => {
     res.sendFile(process.cwd() + "/public/signup.html");
 })
 
+router.get("/reset", (req, res) => {
+    res.sendFile(process.cwd() + "/public/reset.html");
+})
+
 router.get("/getUsername", async (req, res) => {
     if (req.query.key) {
         let name = await users.validateSignupKey(req.query.key);

@@ -51,12 +51,13 @@ function onDataReady () {
             variableCellContent = `
                 <h2 class="fieldheading">Sign-up URL</h2>
                 <button class="signup_key" id="copyurl${i}" onclick="copySignupUrl(this)">${users_detailed[i].details.signup_key.slice(0,14)}...</button>
-                <p class="copied" id="copiedlabel${i}">Copied <span class="fas"></span></p>
+                <p class="copied" id="copiedlabel${i}">Copied <span class="fas"></span></p>
             `
         }
         else {
             variableCellContent = `
             <button class="resetbutton" id="resetpass${i}" onclick="resetPassword(this)">Reset Password</button>
+            <p class="copied" id="copiedlabel${i}"></p>
             `
         }
 
@@ -125,6 +126,29 @@ async function copySignupUrl(caller) {
       }
 }
 
-function resetPassword(caller) {
-    alert("This isn't implemented yet!")
+async function resetPassword(caller) {
+    id = parseInt(caller.id.split("resetpass")[1])
+    label = document.getElementById("copiedlabel" + id.toString())
+    label.innerHTML = '<span class="fas"></span>'
+    label.style.display = "block"
+
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username: users_detailed[id].name})
+    };
+
+    let response, resdata;
+    try {
+        response = await fetch('/admin/resetUserPassword', options);
+        resdata = await response.text();
+        await navigator.clipboard.writeText(window.location.protocol + "//" + window.location.host + "/signup/reset?key=" + resdata);
+        label.innerHTML = 'Reset URL Copied <span class="fas"></span>'
+    }
+    catch (err) {
+        console.log(err);
+        label.innerHTML = "An error occurred."
+    }
 }

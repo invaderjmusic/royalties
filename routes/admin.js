@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const database = require("../lib/database.js");
 const royalties = require("../lib/royalties.js");
+const users = require("../lib/users.js");
 const { getExchangeRate } = require("../lib/currency.js");
 
 router.use((req, res, next) => {
@@ -204,6 +205,17 @@ router.get("/deletePreviousMonth", async (req, res) => {
     }
     else {
         res.status(400).send(op)
+    }
+})
+
+router.post("/resetUserPassword", async (req, res) => {
+    if (req.body.username !== req.session.username) {
+        await database.deleteUserPassword(req.body.username)
+        key = await users.generateSignupKey(req.body.username)
+        res.send(key)
+    }
+    else {
+        res.status(400).end()
     }
 })
 
