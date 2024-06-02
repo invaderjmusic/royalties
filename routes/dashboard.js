@@ -3,7 +3,7 @@ const router = express.Router()
 
 router.use((req, res, next) => {
     if (req.session.loggedin) next();
-    else res.redirect("/?notloggedin");
+    else res.status(401).redirect("/?notloggedin");
 })
 
 router.get('/', (req, res) => {
