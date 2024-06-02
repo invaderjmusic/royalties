@@ -102,7 +102,7 @@ router.post("/addRelease", async (req, res) => {
     }
     catch (err) {
         console.error(err);
-        res.status(500).send(err);
+        return res.status(500).send(err);
     }
 
     for (let i = 0; i < req.body.songs.length; i++) {
@@ -112,7 +112,7 @@ router.post("/addRelease", async (req, res) => {
             }
             catch (err) {
                 console.error(err);
-                res.status(500).send(err);
+                return res.status(500).send(err);
             }
         }
     }
@@ -132,7 +132,7 @@ router.post("/addRoyalties", async (req, res) => {
         }
         catch (err) {
             console.error(err);
-            res.status(500).send(err)
+            return res.status(500).send(err)
         }
     }
     res.status(201).send("success");
@@ -184,7 +184,7 @@ router.post("/addTransaction", async (req, res) => {
     }
     catch (err) {
         console.error(err);
-        res.status(500).send(err);
+        return res.status(500).send(err);
     }
 
     res.status(201).send("success");
@@ -197,7 +197,7 @@ router.get("/deletePreviousMonth", async (req, res) => {
     }
     catch (err) {
         console.error(err);
-        res.status(500).send(err);
+        return res.status(500).send(err);
     }
     if (op.result == "success") {
         res.redirect("/admin/report");

@@ -110,6 +110,11 @@
         .username {
             color: #ffcc00
         }
+
+        a {
+            color: #ffcc00;
+            font-weight: 600;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <script src="/assets/signup.js"></script>
@@ -135,7 +140,7 @@
         <p>Sign up below to access up-to-date information about the royalties I owe you.</p>
         <h3>Your username is <span class="username"></span></h3>
         <p>You will use this to log in.</p>
-        <form action="/setpassword" method="post">
+        <form action="/signup/setPassword" method="post">
             <p class="warning" id="nomatch">
                 ⚠️ The passwords do not match!
             </p>
@@ -155,6 +160,8 @@
     <div class="center-modal" id="errordiv" style="display: none; opacity: 100">
         <h1 style="text-align: center; font-size: 2.5rem; margin-top: 0.3em; margin-bottom: 0.5em;">Royalties</h1>
         <p>You have followed an invalid sign-up link. My apologies - please ask me for a new one!</p>
+        <div style="height: 0.2em"></div>
+        <p><a href="/">Already signed up?</a></p>
     </div>
 </body>
 

@@ -65,7 +65,7 @@ router.post("/setPrimaryContact", async (req, res) => {
         }
         catch (err) {
             console.error(err);
-            res.status(500).send(err);
+            return res.status(500).send(err);
         }
     }
     else res.status(400).end();
