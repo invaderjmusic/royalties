@@ -21,6 +21,7 @@ module default {
     property amount -> int64;
     multi link earnings -> Earning  {
       on target delete allow;
+      on source delete delete target;
     }
   }
 

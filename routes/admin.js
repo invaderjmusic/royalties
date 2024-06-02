@@ -10,10 +10,10 @@ router.use((req, res, next) => {
             next();
         }
         else {
-            res.redirect("/dashboard");
+            res.status(401).redirect("/dashboard");
         }
     } else {
-        res.redirect("/?notloggedin");
+        res.status(401).redirect("/?notloggedin");
     }
 })
 
@@ -188,6 +188,23 @@ router.post("/addTransaction", async (req, res) => {
     }
 
     res.status(201).send("success");
+})
+
+router.get("/deletePreviousMonth", async (req, res) => {
+    let op;
+    try {
+        op = await royalties.deleteLatestMonthOfRoyalties()
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
+    if (op.result == "success") {
+        res.redirect("/admin/report");
+    }
+    else {
+        res.status(400).send(op)
+    }
 })
 
 module.exports = router

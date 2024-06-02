@@ -144,17 +144,19 @@
             margin: auto;
         }
 
-        input,
-        select {
+        input, select, button:not(.dropbtn) {
             padding: 0.5em 0.5em;
-            margin: 0.5em 0;
             box-sizing: border-box;
             border: 3px solid #ccc;
             transition: 0.4s;
             outline: none;
-            width: 100%;
             font-size: 1.2rem;
             font-family: "Raleway";
+        }
+
+        input, select {
+            margin: 0.5em 0;
+            width: 100%;
         }
 
         select {
@@ -263,6 +265,21 @@
         .message .fas {
             margin-right: 0.5em;
         }
+
+        .headerButton {
+            margin-left: 2em;
+            vertical-align: middle;
+            background-color: #00915c;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.3rem !important;
+            transition: 0s !important;
+        }
+
+        .headerButton:hover {
+            color: #ffcc00;
+            border: 3px solid #00915c;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -314,7 +331,7 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Report Royalties</span></h1>
+        <h1 class="bigHeading"><span class="gradient">Report Royalties</span><button class="headerButton" onclick='window.location.href = "/admin/deletePreviousMonth"'>Delete Previous Month</button></h1>
         <form id="royaltyform">
             <p class="message green" id="loading" style="display: block"><span class="fas"></span>Loading...</p>
             <p class="message green" id="doroyalties"></p>
