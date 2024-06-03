@@ -71,6 +71,14 @@ router.get("/newtransaction.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/newtransaction.js");
 })
 
+router.get("/newuser", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newuser.html");
+})
+
+router.get("/newuser.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newuser.js");
+})
+
 /**
  * Admin API Routes
  * Generally no data validation here, we're trusting the frontend.
@@ -217,6 +225,19 @@ router.post("/resetUserPassword", async (req, res) => {
     else {
         res.status(400).end()
     }
+})
+
+router.post("/addUser", async (req, res) => {
+    try {
+        await database.addUser(req.body.username, req.body.primary_contact);
+        await users.generateSignupKey(req.body.username);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).send(err);
+    }
+
+    res.status(201).send("success");
 })
 
 module.exports = router

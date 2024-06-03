@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Admin View | Royalties</title>
+    <title>New User | Royalties</title>
 
     <style>
         body {
@@ -62,7 +62,7 @@
 
         li a:hover:not(.active),
         .dropdown:hover .dropbtn,
-        .dropbtn:focus, .userexpand:hover {
+        .dropbtn:focus {
             color: #ffcc00;
         }
 
@@ -139,180 +139,160 @@
             color: transparent;
         }
 
-        .squareContainer::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .square {
-            float: left;
-            box-sizing: border-box;
-            width: 33%;
-            background-color: #070782;
-            color: white;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-left: 1em solid #fdfff5;
-            border-right: 1em solid #fdfff5;
-        }
-
-        .square p {
-            margin-top: 1rem;
-            margin-bottom: 0.7rem;
-        }
-
-        .center {
+        form {
             width: 960px;
             margin: auto;
         }
 
-        .value {
-            color: #ffcc00;
-            font-size: 2.5rem;
-            margin-top: 0.7rem;
-            margin-bottom: 1rem;
-        }
-
-        .success {
-            color: #00915c;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .value .fas {
-            font-size: 2rem;
-            display: none;
-        }
-
-        .userbox {
-            background-color: #00915c;
-            margin: 0 0.6em 1.5em 0.6em;
-            color: white;
-            padding: 1em;
-            padding-bottom: 0.5em;
-        }
-
-        .userbox h2:not(.value) {
-            margin: 0;
-        }
-
-        .fieldheading {
-            font-size: 1.2em;
-        }
-
-        .usersquare {
-            float: left;
+        input,
+        select {
+            padding: 0.5em 0.5em;
+            margin: 0.5em 0;
             box-sizing: border-box;
-            width: 25%;
-            text-align: center;
-            font-weight: 600;
-            border-left: 0.6em solid #00915c;
-            border-right: 0.6em solid #00915c;
-        }
-
-        .userrectangle {
-            float: left;
-            box-sizing: border-box;
-            width: 50%;
-            text-align: center;
-            font-weight: 600;
-            border-left: 0.6em solid #00915c;
-            border-right: 0.6em solid #00915c;
-        }
-
-        .spacer {
-            width: 1em;
-            display: inline-block;
-        }
-
-        .namebox {
-            text-align: left;
-        }
-
-        .name {
-            font-size: 1.4em;
-        }
-
-        .userexpand {
-            cursor: pointer;
-            font-size: 1.3rem;
-            border: none;
+            border: 3px solid #ccc;
+            transition: 0.4s;
             outline: none;
-            color: white;
-            padding: 0;
-            margin-top: 1.4em;
-            background-color: inherit;
-            font-family: inherit;
-            font-weight: inherit;
+            width: 100%;
+            font-size: 1.2rem;
+            font-family: "Raleway";
         }
 
-        .userexpand .fas {
-            padding-right: 0.5em;
-        }
-
-        .wordy {
-            padding-top: 0.6em;
-        }
-
-        .wordy p {
-            margin: 0.2em 0;
-        }
-
-        .signup_key {
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: inherit;
-            font-size: inherit;
-            color: #4949d6;
+        select {
             background-color: white;
-            border-radius: 4px;
-            padding: 3px 5px;
-            margin-top: 1em;
-            border: none;
         }
 
-        .signup_key:hover {
-            background-color: #ffcc00;
-        }
-
-        .copied {
-            color: #ffcc00;
-            margin: 0.4em 0 0 0;
-            text-align: center;
-            font-size: 0.9em;
-            display: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .resetbutton {
-            padding: 0.3em 0.5em;
-            margin-top: 1.3em;
+        form button {
+            padding: 0.5em 0.5em;
+            margin: 0.5em 0;
             box-sizing: border-box;
             border: 3px solid #ccc;
             transition: 0.4s;
             outline: none;
             font-size: 1.2rem;
-            font-family: "Raleway"; 
-            width: 100%
+            font-family: "Raleway";
         }
 
-        .resetbutton:hover {
+        input:focus,
+        select:focus {
             border: 3px solid #ffcc00;
+        }
+
+        input:hover,
+        form button:hover,
+        select:hover {
+            border: 3px solid #ffcc00;
+        }
+
+        input[type=submit]:hover,
+        form button:hover {
             background-color: #ffcc00;
         }
 
+        .song {
+            background-color: #00915c;
+            color: white;
+            margin-bottom: 1em;
+        }
+
+        .song::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .vertical {
+            float: left;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .songinputs {
+            float: left;
+            width: 90%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .fourtyfivebox {
+            float: left;
+            box-sizing: border-box;
+            width: 45%;
+            padding-right: 1em;
+            padding-top: 0.7em;
+        }
+
+        .tenbox {
+            float: left;
+            width: 10%;
+            box-sizing: border-box;
+            padding-top: 0.7em;
+        }
+
+        .contributor::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .deletebtn {
+            padding: 0.5em 0.7em;
+        }
+
+        .deletebtn:hover {
+            background-color: red;
+            color: white;
+            border: 3px solid red;
+        }
+
+        .vertical .deletebtn {
+            margin: 0;
+        }
+
+        .contributor .deletebtn {
+            float: right;
+        }
+
+        .error {
+            background-color: #f79292;
+        }
+
+        .message {
+            display: none;
+            width: 100%;
+            color: white;
+            margin: 0;
+            padding: 1em 1em;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 0.5em;
+        }
+
+        .warning {
+            background-color: red;
+        }
+
+        .success {
+            background-color: #01633f;
+        }
+
+        .message .fas {
+            margin-right: 0.5em;
+        }
+
+        #newmode {
+            width: 24%;
+            margin-right: 0.7em;
+        }
+
+        #newcontact {
+            width: 74%
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
-    <script src="/admin/dashboard.js"></script>
- 
+    <script src="/admin/newuser.js"></script>
+
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
@@ -323,7 +303,6 @@
     <meta name="msapplication-config" content="/favicon/browserconfig.xml">
     <meta name="theme-color" content="#00915c">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 </head>
 
 <body>
@@ -347,11 +326,11 @@
                         </a>
                     </div>
                 </div>
-                <li><a class="active" href="/admin">Dashboard</a></li>
+                <li><a href="/admin">Dashboard</a></li>
                 <li><a href="/admin/royalties">Royalties</a></li>
                 <li><a href="/admin/transactions">Transactions</a></li>
                 <li><a href="/admin/newrelease">New Release</a></li>
-                <li><a href="/admin/newuser">New User</a></li>
+                <li><a class="active" href="/admin/newuser">New User</a></li>
             </ul>
         </div>
     </nav>
@@ -359,29 +338,22 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Overview</span></h1>
-        <div class="center">
-            <div class="squareContainer">
-                <div class="square">
-                    <p>Account Lifetime Earnings</p>
-                    <h2 class="value" id="earnings">$...</h2>
-                </div>
-                <div class="square">
-                    <p>Account Balance</p>
-                    <h2 class="value">
-                        <span id="balance">$...</span>
-                        <span class="fas success" id="over3"></span>
-                        <span class="fas error" id="under3"></span>
-                    </h2>
-                </div>
-                <div class="square">
-                    <p>Estimated Payout</p>
-                    <h2 class="value" id="balancePounds">£...</h2>
-                </div>
-            </div>
-            <h1 class="bigHeading"><span class="gradient">Users</span></h1>
-            <div id="userslist" style="display: none"></div>
-        </div>
+        <h1 class="bigHeading"><span class="gradient">New User</span></h1>
+        <form id="userform">
+            <label for="newname">Username (must be unique!)</label><br />
+            <input type="text" name="newname" id="newname" onchange="checkHighlight(this)" required>
+            <br />
+            <label for="newmode">Primary Contact</label><br />
+            <input type="text" name="newmode" id="newmode" placeholder="Mode" required>
+            <input type="text" name="newcontact" id="newcontact" placeholder="Contact" required>
+            <br />
+            <p class="message warning" id="existserror"><span class="fas"></span>That username is already taken.</p>
+            <p class="message success" id="success"><span class="fas"></span>User created successfully.</p>
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.
+            </p>
+            <p class="message warning" id="serveroffline"><span class="fas"></span>Can't connect to the server.</p>
+            <input type="submit" value="Create">
+        </form>
     </section>
 </body>
 
