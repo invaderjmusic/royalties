@@ -139,6 +139,10 @@
             color: transparent;
         }
 
+        .squareContainer {
+            margin: 0 0.6em;
+        }
+
         .squareContainer::after {
             content: "";
             clear: both;
@@ -148,19 +152,27 @@
         .square {
             float: left;
             box-sizing: border-box;
-            width: 33%;
+            width: 33.3%;
             background-color: #070782;
             color: white;
             text-align: center;
             font-size: 1.2rem;
             font-weight: 600;
-            border-left: 1em solid #fdfff5;
-            border-right: 1em solid #fdfff5;
         }
 
-        .square p {
+        .square p, .wider p {
             margin-top: 1rem;
             margin-bottom: 0.7rem;
+        }
+
+        .wider {
+            background-color: #070782;
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1em 0.6em 0 0.6em;
+            padding: 0.1em
         }
 
         .center {
@@ -307,6 +319,35 @@
             background-color: #ffcc00;
         }
 
+        input {
+            padding: 0.5em 0.5em;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+        }
+
+        input:hover {
+            border: 3px solid #ffcc00;
+        }
+
+        input:focus {
+            border: 3px solid #ffcc00;
+        }
+
+        .inline {
+            display: inline-block; 
+            font-size: 2rem;
+            padding: 0.1em 0.2em;
+            width: 20%;
+        }
+
+        input:disabled {
+            background-color: white;
+            color: black;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -362,11 +403,11 @@
         <h1 class="bigHeading"><span class="gradient">Overview</span></h1>
         <div class="center">
             <div class="squareContainer">
-                <div class="square">
+                <div class="square" style="border-right: 0.6em solid #fdfff5;">
                     <p>Account Lifetime Earnings</p>
                     <h2 class="value" id="earnings">$...</h2>
                 </div>
-                <div class="square">
+                <div class="square" style="border-left: 0.6em solid #fdfff5; border-right: 0.6em solid #fdfff5;">
                     <p>Account Balance</p>
                     <h2 class="value">
                         <span id="balance">$...</span>
@@ -374,10 +415,14 @@
                         <span class="fas error" id="under3"></span>
                     </h2>
                 </div>
-                <div class="square">
+                <div class="square" style="border-left: 0.6em solid #fdfff5;">
                     <p>Estimated Payout</p>
                     <h2 class="value" id="balancePounds">£...</h2>
                 </div>
+            </div>
+            <div class="wider">
+                <p>Currency Converter (rounds to 4 d.p.)</p>
+                <h2 class="value">£ <input class="inline" type="number" id="pounds" step=".01" placeholder="0.00" oninput="convertCurrency()"> = $ <input class="inline" id="dollars" disabled placeholder="0.0000"></h2>
             </div>
             <h1 class="bigHeading"><span class="gradient">Users</span></h1>
             <div id="userslist" style="display: none"></div>

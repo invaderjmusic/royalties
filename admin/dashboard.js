@@ -5,6 +5,8 @@ let balancePounds = 0;
 let users_detailed = []
 let expanded = []
 
+let exchangeRate = 0;
+
 async function getData() {
     let res = await fetch("/admin/getAccountBalances");
     let resdata = await res.json();
@@ -21,6 +23,10 @@ async function getData() {
     else {
         window.addEventListener("load", onDataReady);
     }
+
+    let res3 = await fetch("/admin/getExchangeRate")
+    let resdata3 = await res3.json();
+    exchangeRate = resdata3.exchangeRate;
 }
 getData();
 
@@ -150,5 +156,13 @@ async function resetPassword(caller) {
     catch (err) {
         console.log(err);
         label.innerHTML = "An error occurred."
+    }
+}
+
+function convertCurrency() {
+    let pounds = document.getElementById("pounds").value;
+    if (pounds !== "") {
+        let dollars = parseFloat(pounds) / exchangeRate
+        document.getElementById("dollars").value = dollars.toFixed(4)
     }
 }
