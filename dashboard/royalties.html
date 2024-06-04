@@ -147,6 +147,12 @@
             margin: auto;
         }
 
+        @media screen and (max-width: 980px) {
+            .center {
+                width: 100%;
+            }
+        }
+
         select, button:not(.dropbtn) {
             padding: 0.5em 0.5em;
             box-sizing: border-box;
@@ -319,6 +325,26 @@
             color: #ffcc00;
             background-color: #00915c;
         }
+
+        @media screen and (max-width: 680px) {
+            .thirtyfivebox {
+                float: none;
+                width: 100%;
+            }
+
+            .thirtybox {
+                float: none;
+                width: 100%;
+            }
+
+            .info .thirtybox {
+                text-align: center;
+            }
+
+            .value {
+                font-size: 2.5rem;
+            }
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -381,7 +407,7 @@
         <h1 class="bigHeading"><span class="gradient">Royalties</span></h1>
         <div class="center">
             <div class="banner green">
-                <label for="songselect">Choose a song to view royalties for: </label>
+                <label for="songselect" style="margin-bottom: 1em; display: inline-block;">Choose a song to view royalties for: </label>
                 <select name="songselect" id="songselect" onchange="loadRoyalties(1, true)">
                     <option value="" disabled selected>Loading...</option>
                 </select>
@@ -393,7 +419,7 @@
                     <p>Your Split</p>
                     <h2 class="value" id="split"></h2>
                 </div>
-                <div class="thirtyfivebox" style="height: 1px">
+                <div class="thirtyfivebox">
                     <p>Your Total Earnings</p>
                     <h2 class="value" id="totalEarning">$...</h2>
                 </div>
