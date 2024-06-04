@@ -7,6 +7,12 @@
     <title>Sign Up | Royalties</title>
 
     <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
         body {
             background-color: #00915c;
             font-family: "Raleway";
@@ -15,19 +21,14 @@
         }
 
         .center-modal {
-            margin: auto;
             width: fit-content;
             min-width: 20vw;
             padding: 1em 2em;
-            position: relative;
             background-color: rgba(0, 0, 0, 0.4);
             border-radius: 8px;
             transition: 0.3s;
             opacity: 0;
-        }
-
-        .page-top {
-            height: 25vh;
+            margin: 0.5em;
         }
 
         form {
@@ -76,10 +77,6 @@
             .tooNarrow {
                 display: block
             }
-
-            .page-top {
-                height: 10vh;
-            }
         }
 
         p {
@@ -115,6 +112,13 @@
             color: #ffcc00;
             font-weight: 600;
         }
+
+        .flex-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <script src="/assets/signup.js"></script>
@@ -134,34 +138,35 @@
     <div class="tooNarrow">
         <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
     </div>
-    <div class="page-top"></div>
-    <div class="center-modal" id="formdiv">
-        <h2>Welcome, <span class="username"></span></h2>
-        <p>Sign up below to access up-to-date information about the royalties I owe you.</p>
-        <h3>Your username is <span class="username"></span></h3>
-        <p>You will use this to log in.</p>
-        <form action="/signup/setPassword" method="post">
-            <p class="warning" id="nomatch">
-                ⚠️ The passwords do not match!
-            </p>
-            <input type="text" name="signup_key" id="signup_key" hidden>
-            <input type="text" name="username" id="username_input" hidden>
-            <input type="password" name="password" placeholder="Choose a password" id="password" required>
-            <br />
-            <input type="password" name="confirm_password" placeholder="Retype your password" id="confirm_password" required>
-            <br />
-            <input type="submit" id="signup" value="Sign Up" disabled>
-            <p>
-                By clicking "Sign Up", you agree to our use of cookies and other similar technology to keep you logged in until you close your
-                browser.
-            </p>
-        </form>
-    </div>
-    <div class="center-modal" id="errordiv" style="display: none; opacity: 100">
-        <h1 style="text-align: center; font-size: 2.5rem; margin-top: 0.3em; margin-bottom: 0.5em;">Royalties</h1>
-        <p>You have followed an invalid sign-up link. My apologies - please ask me for a new one!</p>
-        <div style="height: 0.2em"></div>
-        <p><a href="/">Already signed up?</a></p>
+    <div class="flex-container">
+        <div class="center-modal" id="formdiv">
+            <h2>Welcome, <span class="username"></span></h2>
+            <p>Sign up below to access up-to-date information about the royalties I owe you.</p>
+            <h3>Your username is <span class="username"></span></h3>
+            <p>You will use this to log in.</p>
+            <form action="/signup/setPassword" method="post">
+                <p class="warning" id="nomatch">
+                    ⚠️ The passwords do not match!
+                </p>
+                <input type="text" name="signup_key" id="signup_key" hidden>
+                <input type="text" name="username" id="username_input" hidden>
+                <input type="password" name="password" placeholder="Choose a password" id="password" required>
+                <br />
+                <input type="password" name="confirm_password" placeholder="Retype your password" id="confirm_password" required>
+                <br />
+                <input type="submit" id="signup" value="Sign Up" disabled>
+                <p>
+                    By clicking "Sign Up", you agree to our use of cookies and other similar technology to keep you logged in until you close your
+                    browser.
+                </p>
+            </form>
+        </div>
+        <div class="center-modal" id="errordiv" style="display: none; opacity: 100">
+            <h1 style="text-align: center; font-size: 2.5rem; margin-top: 0.3em; margin-bottom: 0.5em;">Royalties</h1>
+            <p>You have followed an invalid sign-up link. My apologies - please ask me for a new one!</p>
+            <div style="height: 0.2em"></div>
+            <p><a href="/">Already signed up?</a></p>
+        </div>
     </div>
 </body>
 

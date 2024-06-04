@@ -7,6 +7,12 @@
     <title>Royalties</title>
 
     <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
         body {
             background-color: #00915c;
             font-family: "Raleway";
@@ -15,17 +21,12 @@
         }
 
         .center-modal {
-            margin: auto;
             width: fit-content;
             min-width: 20vw;
             padding: 1em 2em;
-            position: relative;
             background-color: rgba(0, 0, 0, 0.4);
-            border-radius: 8px
-        }
-
-        .page-top {
-            height: 30vh;
+            border-radius: 8px;
+            margin: 0.5em;
         }
 
         form {
@@ -69,10 +70,6 @@
             .tooNarrow {
                 display: block
             }
-
-            .page-top {
-                height: 10vh;
-            }
         }
 
         form p {
@@ -88,6 +85,13 @@
         .info {
             color: #05faa0;
             display: none;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%
         }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
@@ -107,29 +111,31 @@
     <div class="tooNarrow">
         <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
     </div>
-    <div class="page-top"></div>
-    <div class="center-modal">
-        <h1 style="text-align: center; font-size: 2.5rem; margin: 0; margin-top: 0.3em;">Royalties</h1>
-        <form action="/login" method="post">
-            <p class="warning" id="wrongdetails">
-                ⚠️ Incorrect username or password.
-            </p>
-            <p class="warning" id="notloggedin">
-                ⚠️ Log in to view that page.
-            </p>
-            <p class="info" id="loggedout">
-                ✅ Successfully logged out.
-            </p>
-            <input type="text" name="username" placeholder="Username" id="username" required>
-            <br />
-            <input type="password" name="password" placeholder="Password" id="password" required>
-            <br />
-            <input type="submit" value="Log in">
-            <p>
-                By clicking "Log in", you agree to our use of cookies and other similar technology to keep you logged in until you close your
-                browser.
-            </p>
-        </form>
+    <!--<div class="page-top"></div>-->
+    <div class="flex-container">
+        <div class="center-modal">
+            <h1 style="text-align: center; font-size: 2.5rem; margin: 0; margin-top: 0.3em;">Royalties</h1>
+            <form action="/login" method="post">
+                <p class="warning" id="wrongdetails">
+                    ⚠️ Incorrect username or password.
+                </p>
+                <p class="warning" id="notloggedin">
+                    ⚠️ Log in to view that page.
+                </p>
+                <p class="info" id="loggedout">
+                    ✅ Successfully logged out.
+                </p>
+                <input type="text" name="username" placeholder="Username" id="username" required>
+                <br />
+                <input type="password" name="password" placeholder="Password" id="password" required>
+                <br />
+                <input type="submit" value="Log in">
+                <p>
+                    By clicking "Log in", you agree to our use of cookies and other similar technology to keep you logged in until you close your
+                    browser.
+                </p>
+            </form>
+        </div>
     </div>
     <script>
         let query = new URLSearchParams(window.location.search);
