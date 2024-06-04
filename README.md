@@ -1,10 +1,24 @@
 # royalties
 
-Some parts of this webapp are highly specific to InVadeRJ. Keep that in mind if you want to adapt it for your own project.
+A webapp to calculate and display revenue splits to my song contributors.
 
-Planned features:
-- Store revenue splits and each month's royalties in an [EdgeDB](https://www.edgedb.com/) database.
-- Display the royalties relevant to each contributor through their own account.
-- Allow admin accounts to view all royalties, create new releases and users, and input each month's royalties.
-- Calculate each contributor's total payout amount, and display it in multiple currencies.
-- Display transactions, created by admin accounts, to calculate each contributor's outstanding balance.
+### Frontend
+- Written in HTML and vanilla JS.
+- Users can log in to view various details of the royalties owed to them, populated from the backend.
+- Users sign up / can reset their password using a URL with a randomly generated key.
+- Admin accounts can also input new information, delete erroneous information and create new users using simple HTML forms with custom handlers. 
+- Uses responsive CSS to display well on mobile. (work in progress)
+
+### Backend
+- Written in Node.JS, using Express as the server.
+- Serves routes only to those who have permission to access them, using a session cookie for authentication.
+- Validates data from frontend in user-facing API endpoints before performing database operations with it.
+- Keeps track of the USD-GBP exchange rate every day using a Cron job.
+
+### Database
+- My first time using EdgeDB, a database software based on postgres which does the work of an ORM more efficiently
+
+### Areas for improvement
+- Comment every large block and any hard-to-understand logic. Very few comments currently exist in the project.
+- Ensure database queries are correctly designed and don't overcomplicate the task.
+- Data validation for admin API endpoints (considered not to be necessary as I will be the only admin / the frontend prevents bad data being submitted.)
