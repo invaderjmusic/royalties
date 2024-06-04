@@ -30,9 +30,19 @@ function toggleUserDropdown() {
     document.getElementById("userDropdown").classList.toggle("show");
 }
 
+function toggleNavDropdown() {
+    document.getElementById("navDropdown").classList.toggle("show");
+}
+
 window.addEventListener("click", function (e) {
-    if (!e.target.matches('.dropbtn')) {
+    if (!e.target.matches('#userDropdownLabel')) {
         let myDropdown = document.getElementById("userDropdown");
+        if (myDropdown.classList.contains('show')) {
+            myDropdown.classList.remove('show');
+        }
+    }
+    if (!e.target.matches('#navDropdownLabel')) {
+        let myDropdown = document.getElementById("navDropdown");
         if (myDropdown.classList.contains('show')) {
             myDropdown.classList.remove('show');
         }
