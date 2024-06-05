@@ -31,11 +31,9 @@ let https;
 if (process.env.HTTPS == "TRUE") {
     const privateKey = fs.readFileSync(process.env.SSL_PRIVATEKEY_PATH, 'utf8');
     const certificate = fs.readFileSync(process.env.SSL_CERTIFICATE_PATH, 'utf8');
-    const ca = fs.readFileSync(process.env.SSL_CA_PATH, 'utf8');
     const credentials = {
         key: privateKey,
         cert: certificate,
-        ca: ca
     };
 
     https = require('https').Server(credentials, app);
