@@ -5,6 +5,7 @@ A webapp to calculate and display revenue splits to my song contributors.
 ### Frontend
 - Written in HTML and vanilla JS.
 - Users can log in to view various details of the royalties owed to them, populated from the backend.
+- Stores key data in session storage so it can be accessed quickly on page load.
 - Users sign up / can reset their password using a URL with a randomly generated key.
 - Admin accounts can also input new information, delete erroneous information and create new users using simple HTML forms with custom handlers. 
 - Uses responsive CSS to display well on mobile. (work in progress)
