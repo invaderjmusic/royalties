@@ -16,7 +16,7 @@ A webapp to calculate and display revenue splits to my song contributors.
 - Keeps track of the USD-GBP exchange rate every day using a Cron job.
 
 ### Database
-- My first time using EdgeDB, a database software based on postgres which does the work of an ORM more efficiently
+- My first time using EdgeDB, a database software based on Postgres which does the work of an ORM more efficiently
 
 ### Areas for improvement
 - Comment every large block and any hard-to-understand logic. Very few comments currently exist in the project.
