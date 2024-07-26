@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Report Royalties | Royalties</title>
+    <title>New Product | Royalties</title>
 
     <style>
         body {
@@ -144,19 +144,17 @@
             margin: auto;
         }
 
-        input, select, button:not(.dropbtn) {
+        input,
+        select {
             padding: 0.5em 0.5em;
+            margin: 0.5em 0;
             box-sizing: border-box;
             border: 3px solid #ccc;
             transition: 0.4s;
             outline: none;
+            width: 100%;
             font-size: 1.2rem;
             font-family: "Raleway";
-        }
-
-        input, select {
-            margin: 0.5em 0;
-            width: 100%;
         }
 
         select {
@@ -190,49 +188,69 @@
             background-color: #ffcc00;
         }
 
-        .release {
+        .splits {
             background-color: #00915c;
             color: white;
-            margin-bottom: 1em;
-            padding: 1em;
+            margin: 1em 0;
+            padding: 1rem 2rem;
         }
 
-        .release::after {
+        .splits::after {
             content: "";
             clear: both;
             display: table;
         }
 
-        .releasename {
-            font-weight: 600;
-            font-size: 2rem;
-            margin: 0;
+        .vertical {
+            float: left;
+            padding: 1rem;
+            box-sizing: border-box;
         }
 
-        .fiftybox {
+        .songinputs {
+            float: left;
+            width: 90%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .fourtyfivebox {
             float: left;
             box-sizing: border-box;
-            width: 50%;
+            width: 45%;
             padding-right: 1em;
             padding-top: 0.7em;
         }
 
-        .song {
-            position: relative;
+        .tenbox {
+            float: left;
+            width: 10%;
+            box-sizing: border-box;
+            padding-top: 0.7em;
         }
 
-        .song::after {
+        .contributor::after {
             content: "";
             clear: both;
             display: table;
         }
 
-        .songname {
-            font-size: 1.5rem;
+        .deletebtn {
+            padding: 0.5em 0.7em;
+        }
+
+        .deletebtn:hover {
+            background-color: red;
+            color: white;
+            border: 3px solid red;
+        }
+
+        .vertical .deletebtn {
             margin: 0;
-            padding-top: 1.6em;
-            padding-right: 1em;
-            text-align: right;
+        }
+
+        .contributor .deletebtn {
+            float: right;
         }
 
         .error {
@@ -258,33 +276,19 @@
             background-color: #01633f;
         }
 
-        .green {
-            background-color: #00915c;
-        }
-
         .message .fas {
             margin-right: 0.5em;
         }
 
-        .headerButton {
-            margin-left: 2em;
-            vertical-align: middle;
-            background-color: #00915c;
+        .splitslabel {
             font-weight: 600;
-            color: #ffffff;
-            font-size: 1.3rem !important;
-            transition: 0s !important;
-        }
-
-        .headerButton:hover {
-            color: #ffcc00;
-            border: 3px solid #00915c;
+            margin: 0.5em 0;
         }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
-    <script src="/admin/report.js"></script>
+    <script src="/admin/newproduct.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -294,7 +298,7 @@
     <link rel="shortcut icon" href="/favicon/favicon.ico">
     <meta name="msapplication-TileColor" content="#00a300">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#00915c">    
+    <meta name="theme-color" content="#00915c">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -320,11 +324,11 @@
                     </div>
                 </div>
                 <li><a href="/admin">Dashboard</a></li>
-                <li><a class="active" href="/admin/royalties">Royalties</a></li>
+                <li><a href="/admin/royalties">Royalties</a></li>
                 <li><a href="/admin/transactions">Transactions</a></li>
                 <li><a href="/admin/newrelease">New Release</a></li>
                 <li><a href="/admin/newuser">New User</a></li>
-                <li><a href="/admin/newproduct">New Product</a></li>
+                <li><a class="active" href="/admin/newproduct">New Product</a></li>
             </ul>
         </div>
     </nav>
@@ -332,18 +336,43 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Report Royalties</span><button class="headerButton" onclick='window.location.href = "/admin/deletePreviousMonth"'>Delete Previous Month</button></h1>
-        <form id="royaltyform">
-            <p class="message green" id="loading" style="display: block"><span class="fas"></span>Loading...</p>
-            <p class="message green" id="doroyalties"></p>
-            <p class="message warning" id="noroyalties"><span class="fas"></span>There are no new royalties to report.</p>
-            <div id="releases">
+        <h1 class="bigHeading"><span class="gradient">New Product</span></h1>
+        <form id="productform">
+            <label for="url">Bandcamp URL</label><br />
+            <input type="text" name="url" id="url" required>
+            <br />
+            <label for="productname">Name</label><br />
+            <input type="text" name="productname" id="productname" required>
+            <br />
+
+            <div class="splits" id="splits">
+                <h2 class="splitslabel">Splits</h2>
+                <div class="contributor" id="artist0">
+                    <div class="fourtyfivebox">
+                        <label for="artistname0">Contributor</label><br />
+                        <select name="artistname0" id="artistname0" onchange="addArtist(event)" required>
+                            <option value="" disabled selected>Loading...</option>
+                        </select>
+                    </div>
+                    <div class="fourtyfivebox">
+                        <label for="split0">Split (%)</label><br />
+                        <input type="number" name="split0" id="split0" min="1" max="100"
+                            onchange="checkHighlight(this)" required>
+                    </div>
+                    <div class="tenbox">
+                        <br />
+                        <button class="deletebtn fas" id="deleteartist0" onclick="deleteArtist(event)"></button>
+                    </div>
+                </div>
             </div>
-            <p class="message warning" id="zeroerror"><span class="fas"></span>Some songs are missing royalties.</p>
-            <p class="message success" id="success"><span class="fas"></span>Royalties recorded successfully.</p>
-            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.</p>
+
+            <p class="message warning" id="percenterror"><span class="fas"></span>The splits do not add up to 100.</p>
+            <p class="message warning" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice.</p>
+            <p class="message success" id="success"><span class="fas"></span>Product created successfully.</p>
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.
+            </p>
             <p class="message warning" id="serveroffline"><span class="fas"></span>Can't connect to the server.</p>
-            <input id="submitbtn" type="submit" value="Submit">
+            <input type="submit" value="Create">
         </form>
     </section>
 </body>

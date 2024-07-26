@@ -30,6 +30,31 @@ module default {
     property percentage -> int64;
   }
 
+  type Product {
+    required property url -> str {
+      constraint exclusive;
+    }
+    property name -> str;
+    multi link sales -> Sale {
+      on target delete allow;
+    }
+  }
+
+  type Sale {
+    required property date -> cal::local_date;
+    property count -> int64;
+    property amount -> int64;
+    multi link earnings -> SaleEarning {
+      on target delete allow;
+      on source delete delete target;
+    }
+  }
+
+  type ProductSplit {
+    link product -> Product;
+    property percentage -> int64;
+  }
+
   type User {
     required property username -> str {
         constraint exclusive;
@@ -42,6 +67,9 @@ module default {
     multi link splits -> Split {
       on target delete allow;
     }
+    multi link product_splits -> ProductSplit {
+      on target delete allow;
+    }
   }
 
   type Earning {
@@ -49,7 +77,18 @@ module default {
     property amount -> int64;
   }
 
+  type SaleEarning {
+    required link user -> User;
+    property amount -> int64;
+  }
+
   type Payout {
+    required link user -> User;
+    property amount -> int64;
+  }
+
+  type SalePayout {
+    required property date -> cal::local_date;
     required link user -> User;
     property amount -> int64;
   }

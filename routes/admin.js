@@ -79,6 +79,14 @@ router.get("/newuser.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/newuser.js");
 })
 
+router.get("/newproduct", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newproduct.html");
+})
+
+router.get("/newproduct.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newproduct.js");
+})
+
 /**
  * Admin API Routes
  * Generally no data validation here, we're trusting the frontend.
