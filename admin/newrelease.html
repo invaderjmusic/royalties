@@ -67,7 +67,7 @@
         }
 
         .active {
-            color: #ffcc00
+            color: #ffcc00 !important
         }
 
         .dropdown {
@@ -278,6 +278,21 @@
         .message .fas {
             margin-right: 0.5em;
         }
+
+        .nav-dropdown {
+            background-color: #00915c;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
+            min-width: 0;
+        }
+
+        .nav-dropdown a {
+            color: white;
+        }
+
+        .nav-dropdown a:hover {
+            color: #ffcc00;
+            background-color: #00915c;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
@@ -318,11 +333,31 @@
                     </div>
                 </div>
                 <li><a href="/admin">Dashboard</a></li>
-                <li><a href="/admin/royalties">Royalties</a></li>
-                <li><a href="/admin/transactions">Transactions</a></li>
-                <li><a class="active" href="/admin/newrelease">New Release</a></li>
+                <li>
+                    <div class="dropdown">
+                        <button class="dropbtn active" id="streamingDropdownLabel" onclick="toggleStreamingDropdown()">
+                            <span>Streaming</span>
+                            <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
+                        </button>
+                        <div class="dropdown-content nav-dropdown" id="streamingDropdown">
+                            <a href="/admin/royalties">Royalties</a>
+                            <a href="/admin/transactions">Transactions</a>
+                            <a class="active" href="/admin/newrelease">New Release</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <button class="dropbtn" id="bandcampDropdownLabel" onclick="toggleBandcampDropdown()">
+                            <span>Bandcamp</span>
+                            <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
+                        </button>
+                        <div class="dropdown-content nav-dropdown" id="bandcampDropdown">
+                            <a href="/admin/newproduct">New Product</a>
+                        </div>
+                    </div>
+                </li>
                 <li><a href="/admin/newuser">New User</a></li>
-                <li><a href="/admin/newproduct">New Product</a></li>
             </ul>
         </div>
     </nav>
