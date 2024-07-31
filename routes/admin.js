@@ -248,4 +248,27 @@ router.post("/addUser", async (req, res) => {
     res.status(201).send("success");
 })
 
+router.post("/addProduct", async (req, res) => {
+
+    try {
+        await database.addProduct(req.body.url, req.body.name);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).send(err);
+    }
+
+    for (let i = 0; i < req.body.contributors.length; i++) {
+        try {
+            await database.addUserProductSplit(req.body.contributors[i].name, req.body.url, req.body.contributors[i].percentage);
+        }
+        catch (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+    }
+
+    res.status(201).send("success");
+})
+
 module.exports = router
