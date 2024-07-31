@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>New Product | Royalties</title>
+    <title>Report Sales | Royalties</title>
 
     <style>
         body {
@@ -188,71 +188,6 @@
             background-color: #ffcc00;
         }
 
-        .splits {
-            background-color: #00915c;
-            color: white;
-            margin: 1em 0;
-            padding: 1rem 2rem;
-        }
-
-        .splits::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .vertical {
-            float: left;
-            padding: 1rem;
-            box-sizing: border-box;
-        }
-
-        .songinputs {
-            float: left;
-            width: 90%;
-            padding: 1rem;
-            box-sizing: border-box;
-        }
-
-        .fourtyfivebox {
-            float: left;
-            box-sizing: border-box;
-            width: 45%;
-            padding-right: 1em;
-            padding-top: 0.7em;
-        }
-
-        .tenbox {
-            float: left;
-            width: 10%;
-            box-sizing: border-box;
-            padding-top: 0.7em;
-        }
-
-        .contributor::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .deletebtn {
-            padding: 0.5em 0.7em;
-        }
-
-        .deletebtn:hover {
-            background-color: red;
-            color: white;
-            border: 3px solid red;
-        }
-
-        .vertical .deletebtn {
-            margin: 0;
-        }
-
-        .contributor .deletebtn {
-            float: right;
-        }
-
         .error {
             background-color: #f79292;
         }
@@ -280,11 +215,6 @@
             margin-right: 0.5em;
         }
 
-        .splitslabel {
-            font-weight: 600;
-            margin: 0.5em 0;
-        }
-
         .nav-dropdown {
             background-color: #00915c;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
@@ -299,11 +229,40 @@
             color: #ffcc00;
             background-color: #00915c;
         }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #b5b5b5;
+            padding: 8px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        tbody tr:hover {
+            background-color: #ffd633;
+        }
+
+        thead, tfoot {
+            background-color: #00915c;
+            color: white;
+            font-weight: 600;
+        }
+
+        thead tr {
+            height: 3em;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
-    <script src="/admin/newproduct.js"></script>
+    <script src="/admin/reportsales.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -359,8 +318,8 @@
                             <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                         </button>
                         <div class="dropdown-content nav-dropdown" id="bandcampDropdown">
-                            <a href="/admin/sales">Sales</a>
-                            <a class="active" href="/admin/newproduct">New Product</a>
+                            <a class="active" href="/admin/sales">Sales</a>
+                            <a href="/admin/newproduct">New Product</a>
                         </div>
                     </div>
                 </li>
@@ -372,43 +331,21 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">New Product</span></h1>
-        <form id="productform">
-            <label for="url">Bandcamp URL</label><br />
-            <input type="text" name="url" id="url" required>
+        <h1 class="bigHeading"><span class="gradient">Report Sales</span></h1>
+        <form id="salesform">
+            <label for="saledate">Sale Date (1st of the month)</label><br />
+            <input type="date" name="saledate" id="saledate" required>
             <br />
-            <label for="productname">Name</label><br />
-            <input type="text" name="productname" id="productname" required>
+            <label for="csv">Select Bandcamp Sales CSV file</label><br />
+            <input type="file" name="csv" id="csv"  accept=".csv" required>
             <br />
-
-            <div class="splits" id="splits">
-                <h2 class="splitslabel">Splits</h2>
-                <div class="contributor" id="artist0">
-                    <div class="fourtyfivebox">
-                        <label for="artistname0">Contributor</label><br />
-                        <select name="artistname0" id="artistname0" onchange="addArtist(event)" required>
-                            <option value="" disabled selected>Loading...</option>
-                        </select>
-                    </div>
-                    <div class="fourtyfivebox">
-                        <label for="split0">Split (%)</label><br />
-                        <input type="number" name="split0" id="split0" min="1" max="100"
-                            onchange="checkHighlight(this)" required>
-                    </div>
-                    <div class="tenbox">
-                        <br />
-                        <button class="deletebtn fas" id="deleteartist0" onclick="deleteArtist(event)"></button>
-                    </div>
-                </div>
-            </div>
-
-            <p class="message warning" id="percenterror"><span class="fas"></span>The splits do not add up to 100.</p>
-            <p class="message warning" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice.</p>
-            <p class="message success" id="success"><span class="fas"></span>Product created successfully.</p>
+            <button onclick="readFile(event)">Read File</button>
+            <div id="out" style="margin: 0.5em 0 1em 0;"></div>
+            <p class="message success" id="success"><span class="fas"></span>Release created successfully.</p>
             <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.
             </p>
             <p class="message warning" id="serveroffline"><span class="fas"></span>Can't connect to the server.</p>
-            <input type="submit" value="Create">
+            <input type="submit" id="submitbutton" value="Submit" disabled>
         </form>
     </section>
 </body>

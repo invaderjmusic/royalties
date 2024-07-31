@@ -87,6 +87,22 @@ router.get("/newproduct.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/newproduct.js");
 })
 
+router.get("/sales", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/sales.html");
+})
+
+router.get("/sales.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/sales.js");
+})
+
+router.get("/reportsales", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/reportsales.html");
+})
+
+router.get("/reportsales.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/reportsales.js");
+})
+
 /**
  * Admin API Routes
  * Generally no data validation here, we're trusting the frontend.
@@ -249,7 +265,6 @@ router.post("/addUser", async (req, res) => {
 })
 
 router.post("/addProduct", async (req, res) => {
-
     try {
         await database.addProduct(req.body.url, req.body.name);
     }
@@ -269,6 +284,42 @@ router.post("/addProduct", async (req, res) => {
     }
 
     res.status(201).send("success");
+})
+
+router.post("/addSales", async (req, res) => {
+    let date = req.body.date.split("-");
+    for (let i = 0; i < req.body.sales.length; i++) {
+        try {
+            await royalties.addSaleToProduct(parseInt(date[0]), parseInt(date[1]), req.body.sales[i].url, req.body.sales[i].count, req.body.sales[i].amount);
+        }
+        catch (err) {
+            console.error(err);
+            return res.status(500).send(err)
+        }
+    }
+    res.status(201).send("success");
+})
+
+router.get("/getProductList", async (req, res) => {
+    let list = await database.getCreditedProducts();
+    res.send(list);
+})
+
+router.get("/getProductInfo", async (req, res) => {
+    if (req.query.product) {
+        let splits = await database.getProductSplits(req.query.product);
+        let totalRoyalties = await database.getAccountEarningsByProduct(req.query.product);
+        res.send({splits, totalRoyalties});
+    }
+    else res.status(400).end();
+})
+
+router.get("/getFullSales", async (req, res) => {
+    if (req.query.product && parseInt(req.query.page) > 0) {
+        let sales = await database.getFullSales(req.query.product, parseInt(req.query.page));
+        res.send(sales);
+    }
+    else res.status(400).end();
 })
 
 module.exports = router

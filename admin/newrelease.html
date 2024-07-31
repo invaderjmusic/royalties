@@ -353,6 +353,7 @@
                             <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                         </button>
                         <div class="dropdown-content nav-dropdown" id="bandcampDropdown">
+                            <a href="/admin/sales">Sales</a>
                             <a href="/admin/newproduct">New Product</a>
                         </div>
                     </div>
@@ -373,7 +374,7 @@
             <label for="releasedate">Release Date</label><br />
             <input type="date" name="releasedate" id="releasedate" required>
             <br />
-            <button onclick="addSong()">Add a song</button>
+            <button onclick="addSong(event)">Add a song</button>
             <div id="songs">
                 <div class="song" id="song0">
                     <div class="vertical">

@@ -139,7 +139,8 @@ function onDataReady() {
     document.getElementById("song0artistname0").innerHTML = artistSelectString;
 }
 
-function addSong() {
+function addSong(e) {
+    e.preventDefault()
     counter++;
     let songIndex = counter;
     songs[songIndex] = [true];

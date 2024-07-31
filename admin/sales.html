@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>New Product | Royalties</title>
+    <title>Sales | Royalties</title>
 
     <style>
         body {
@@ -139,20 +139,17 @@
             color: transparent;
         }
 
-        form {
+        .center {
             width: 960px;
             margin: auto;
         }
 
-        input,
-        select {
+        select, button:not(.dropbtn) {
             padding: 0.5em 0.5em;
-            margin: 0.5em 0;
             box-sizing: border-box;
             border: 3px solid #ccc;
             transition: 0.4s;
             outline: none;
-            width: 100%;
             font-size: 1.2rem;
             font-family: "Raleway";
         }
@@ -161,100 +158,71 @@
             background-color: white;
         }
 
-        form button {
-            padding: 0.5em 0.5em;
-            margin: 0.5em 0;
-            box-sizing: border-box;
-            border: 3px solid #ccc;
-            transition: 0.4s;
-            outline: none;
-            font-size: 1.2rem;
-            font-family: "Raleway";
+        button:not(.dropbtn):not(.headerButton) {
+            background-color: #e8e8e8;
+            margin: 0.2em 0.2em;
         }
 
-        input:focus,
+        button:disabled:not(.dropbtn) {
+            background-color: #ccc;
+        }
+
         select:focus {
             border: 3px solid #ffcc00;
         }
 
-        input:hover,
-        form button:hover,
         select:hover {
             border: 3px solid #ffcc00;
         }
 
-        input[type=submit]:hover,
-        form button:hover {
+        button:hover:not(:disabled):not(.dropbtn):not(.headerButton) {
             background-color: #ffcc00;
+            border: 3px solid #ffcc00;
         }
 
-        .splits {
+        .banner {
+            color: white;
+            padding: 0.8em 1em;
+            text-align: center;
+            margin-bottom: 1em;
+        }
+
+        .green {
             background-color: #00915c;
-            color: white;
-            margin: 1em 0;
-            padding: 1rem 2rem;
         }
 
-        .splits::after {
-            content: "";
-            clear: both;
-            display: table;
+        .info {
+            background-color: #070782;
         }
 
-        .vertical {
-            float: left;
-            padding: 1rem;
-            box-sizing: border-box;
-        }
-
-        .songinputs {
-            float: left;
-            width: 90%;
-            padding: 1rem;
-            box-sizing: border-box;
-        }
-
-        .fourtyfivebox {
-            float: left;
-            box-sizing: border-box;
-            width: 45%;
-            padding-right: 1em;
-            padding-top: 0.7em;
-        }
-
-        .tenbox {
-            float: left;
-            width: 10%;
-            box-sizing: border-box;
-            padding-top: 0.7em;
-        }
-
-        .contributor::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .deletebtn {
-            padding: 0.5em 0.7em;
-        }
-
-        .deletebtn:hover {
-            background-color: red;
-            color: white;
-            border: 3px solid red;
-        }
-
-        .vertical .deletebtn {
+        .info p {
             margin: 0;
+            padding: 0.6em 0;
+            font-weight: 600;
         }
 
-        .contributor .deletebtn {
-            float: right;
+        .thirtyfivebox {
+            float: left;
+            width: 35%;
         }
 
-        .error {
-            background-color: #f79292;
+        .thirtybox {
+            float: left;
+            width: 30%;
+        }
+
+        .info .thirtybox {
+            text-align: right;
+        }
+
+        .info::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .banner select {
+            margin: 0 0.5em;
         }
 
         .message {
@@ -272,17 +240,60 @@
             background-color: red;
         }
 
-        .success {
-            background-color: #01633f;
+        .orange {
+            background-color: #ff6a00;
         }
 
         .message .fas {
             margin-right: 0.5em;
         }
 
-        .splitslabel {
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #b5b5b5;
+            padding: 8px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        tbody tr:hover {
+            background-color: #ffd633;
+        }
+
+        thead {
+            background-color: #00915c;
+            color: white;
             font-weight: 600;
-            margin: 0.5em 0;
+        }
+
+        .value {
+            color: #ffcc00;
+            font-size: 3rem;
+            margin: 0;
+            padding-bottom: 0.2em;
+            padding-top: 0.3em;
+        }
+
+        .headerButton {
+            margin-left: 2em;
+            vertical-align: middle;
+            background-color: #00915c;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.3rem !important;
+            transition: 0s !important;
+        }
+
+        .headerButton:hover {
+            color: #ffcc00;
+            border: 3px solid #00915c;
         }
 
         .nav-dropdown {
@@ -303,7 +314,8 @@
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
-    <script src="/admin/newproduct.js"></script>
+    <script src="/admin/sales.js"></script>
+    <script src="/assets/echarts.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -359,8 +371,8 @@
                             <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                         </button>
                         <div class="dropdown-content nav-dropdown" id="bandcampDropdown">
-                            <a href="/admin/sales">Sales</a>
-                            <a class="active" href="/admin/newproduct">New Product</a>
+                            <a class="active" href="/admin/sales">Sales</a>
+                            <a href="/admin/newproduct">New Product</a>
                         </div>
                     </div>
                 </li>
@@ -372,45 +384,56 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">New Product</span></h1>
-        <form id="productform">
-            <label for="url">Bandcamp URL</label><br />
-            <input type="text" name="url" id="url" required>
-            <br />
-            <label for="productname">Name</label><br />
-            <input type="text" name="productname" id="productname" required>
-            <br />
+        <h1 class="bigHeading"><span class="gradient">Sales</span><button class="headerButton" onclick='window.location.href = "/admin/reportsales"'>Report Sales</button></h1>
+        <div class="center">
+            <div class="banner green">
+                <label for="productselect">Choose a product to view sales for: </label>
+                <select name="productselect" id="productselect" onchange="loadSales(1, true)">
+                    <option value="" disabled selected>Loading...</option>
+                </select>
+                <span class="fas" id="status"></span>
+            </div>
 
-            <div class="splits" id="splits">
-                <h2 class="splitslabel">Splits</h2>
-                <div class="contributor" id="artist0">
-                    <div class="fourtyfivebox">
-                        <label for="artistname0">Contributor</label><br />
-                        <select name="artistname0" id="artistname0" onchange="addArtist(event)" required>
-                            <option value="" disabled selected>Loading...</option>
-                        </select>
-                    </div>
-                    <div class="fourtyfivebox">
-                        <label for="split0">Split (%)</label><br />
-                        <input type="number" name="split0" id="split0" min="1" max="100"
-                            onchange="checkHighlight(this)" required>
-                    </div>
-                    <div class="tenbox">
-                        <br />
-                        <button class="deletebtn fas" id="deleteartist0" onclick="deleteArtist(event)"></button>
-                    </div>
+            <div class="banner info" id="infosection" style="display: none">
+                <div class="thirtyfivebox">
+                    <p>Splits</p>
+                    <div id="piecontainer" style="height: 100px; width: 100%"></div>
+                </div>
+                <div class="thirtyfivebox" style="height: 1px">
+                    <p>Total Sales</p>
+                    <h2 class="value" id="totalSales">$...</h2>
+                </div>
+                <div class="thirtybox" id="timecontrols" style="display: none">
+                    <p id="durationtext"></p>
+                    <button id="backbutton" onclick="pageBackward()" disabled>Newer</button>
+                    <button id="forwardbutton" onclick="pageForward()" disabled>Older</button>
                 </div>
             </div>
 
-            <p class="message warning" id="percenterror"><span class="fas"></span>The splits do not add up to 100.</p>
-            <p class="message warning" id="dupeusererror"><span class="fas"></span>Some contributors are credited twice.</p>
-            <p class="message success" id="success"><span class="fas"></span>Product created successfully.</p>
-            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error.
             </p>
-            <p class="message warning" id="serveroffline"><span class="fas"></span>Can't connect to the server.</p>
-            <input type="submit" value="Create">
-        </form>
+            <p class="message orange" id="nosales"><span class="fas"></span>This song has no reported sales
+                yet.</p>
+            <p class="message orange" id="nomore"><span class="fas"></span>No older sales to display.</p>
+
+            <table id="salesTable" style="display: none">
+                <thead>
+                    <tr>
+                        <td rowspan="2">Month</td>
+                        <td colspan="2">Sales</td>
+                        <td id="earningsHeading">Earnings</td>
+                    </tr>
+                    <tr id="nameList">
+                        <td>Count</td>
+                        <td>Revenue</td>
+                    </tr>
+                </thead>
+                <tbody id="salesBody">
+                </tbody>
+            </table>
+        </div>
     </section>
+    <div style="height: 2em"></div>
 </body>
 
 </html>
