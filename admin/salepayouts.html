@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Report Royalties | Royalties</title>
+    <title>Sale Payouts | Royalties</title>
 
     <style>
         body {
@@ -139,104 +139,78 @@
             color: transparent;
         }
 
-        form {
+        .squareContainer::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .square {
+            float: left;
+            box-sizing: border-box;
+            width: 33%;
+            background-color: #070782;
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-left: 1em solid #fdfff5;
+            border-right: 1em solid #fdfff5;
+        }
+
+        .square p {
+            margin-top: 1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .center {
             width: 960px;
             margin: auto;
         }
 
-        input, select, button:not(.dropbtn) {
-            padding: 0.5em 0.5em;
-            box-sizing: border-box;
-            border: 3px solid #ccc;
-            transition: 0.4s;
-            outline: none;
-            font-size: 1.2rem;
-            font-family: "Raleway";
+        .value {
+            color: #ffcc00;
+            font-size: 2.5rem;
+            margin-top: 0.7rem;
+            margin-bottom: 1rem;
         }
 
-        input, select {
-            margin: 0.5em 0;
-            width: 100%;
-        }
-
-        select {
-            background-color: white;
-        }
-
-        form button {
-            padding: 0.5em 0.5em;
-            margin: 0.5em 0;
-            box-sizing: border-box;
-            border: 3px solid #ccc;
-            transition: 0.4s;
-            outline: none;
-            font-size: 1.2rem;
-            font-family: "Raleway";
-        }
-
-        input:focus,
-        select:focus {
-            border: 3px solid #ffcc00;
-        }
-
-        input:hover,
-        form button:hover,
-        select:hover {
-            border: 3px solid #ffcc00;
-        }
-
-        input[type=submit]:hover,
-        form button:hover {
-            background-color: #ffcc00;
-        }
-
-        .release {
-            background-color: #00915c;
-            color: white;
-            margin-bottom: 1em;
-            padding: 1em;
-        }
-
-        .release::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .releasename {
-            font-weight: 600;
-            font-size: 2rem;
-            margin: 0;
-        }
-
-        .fiftybox {
-            float: left;
-            box-sizing: border-box;
-            width: 50%;
-            padding-right: 1em;
-            padding-top: 0.7em;
-        }
-
-        .song {
-            position: relative;
-        }
-
-        .song::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .songname {
-            font-size: 1.5rem;
-            margin: 0;
-            padding-top: 1.6em;
-            padding-right: 1em;
-            text-align: right;
+        .success {
+            color: #00915c;
         }
 
         .error {
-            background-color: #f79292;
+            color: red;
+        }
+
+        .value .fas {
+            font-size: 2rem;
+            display: none;
+        }
+
+        button:not(.dropbtn) {
+            padding: 0.5em 0.5em;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            transition: 0.4s;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: "Raleway";
+        }
+
+        .headerButton {
+            margin-left: 2em;
+            vertical-align: middle;
+            background-color: #00915c;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.3rem !important;
+            transition: 0s !important;
+        }
+
+        .headerButton:hover {
+            color: #ffcc00;
+            border: 3px solid #00915c;
         }
 
         .message {
@@ -254,31 +228,34 @@
             background-color: red;
         }
 
-        .success {
-            background-color: #01633f;
-        }
-
-        .green {
-            background-color: #00915c;
-        }
-
         .message .fas {
             margin-right: 0.5em;
         }
 
-        .headerButton {
-            margin-left: 2em;
-            vertical-align: middle;
-            background-color: #00915c;
-            font-weight: 600;
-            color: #ffffff;
-            font-size: 1.3rem !important;
-            transition: 0s !important;
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
         }
 
-        .headerButton:hover {
-            color: #ffcc00;
-            border: 3px solid #00915c;
+        td {
+            border: 1px solid #b5b5b5;
+            padding: 8px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        tbody tr:hover {
+            background-color: #ffd633;
+        }
+
+        thead {
+            background-color: #00915c;
+            color: white;
+            font-weight: 600;
         }
 
         .nav-dropdown {
@@ -299,8 +276,8 @@
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
-    <script src="/admin/report.js"></script>
-
+    <script src="/admin/transactions.js"></script>
+ 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
@@ -309,8 +286,9 @@
     <link rel="shortcut icon" href="/favicon/favicon.ico">
     <meta name="msapplication-TileColor" content="#00a300">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#00915c">    
+    <meta name="theme-color" content="#00915c">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -337,12 +315,12 @@
                 <li><a href="/admin">Dashboard</a></li>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn active" id="streamingDropdownLabel" onclick="toggleStreamingDropdown()">
+                        <button class="dropbtn" id="streamingDropdownLabel" onclick="toggleStreamingDropdown()">
                             <span>Streaming</span>
                             <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                         </button>
                         <div class="dropdown-content nav-dropdown" id="streamingDropdown">
-                            <a class="active" href="/admin/royalties">Royalties</a>
+                            <a href="/admin/royalties">Royalties</a>
                             <a href="/admin/transactions">Transactions</a>
                             <a href="/admin/newrelease">New Release</a>
                         </div>
@@ -350,13 +328,13 @@
                 </li>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn" id="bandcampDropdownLabel" onclick="toggleBandcampDropdown()">
+                        <button class="dropbtn active" id="bandcampDropdownLabel" onclick="toggleBandcampDropdown()">
                             <span>Bandcamp</span>
                             <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                         </button>
                         <div class="dropdown-content nav-dropdown" id="bandcampDropdown">
                             <a href="/admin/sales">Sales</a>
-                            <a href="/admin/salepayouts">Payouts</a>
+                            <a class="active" href="/admin/salepayouts">Payouts</a>
                             <a href="/admin/newproduct">New Product</a>
                         </div>
                     </div>
@@ -369,19 +347,21 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Report Royalties</span><button class="headerButton" onclick='window.location.href = "/admin/deletePreviousMonth"'>Delete Previous Month</button></h1>
-        <form id="royaltyform">
-            <p class="message green" id="loading" style="display: block"><span class="fas"></span>Loading...</p>
-            <p class="message green" id="doroyalties"></p>
-            <p class="message warning" id="noroyalties"><span class="fas"></span>There are no new royalties to report.</p>
-            <div id="releases">
-            </div>
-            <p class="message warning" id="zeroerror"><span class="fas"></span>Some songs are missing royalties.</p>
-            <p class="message success" id="success"><span class="fas"></span>Royalties recorded successfully.</p>
-            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an unknown error.</p>
-            <p class="message warning" id="serveroffline"><span class="fas"></span>Can't connect to the server.</p>
-            <input id="submitbtn" type="submit" value="Submit">
-        </form>
+        <h1 class="bigHeading"><span class="gradient">Sale Payouts</span><button class="headerButton" onclick='window.location.href = "/admin/newpayout"'>New Payout</button></h1>
+        <div class="center">
+            <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error. Try refreshing the page.</p>
+            <table id="transactionTable" style="display: none">
+                <thead>
+                    <tr>
+                        <td>Date</td>
+                        <td>User</td>
+                        <td>Payout</td>
+                    </tr>
+                </thead>
+                <tbody id="transactionBody">
+                </tbody>
+            </table>
+        </div>
     </section>
 </body>
 

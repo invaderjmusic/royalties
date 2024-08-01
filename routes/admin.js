@@ -103,6 +103,22 @@ router.get("/reportsales.js", (req, res) => {
     res.sendFile(process.cwd() + "/admin/reportsales.js");
 })
 
+router.get("/salepayouts", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/salepayouts.html");
+})
+
+router.get("/salepayouts.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/salepayouts.js");
+})
+
+router.get("/newpayout", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newpayout.html");
+})
+
+router.get("/newpayout.js", (req, res) => {
+    res.sendFile(process.cwd() + "/admin/newpayout.js");
+})
+
 /**
  * Admin API Routes
  * Generally no data validation here, we're trusting the frontend.
