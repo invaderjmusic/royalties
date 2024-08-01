@@ -338,4 +338,18 @@ router.get("/getFullSales", async (req, res) => {
     else res.status(400).end();
 })
 
+router.post("/addSalePayouts", async (req, res) => {
+    let date = req.body.date.split("-");
+    for (let i = 0; i < req.body.payouts.length; i++) {
+        try {
+            await database.addSalePayout(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]), req.body.payouts[i].name, req.body.payouts[i].amount);
+        }
+        catch (err) {
+            console.error(err);
+            return res.status(500).send(err)
+        }
+    }
+    res.status(201).send("success");
+})
+
 module.exports = router
