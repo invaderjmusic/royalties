@@ -93,4 +93,26 @@ router.post("/changePassword", async (req, res) => {
     else res.status(400).end();
 })
 
+router.get("/getProductList", async (req, res) => {
+    let list = await database.getCreditedProducts(req.session.username);
+    res.send(list);
+})
+
+router.get("/getProductInfo", async (req, res) => {
+    if (req.query.product) {
+        let split = await database.getUserProductSplit(req.session.username, req.query.product);
+        let totalEarning = await database.getUserEarningsByProduct(req.session.username, req.query.product);
+        res.send({split, totalEarning});
+    }
+    else res.status(400).end();
+})
+
+router.get("/getProductSales", async (req, res) => {
+    if (req.query.product && parseInt(req.query.page) > 0) {
+        let sales = await database.getUserSales(req.session.username, req.query.product, parseInt(req.query.page));
+        res.send(sales);
+    }
+    else res.status(400).end();
+})
+
 module.exports = router

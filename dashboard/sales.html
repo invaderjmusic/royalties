@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Your Royalties | Royalties</title>
+    <title>Your Sales | Royalties</title>
 
     <style>
         body {
@@ -282,10 +282,6 @@
             font-weight: 600;
         }
 
-        thead tr {
-            height: 4em;
-        }
-
         .value {
             color: #ffcc00;
             font-size: 3rem;
@@ -368,7 +364,7 @@
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/dashboard/index.js"></script>
-    <script src="/dashboard/royalties.js"></script>
+    <script src="/dashboard/sales.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -406,24 +402,24 @@
                 <li><a class="full-width-navlink" href="/dashboard">Dashboard</a></li>
                 <li>
                     <div class="dropdown full-width-navlink">
-                        <button class="dropbtn active" id="streamingDropdownLabel" onclick="toggleStreamingDropdown()">
+                        <button class="dropbtn" id="streamingDropdownLabel" onclick="toggleStreamingDropdown()">
                             <span>Streaming</span>
                             <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                         </button>
                         <div class="dropdown-content nav-dropdown" id="streamingDropdown">
-                            <a class="active" href="/dashboard/royalties">Royalties</a>
+                            <a href="/dashboard/royalties">Royalties</a>
                             <a href="/dashboard/payouts">Payouts</a>
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="dropdown full-width-navlink">
-                        <button class="dropbtn" id="bandcampDropdownLabel" onclick="toggleBandcampDropdown()">
+                        <button class="dropbtn active" id="bandcampDropdownLabel" onclick="toggleBandcampDropdown()">
                             <span>Bandcamp</span>
                             <span class="fas" style="padding-left:0.7em; padding-right: 0;"></span>
                         </button>
                         <div class="dropdown-content nav-dropdown" id="bandcampDropdown">
-                            <a href="/dashboard/sales">Sales</a>
+                            <a class="active" href="/dashboard/sales">Sales</a>
                         </div>
                     </div>
                 </li>
@@ -434,10 +430,10 @@
                     <div class="dropdown-content mobile-dropdown" id="mobileNavDropdown">
                         <a href="/dashboard">Dashboard</a>
                         <p>Streaming</p>
-                        <a class="active" href="/dashboard/royalties">Royalties</a>
+                        <a href="/dashboard/royalties">Royalties</a>
                         <a href="/dashboard/payouts">Payouts</a>
                         <p>Bandcamp</p>
-                        <a href="/dashboard/sales">Sales</a>
+                        <a class="active" href="/dashboard/sales">Sales</a>
                     </div>
                 </div>
             </ul>
@@ -447,11 +443,11 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Royalties</span></h1>
+        <h1 class="bigHeading"><span class="gradient">Sales</span></h1>
         <div class="center">
             <div class="banner green">
-                <label for="songselect" style="margin-bottom: 1em; display: inline-block;">Choose a song to view royalties for: </label>
-                <select name="songselect" id="songselect" onchange="loadRoyalties(1, true)">
+                <label for="productselect" style="margin-bottom: 1em; display: inline-block;">Choose a product to view sales for: </label>
+                <select name="productselect" id="productselect" onchange="loadSales(1, true)">
                     <option value="" disabled selected>Loading...</option>
                 </select>
                 <span class="fas" id="status"></span>
@@ -475,19 +471,23 @@
 
             <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error.
             </p>
-            <p class="message orange" id="noroyalties"><span class="fas"></span>This song has no reported royalties
+            <p class="message orange" id="nosales"><span class="fas"></span>This product has no reported sales
                 yet.</p>
-            <p class="message orange" id="nomore"><span class="fas"></span>No older royalties to display.</p>
+            <p class="message orange" id="nomore"><span class="fas"></span>No older sales to display.</p>
 
-            <table id="royaltyTable" style="display: none">
+            <table id="productTable" style="display: none">
                 <thead>
                     <tr>
-                        <td>Month</td>
-                        <td>Total Royalty</td>
-                        <td>Your Earnings</td>
+                        <td rowspan="2">Month</td>
+                        <td colspan="2">Sales</td>
+                        <td rowspan="2">Your Earnings</td>
+                    </tr>
+                    <tr>
+                        <td>Count</td>
+                        <td>Total Revenue</td>
                     </tr>
                 </thead>
-                <tbody id="royaltyBody">
+                <tbody id="productBody">
                 </tbody>
             </table>
         </div>

@@ -34,4 +34,12 @@ router.get('/payouts.js', (req, res) => {
     res.sendFile(process.cwd() + "/dashboard/payouts.js");
 })
 
+router.get('/sales', (req, res) => {
+    res.sendFile(process.cwd() + "/dashboard/sales.html");
+})
+
+router.get('/sales.js', (req, res) => {
+    res.sendFile(process.cwd() + "/dashboard/sales.js");
+})
+
 module.exports = router
