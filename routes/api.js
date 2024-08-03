@@ -115,4 +115,12 @@ router.get("/getProductSales", async (req, res) => {
     else res.status(400).end();
 })
 
+router.get("/listUserSalePayouts", async (req, res) => {
+    if (parseInt(req.query.page) > 0) {
+        let payouts = await database.getUserSalePayouts(req.session.username, parseInt(req.query.page));
+        res.send(payouts);
+    }
+    else res.status(400).end();
+})
+
 module.exports = router

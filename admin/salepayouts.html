@@ -198,6 +198,11 @@
             font-family: "Raleway";
         }
 
+        button:not(.dropbtn):not(.headerButton) {
+            background-color: #e8e8e8;
+            margin: 0.2em 0.2em;
+        }
+
         .headerButton {
             margin-left: 2em;
             vertical-align: middle;
@@ -211,6 +216,15 @@
         .headerButton:hover {
             color: #ffcc00;
             border: 3px solid #00915c;
+        }
+
+        button:hover:not(:disabled):not(.dropbtn):not(.headerButton) {
+            background-color: #ffcc00;
+            border: 3px solid #ffcc00;
+        }
+
+        button:disabled:not(.dropbtn) {
+            background-color: #ccc;
         }
 
         .message {
@@ -228,10 +242,13 @@
             background-color: red;
         }
 
+        .orange {
+            background-color: #ff6a00;
+        }
+
         .message .fas {
             margin-right: 0.5em;
         }
-
         
         table {
             border-collapse: collapse;
@@ -272,11 +289,59 @@
             color: #ffcc00;
             background-color: #00915c;
         }
+
+        thead tr {
+            height: 4em;
+        }  
+
+        .info {
+            background-color: #070782;
+            padding: 0.8em 1em;
+            text-align: center;
+            margin-bottom: 1em;
+            color: white;
+        }
+
+        .info p {
+            margin: 0;
+            font-weight: 600;
+            padding-right: 1em;
+        }
+
+        .seventybox {
+            float: left;
+            width: 70%;
+        }
+
+        .sixtybox {
+            float: left;
+            width: 60%;
+        }
+
+        .thirtybox {
+            float: left;
+            width: 30%;
+            text-align: right;
+        }
+
+        .twentybox {
+            float: left;
+            width: 20%;
+            text-align: right;
+            min-height: 1px;
+            padding: 0.6em 0;
+        }
+
+        .info::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
     </style>
     <link href="/fonts/fonts.css" rel="stylesheet" />
     <link href="/fonts/font-awesome-solid.css" rel="stylesheet" />
     <script src="/admin/index.js"></script>
-    <script src="/admin/transactions.js"></script>
+    <script src="/admin/salepayouts.js"></script>
  
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -349,8 +414,19 @@
         </div>
         <h1 class="bigHeading"><span class="gradient">Sale Payouts</span><button class="headerButton" onclick='window.location.href = "/admin/newpayout"'>New Payout</button></h1>
         <div class="center">
+            <div class="info">
+                <div class="sixtybox" style="height: 1px"></div>
+                <div class="twentybox">
+                    <p id="durationtext"></p>
+                </div>
+                <div class="twentybox">
+                    <button id="backbutton" onclick="pageBackward()" disabled>Newer</button>
+                    <button id="forwardbutton" onclick="pageForward()" disabled>Older</button>
+                </div>
+            </div>
             <p class="message warning" id="servererror"><span class="fas"></span>The server returned an error. Try refreshing the page.</p>
-            <table id="transactionTable" style="display: none">
+            <p class="message orange" id="nomore"><span class="fas"></span>No older payouts to display.</p>
+            <table id="payoutsTable" style="display: none">
                 <thead>
                     <tr>
                         <td>Date</td>
@@ -358,7 +434,7 @@
                         <td>Payout</td>
                     </tr>
                 </thead>
-                <tbody id="transactionBody">
+                <tbody id="payoutsBody">
                 </tbody>
             </table>
         </div>

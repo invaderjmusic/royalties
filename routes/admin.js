@@ -352,4 +352,12 @@ router.post("/addSalePayouts", async (req, res) => {
     res.status(201).send("success");
 })
 
+router.get("/listSalePayouts", async (req, res) => {
+    if (parseInt(req.query.page) > 0) {
+        let payouts = await database.getFullSalePayouts(parseInt(req.query.page));
+        res.send(payouts);
+    }
+    else res.status(400).end();
+})
+
 module.exports = router
