@@ -219,7 +219,7 @@
         .usersquare {
             float: left;
             box-sizing: border-box;
-            width: 25%;
+            width: 28%;
             text-align: center;
             font-weight: 600;
             border-left: 0.6em solid #00915c;
@@ -229,7 +229,7 @@
         .userrectangle {
             float: left;
             box-sizing: border-box;
-            width: 50%;
+            width: 44%;
             text-align: center;
             font-weight: 600;
             border-left: 0.6em solid #00915c;
@@ -284,6 +284,7 @@
             padding: 3px 5px;
             margin-top: 1em;
             border: none;
+            width: 60%;
         }
 
         .signup_key:hover {
@@ -296,6 +297,7 @@
             text-align: center;
             font-size: 0.9em;
             display: none;
+            width: 60%;
         }
 
         .hidden {
@@ -311,7 +313,7 @@
             outline: none;
             font-size: 1.2rem;
             font-family: "Raleway"; 
-            width: 100%
+            width: 60%;
         }
 
         .resetbutton:hover {
@@ -438,7 +440,7 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="gradient">Overview</span></h1>
+        <h1 class="bigHeading"><span class="gradient">Streaming</span></h1>
         <div class="center">
             <div class="squareContainer">
                 <div class="square" style="border-right: 0.6em solid #fdfff5;">
@@ -461,6 +463,21 @@
             <div class="wider">
                 <p>Currency Converter (rounds to 4 d.p.)</p>
                 <h2 class="value">£ <input class="inline" type="number" id="pounds" step=".01" placeholder="0.00" oninput="convertCurrency()"> = $ <input class="inline" id="dollars" disabled placeholder="0.0000"></h2>
+            </div>
+            <h1 class="bigHeading"><span class="gradient">Bandcamp</span></h1>
+            <div class="squareContainer">
+                <div class="square" style="border-right: 0.6em solid #fdfff5;">
+                    <p>Account Lifetime Sales</p>
+                    <h2 class="value" id="sales">£...</h2>
+                </div>
+                <div class="square" style="border-left: 0.6em solid #fdfff5; border-right: 0.6em solid #fdfff5;">
+                    <p>Account Lifetime Payouts</p>
+                    <h2 class="value" id="salePayouts">£...</h2>
+                </div>
+                <div class="square" style="border-left: 0.6em solid #fdfff5;">
+                    <p>Currently Holding</p>
+                    <h2 class="value" id="holding">£...</h2>
+                </div>
             </div>
             <h1 class="bigHeading"><span class="gradient">Users</span></h1>
             <div id="userslist" style="display: none"></div>

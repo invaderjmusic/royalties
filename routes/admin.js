@@ -135,6 +135,7 @@ router.get("/getUsersDetailed", async (req, res) => {
         balance =  users[i].earnings - users[i].payouts;
         users[i].balance = balance;
         users[i].balancePounds = balance * getExchangeRate();
+        users[i].saleBalance = users[i].sales - users[i].salepayouts
     }
     res.send(users);
 })
@@ -214,7 +215,10 @@ router.get("/getAccountBalances", async (req, res) => {
     let withdrawals = await database.getAccountPayouts();
     let balance = earnings - withdrawals;
     let balancePounds = (balance * getExchangeRate()) - 12500;
-    res.send({earnings, balance, balancePounds});
+    let sales = await database.getAccountSales();
+    let salePayouts = await database.getAccountSalePayouts();
+    let holding = sales - salePayouts;
+    res.send({earnings, balance, balancePounds, sales, salePayouts, holding});
 })
 
 router.get("/getExchangeRate", (req, res) => {

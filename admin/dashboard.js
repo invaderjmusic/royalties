@@ -1,21 +1,15 @@
-let earnings = 0;
-let balance = 0;
-let balancePounds = 0;
-
-let users_detailed = []
+let accountBalances = []
+let usersDetailed = []
 let expanded = []
 
 let exchangeRate = 0;
 
 async function getData() {
     let res = await fetch("/admin/getAccountBalances");
-    let resdata = await res.json();
-    earnings = resdata.earnings;
-    balance = resdata.balance;
-    balancePounds = resdata.balancePounds;
+    accountBalances = await res.json();
 
     let res2 = await fetch("/admin/getUsersDetailed");
-    users_detailed = await res2.json();
+    usersDetailed = await res2.json();
 
     if (document.readyState === 'complete') {
         onDataReady()
@@ -31,14 +25,23 @@ async function getData() {
 getData();
 
 function onDataReady () {
-    let earningsFixed = (earnings / 10000).toFixed(4);
+    let earningsFixed = (accountBalances.earnings / 10000).toFixed(4);
     document.getElementById("earnings").textContent = "$" + earningsFixed;
     
-    let balanceFixed = (balance / 10000).toFixed(4);
+    let balanceFixed = (accountBalances.balance / 10000).toFixed(4);
     document.getElementById("balance").textContent = "$" + balanceFixed;
 
-    let balancePoundsFixed = (balancePounds / 10000).toFixed(4);
+    let balancePoundsFixed = (accountBalances.balancePounds / 10000).toFixed(4);
     document.getElementById("balancePounds").textContent = "£" + balancePoundsFixed;
+
+    let salesFixed = (accountBalances.sales / 10000).toFixed(4);
+    document.getElementById("sales").textContent = "£" + salesFixed;
+
+    let salePayoutsFixed = (accountBalances.salePayouts / 10000).toFixed(4);
+    document.getElementById("salePayouts").textContent = "£" + salePayoutsFixed;
+
+    let holdingFixed = (accountBalances.holding / 10000).toFixed(4);
+    document.getElementById("holding").textContent = "£" + holdingFixed;
 
     if ((balance / 10000) > 3) {
         document.getElementById("over3").style.display = "inline-block";
@@ -49,14 +52,14 @@ function onDataReady () {
 
     userList = document.getElementById("userslist");
 
-    for (let i = 0; i < users_detailed.length; i++) {
+    for (let i = 0; i < usersDetailed.length; i++) {
         expanded.push(false)
 
         let variableCellContent = ""
-        if (users_detailed[i].details.signup_key !== null) {
+        if (usersDetailed[i].details.signup_key !== null) {
             variableCellContent = `
                 <h2 class="fieldheading">Sign-up URL</h2>
-                <button class="signup_key" id="copyurl${i}" onclick="copySignupUrl(this)">${users_detailed[i].details.signup_key.slice(0,14)}...</button>
+                <button class="signup_key" id="copyurl${i}" onclick="copySignupUrl(this)">${usersDetailed[i].details.signup_key.slice(0,14)}...</button>
                 <p class="copied" id="copiedlabel${i}">Copied <span class="fas"></span></p>
             `
         }
@@ -72,35 +75,51 @@ function onDataReady () {
         div.innerHTML = `
         <div class="squareContainer">
             <div class="usersquare namebox">
-                <h2 class="name">${users_detailed[i].name}</h2>
+                <h2 class="name">${usersDetailed[i].name}</h2>
                 <button class="userexpand" id="userbutton${i}" onclick="toggleUserDetails(this)"><span class="fas" id="usericon${i}"></span>Full Details</button>
             </div>
-            <div class="usersquare">
-                <h2 class="fieldheading">Lifetime Earnings</h2>
-                <h2 class="value">$${(users_detailed[i].earnings / 10000).toFixed(4)}</h2>
-            </div>
             <div class="userrectangle">
-                <h2 class="fieldheading">Pending Balance</h2>
-                <h2 class="value"><span>$${(users_detailed[i].balance / 10000).toFixed(4)}</span><span class="spacer"></span>£${(users_detailed[i].balancePounds / 10000).toFixed(4)}</h2>
+                <h2 class="fieldheading">Pending Royalties</h2>
+                <h2 class="value"><span>£${(usersDetailed[i].balancePounds / 10000).toFixed(4)}</span><span class="spacer"></span>$${(usersDetailed[i].balance / 10000).toFixed(4)}</h2>
+            </div>
+            <div class="usersquare">
+                <h2 class="fieldheading">Pending Sales</h2>
+                <h2 class="value">£${(usersDetailed[i].saleBalance / 10000).toFixed(4)}</h2>
             </div>
         </div>
-            <div class="hidden squareContainer" id="fullinfo${i}">
-                <div class="usersquare namebox">
-                    ${variableCellContent}
-                </div>
-                <div class="usersquare">
-                    <h2 class="fieldheading">Total Paid Out</h2>
-                    <h2 class="value">$${(users_detailed[i].payouts / 10000).toFixed(4)}</h2>
-                </div>
-                <div class="userrectangle wordy">
+        <div class="hidden" id="fullinfo${i}">
+            <div class="squareContainer">
+                <div class="userrectangle wordy namebox">
                     <h2 class="fieldheading" id="modeofcontact${i}"></h2>
                     <p id="primarycontact${i}"></p>
                 </div>
+                <div class="usersquare">
+                    <h2 class="fieldheading">Total Royalties</h2>
+                    <h2 class="value">$${(usersDetailed[i].earnings / 10000).toFixed(4)}</h2>
+                </div>
+                <div class="usersquare">
+                    <h2 class="fieldheading">Total Sales</h2>
+                    <h2 class="value">£${(usersDetailed[i].sales / 10000).toFixed(4)}</h2>
+                </div>
             </div>
+            <div class="squareContainer">
+                <div class="userrectangle namebox">
+                    ${variableCellContent}
+                </div>
+                <div class="usersquare">
+                    <h2 class="fieldheading">Royalties Paid Out</h2>
+                    <h2 class="value">$${(usersDetailed[i].payouts / 10000).toFixed(4)}</h2>
+                </div>
+                <div class="usersquare">
+                    <h2 class="fieldheading">Sales Paid Out</h2>
+                    <h2 class="value">£${(usersDetailed[i].salepayouts / 10000).toFixed(4)}</h2>
+                </div>
+            </div>
+        </div>
         `
         userList.appendChild(div);
 
-        contact = users_detailed[i].details.primary_contact.split("|")
+        contact = usersDetailed[i].details.primary_contact.split("|")
 
         document.getElementById(`modeofcontact${i}`).textContent = contact[0].slice(0, 1).toUpperCase() + contact[0].slice(1) + ":"
         document.getElementById(`primarycontact${i}`).textContent = contact[1]
@@ -125,7 +144,7 @@ function toggleUserDetails(caller) {
 async function copySignupUrl(caller) {
     id = parseInt(caller.id.split("copyurl")[1])
     try {
-        await navigator.clipboard.writeText(window.location.protocol + "//" + window.location.host + "/signup?key=" + users_detailed[id].details.signup_key);
+        await navigator.clipboard.writeText(window.location.protocol + "//" + window.location.host + "/signup?key=" + usersDetailed[id].details.signup_key);
         document.getElementById("copiedlabel" + id.toString()).style.display = "block"
       } catch (err) {
         console.error('Failed to copy URL: ', err);
@@ -143,7 +162,7 @@ async function resetPassword(caller) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({username: users_detailed[id].name})
+        body: JSON.stringify({username: usersDetailed[id].name})
     };
 
     let response, resdata;
