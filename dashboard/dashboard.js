@@ -2,6 +2,9 @@ let earnings = 0;
 let payouts = 0;
 let balance = 0;
 let balancePounds = 0;
+let saleEarnings = 0;
+let salePayouts =  0;
+let saleBalance =  0;
 let primaryContactArr = [];
 let driveLink = "#"
 
@@ -12,6 +15,9 @@ async function getData() {
     payouts = resdata.payouts;
     balance = resdata.balance;
     balancePounds = resdata.balancePounds;
+    saleEarnings = resdata.saleEarnings;
+    salePayouts = resdata.salePayouts;
+    saleBalance = resdata.saleBalance;
 
     let res2 = await fetch("/api/getPrimaryContact");
     let resdata2 = await res2.json();
@@ -183,6 +189,14 @@ function onDataReady() {
     document.getElementById("balance").textContent = "$" + balanceFixed;
     let balancePoundsFixed = (balancePounds / 10000).toFixed(4);
     document.getElementById("balancePounds").textContent = "£" + balancePoundsFixed;
+
+    let saleEarningsFixed = (saleEarnings / 10000).toFixed(4);
+    document.getElementById("saleEarnings").textContent = "£" + saleEarningsFixed;
+    let salePayoutsFixed = (salePayouts / 10000).toFixed(4);
+    document.getElementById("salePayouts").textContent = "£" + salePayoutsFixed;
+    let saleBalanceFixed = (saleBalance / 10000).toFixed(4);
+    document.getElementById("saleBalance").textContent = "£" + saleBalanceFixed;
+
     document.getElementById("modeOfContact").textContent = primaryContactArr[0]
     document.getElementById("contactId").textContent = primaryContactArr[1]
     document.getElementById("driveLink").href = driveLink;

@@ -18,7 +18,10 @@ router.get('/getUserBalances', async (req, res) => {
     let payouts = await database.getUserPayouts(req.session.username);
     let balance = earnings - payouts;
     let balancePounds = balance * getExchangeRate();
-    res.send({earnings, payouts, balance, balancePounds});
+    let saleEarnings = await database.getUserSaleEarnings(req.session.username);
+    let salePayouts = await database.getUserSalePayouts(req.session.username);
+    let saleBalance = saleEarnings - salePayouts;
+    res.send({earnings, payouts, balance, balancePounds, saleEarnings, salePayouts, saleBalance});
 })
 
 router.get("/getSongList", async (req, res) => {
@@ -117,7 +120,7 @@ router.get("/getProductSales", async (req, res) => {
 
 router.get("/listUserSalePayouts", async (req, res) => {
     if (parseInt(req.query.page) > 0) {
-        let payouts = await database.getUserSalePayouts(req.session.username, parseInt(req.query.page));
+        let payouts = await database.listUserSalePayouts(req.session.username, parseInt(req.query.page));
         res.send(payouts);
     }
     else res.status(400).end();

@@ -180,6 +180,19 @@
             padding: 0 1em;
         }
 
+        .widesquare {
+            float: left;
+            box-sizing: border-box;
+            width: 33%;
+            background-color: #070782;
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            border-left: 0.6em solid #fdfff5;
+            border-right: 0.6em solid #fdfff5;
+            padding: 0 1em;
+        }
+
         .rectangle {
             float: left;
             box-sizing: border-box;
@@ -193,7 +206,7 @@
             padding: 0 1em;
         }
 
-        .square p, .rectangle p {
+        .square p, .rectangle p, .widesquare p {
             margin-top: 1rem;
             margin-bottom: 0.7rem;
         }
@@ -210,7 +223,7 @@
         }
 
         @media screen and (max-width: 900px) {
-            .square, .rectangle {
+            .square, .rectangle, .widesquare {
                 float: none;
                 width: 100%;
                 padding: 0.1em 1em;
@@ -503,8 +516,8 @@
         <div class="tooNarrow">
             <p>This website is not optimised for your device. If you are on a phone, try rotating the screen.</p>
         </div>
-        <h1 class="bigHeading"><span class="username gradient">...</span></h1>
         <div class="center">
+            <h1 class="bigHeading"><span class="gradient">Streaming</span></h1>
             <div class="squareContainer">
                 <div class="square">
                     <p>Lifetime Earnings</p>
@@ -517,6 +530,21 @@
                 <div class="rectangle">
                     <p>Pending Balance</p>
                     <h2 class="value"><span id="balance">$...</span><span class="spacer"></span><span id="balancePounds">£...</span><span class="fas eyecon" id="eyecon"><span class="tooltiptext" id="eyeconTooltip">Approximate value in GBP. Exchange rate from within the last 24 hours.</span></span></h2>
+                </div>
+            </div>
+            <h1 class="bigHeading"><span class="gradient">Bandcamp</span></h1>
+            <div class="squareContainer">
+                <div class="widesquare">
+                    <p>Lifetime Earnings</p>
+                    <h2 class="value" id="saleEarnings">£...</h2>
+                </div>
+                <div class="widesquare">
+                    <p>Total Paid Out</p>
+                    <h2 class="value" id="salePayouts">£...</h2>
+                </div>
+                <div class="widesquare">
+                    <p>Pending Balance</p>
+                    <h2 class="value" id="saleBalance">£...</h2>
                 </div>
             </div>
             <p class="message2 warning" id="servererror"><span class="fas"></span>The server returned an unknown error.</p>
