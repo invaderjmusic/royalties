@@ -59,7 +59,7 @@ function onDataReady () {
         if (usersDetailed[i].details.signup_key !== null) {
             variableCellContent = `
                 <h2 class="fieldheading">Sign-up URL</h2>
-                <button class="signup_key" id="copyurl${i}" onclick="copySignupUrl(this)">${usersDetailed[i].details.signup_key.slice(0,14)}...</button>
+                <button class="signup_key" id="copyurl${i}" onclick="copySignupUrl(this)">${usersDetailed[i].details.signup_key.slice(0,16)}...</button>
                 <p class="copied" id="copiedlabel${i}">Copied <span class="fas"></span></p>
             `
         }
