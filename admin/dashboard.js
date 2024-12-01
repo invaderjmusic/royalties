@@ -43,7 +43,7 @@ function onDataReady () {
     let holdingFixed = (accountBalances.holding / 10000).toFixed(4);
     document.getElementById("holding").textContent = "£" + holdingFixed;
 
-    if ((balance / 10000) > 3) {
+    if ((accountBalances.balance / 10000) > 3) {
         document.getElementById("over3").style.display = "inline-block";
     }
     else {
