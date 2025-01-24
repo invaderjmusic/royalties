@@ -23,3 +23,4 @@ A webapp to calculate and display revenue splits to my song contributors.
 - Comment every large block and any hard-to-understand logic. Very few comments currently exist in the project.
 - Ensure database queries are correctly designed and don't overcomplicate the task.
 - Data validation for admin API endpoints (considered not to be necessary as I will be the only admin / the frontend prevents bad data being submitted.)
+- Split CSS out into shared files (very hard due to technical debt)
