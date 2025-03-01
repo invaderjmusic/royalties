@@ -17,8 +17,8 @@ function readFile(e) {
         resultArr.pop()
         for (let i = 0; i < resultArr.length; i++) {
             let recordArr = resultArr[i].split(",")
-            let price = Math.round(parseFloat(recordArr[18]) * 10000)
-            let url = recordArr[19]
+            let price = Math.round(parseFloat(recordArr[19]) * 10000)
+            let url = recordArr[20]
             if (sales[url]) {
                 sales[url].count += 1;
                 sales[url].revenue += price;
