@@ -37,7 +37,7 @@ if (process.env.HTTPS == "TRUE") {
     };
 
     https = require('https').Server(credentials, app);
-    https.listen(443, () => {
+    https.listen(process.env.SSLPORT || 443, () => {
         console.log("[HTTPS] Listening on port 443");
     });
 
