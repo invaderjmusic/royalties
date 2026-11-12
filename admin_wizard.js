@@ -1,7 +1,7 @@
 /**
  * Admin Creation Wizard
  * Run this file to create an admin user with your specified username and password from the CLI
- * Run this after configuring the EdgeDB database in .env and installing dependencies from NPM
+ * Run this after configuring the Gel database in .env and installing dependencies from NPM
 **/
 require("dotenv").config()
 const chalk = require("chalk");
@@ -10,8 +10,8 @@ const readline = require('readline-sync');
 console.log("\n\r" + chalk.green("Royalties") + " - Admin Creation Wizard\n\r");
 let username = readline.question("Enter your new " + chalk.green("username") + ": ");
 
-const edgedb = require("edgedb");
-const client = edgedb.createClient();
+const gel = require("gel");
+const client = gel.createClient();
 const crypto = require("crypto");
 
 let newKey = crypto.randomBytes(16).toString('hex');
