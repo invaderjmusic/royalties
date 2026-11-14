@@ -1,9 +1,8 @@
-const gel = require("gel");
-const client = gel.createClient();
+import { createClient, LocalDate } from "gel";
+const client = createClient();
 
-module.exports = {
-    addUser: async (username, primary_contact) => {
-        await client.execute(`
+export async function addUser(username, primary_contact) {
+    await client.execute(`
         insert User {
             username := <str>$name,
             primary_contact := <str>$contact,
@@ -12,9 +11,10 @@ module.exports = {
             password_hash := <str>""
         }
         `, { name: username, contact: primary_contact });
-    },
-    getUser: async (username) => {
-        let result = await client.querySingle(`
+}
+
+export async function getUser(username) {
+    let result = await client.querySingle(`
         select User {
             id,
             is_admin,
@@ -25,19 +25,21 @@ module.exports = {
             signup_key
         }
         filter .username = <str>$name
-        `, { name: username })
-        return result
-    },
-    getUsersOverview: async () => {
-        let result = await client.query(`
+        `, { name: username });
+    return result;
+}
+
+export async function getUsersOverview() {
+    let result = await client.query(`
         select User {
             username
         }
         `);
-        return result;
-    },
-    getDetailedUsersInfo: async () => {
-        let result = await client.query(`
+    return result;
+}
+
+export async function getDetailedUsersInfo() {
+    let result = await client.query(`
         select User {
             name := .username,
             details := {
@@ -61,20 +63,22 @@ module.exports = {
                 for sp in sps union sp.amount)
             )
         }
-        `)
-        return result;
-    },
-    getUserByKey: async (signup_key) => {
-        let result = await client.query(`
+        `);
+    return result;
+}
+
+export async function getUserByKey(signup_key) {
+    let result = await client.query(`
         select User {
             username
         }
         filter .signup_key = <str>$key
-        `, { key: signup_key })
-        return result;
-    },
-    setUserPassword: async (username, salt, hash) => {
-        await client.execute(`
+        `, { key: signup_key });
+    return result;
+}
+
+export async function setUserPassword(username, salt, hash) {
+    await client.execute(`
         update User
         filter .username = <str>$name
             set {
@@ -82,27 +86,30 @@ module.exports = {
                 password_hash := <str>$pwdhash
             }
         `, { name: username, pwdsalt: salt, pwdhash: hash });
-    },
-    setUserSignupKey: async (username, signup_key) => {
-        await client.execute(`
+}
+
+export async function setUserSignupKey(username, signup_key) {
+    await client.execute(`
         update User
         filter .username = <str>$name
             set {
                 signup_key := <str>$key,
             }
         `, { name: username, key: signup_key });
-    },
-    deleteUserSignupKey: async (username) => {
-        await client.execute(`
+}
+
+export async function deleteUserSignupKey(username) {
+    await client.execute(`
         update User
         filter .username = <str>$name
             set {
                 signup_key := <str>{},
             }
         `, { name: username });
-    },
-    deleteUserPassword: async (username) => {
-        await client.execute(`
+}
+
+export async function deleteUserPassword(username) {
+    await client.execute(`
         update User
         filter .username = <str>$name
             set {
@@ -110,48 +117,52 @@ module.exports = {
                 password_hash := <str>""
             }
         `, { name: username });
-    },
-    addRelease: async (name, year, month, day, songs) => {
-        let queryString = `
+}
+
+export async function addRelease(name, year, month, day, songs) {
+    let queryString = `
         insert Release {
             name := <str>$name,
             release_date := <cal::local_date>$date,
             songs := {
-        `
-        let parameters = { name: name, date: new gel.LocalDate(year, month, day) }
+        `;
+    let parameters = { name: name, date: new LocalDate(year, month, day) };
 
-        if (songs.length > 1) {
-            for (let i = 0; i < songs.length - 1; i++) {
-                queryString = queryString + `(insert Song { name := <str>$song${i.toString()}name }), `
-                parameters[`song${i.toString()}name`] = songs[i];
-            }
+    if (songs.length > 1) {
+        for (let i = 0; i < songs.length - 1; i++) {
+            queryString = queryString + `(insert Song { name := <str>$song${i.toString()}name }), `;
+            parameters[`song${i.toString()}name`] = songs[i];
         }
+    }
 
-        queryString = queryString + `(insert Song { name := <str>$song${(songs.length - 1).toString()}name }) } }`
-        parameters[`song${(songs.length - 1).toString()}name`] = songs[songs.length - 1];
+    queryString = queryString + `(insert Song { name := <str>$song${(songs.length - 1).toString()}name }) } }`;
+    parameters[`song${(songs.length - 1).toString()}name`] = songs[songs.length - 1];
 
-        await client.execute(queryString, parameters);
-    },
-    addUserSplit: async (username, song, percentage) => {
-        await client.execute(`
+    await client.execute(queryString, parameters);
+}
+
+export async function addUserSplit(username, song, percentage) {
+    await client.execute(`
         update User
         filter .username = <str>$name
             set {
                 splits += (insert Split { percentage := <int64>$percentage, song := (select Song filter .name = <str>$songname)})
             }
         `, { name: username, percentage: percentage, songname: song });
-    },
-    getUserSplit: async (username, song) => {
-        let result = await client.query(`
+}
+
+export async function getUserSplit(username, song) {
+    let result = await client.query(`
         select Split {
             percentage
         }
         filter .<splits[is User].username = <str>$user and .song.name = <str>$name
-        `, {user: username, name: song});
-        return result;
-    },
-    getLatestRoyaltyDate: async () => {
-        let result = await client.querySingle(`
+        `, { user: username, name: song });
+    return result;
+}
+
+export async function getLatestRoyaltyDate() {
+    let result = await client.querySingle(`
         select max (
             (with
             royalties := (select Royalty {date})
@@ -159,10 +170,11 @@ module.exports = {
             union(royalty.date))
         )
         `);
-        return result;
-    },
-    getEarliestReleaseDate: async () => {
-        let result = await client.querySingle(`
+    return result;
+}
+
+export async function getEarliestReleaseDate() {
+    let result = await client.querySingle(`
         select min (
             (with
             releases := (select Release {release_date})
@@ -170,10 +182,11 @@ module.exports = {
             union(release.release_date))
         )
         `);
-        return result;
-    },
-    getReleasesBeforeDate: async (year, month, day) => {
-        let result = await client.query(`
+    return result;
+}
+
+export async function getReleasesBeforeDate(year, month, day) {
+    let result = await client.query(`
         select Release {
             name,
             release_date,
@@ -182,21 +195,23 @@ module.exports = {
             }
         }
         filter .release_date < <cal::local_date>$date
-        `, { date: new gel.LocalDate(year, month, day) });
-        return result;
-    },
-    getSongSplits: async (song) => {
-        let result = await client.query(`
+        `, { date: new LocalDate(year, month, day) });
+    return result;
+}
+
+export async function getSongSplits(song) {
+    let result = await client.query(`
         select Split { 
             percentage, 
             user := .<splits[is User].username 
         } 
         filter .song = (select Song filter .name = <str>$name)
         `, { name: song });
-        return result;
-    },
-    addRoyaltyToSongDB: async (year, month, song, amount, earnings) => {
-        let queryString = `
+    return result;
+}
+
+export async function addRoyaltyToSongDB(year, month, song, amount, earnings) {
+    let queryString = `
         update Song 
         filter .name = <str>$name
             set { 
@@ -204,49 +219,51 @@ module.exports = {
                     date := <cal::local_date>$date,
                     amount := <int64>$amount,
                     earnings := {
-        `
-        let parameters = { name: song, date: new gel.LocalDate(year, month, 1), amount: amount}
-        
-        let keys = Object.keys(earnings); 
-        if (keys.length > 1) {
-            for (let i = 0; i < keys.length - 1; i++) {
-                queryString = queryString + `(insert Earning { user := (select User filter .username = <str>$earning${i.toString()}name), amount := <int64>$earning${i.toString()}amount }), `
-                parameters[`earning${i.toString()}name`] = keys[i];
-                parameters[`earning${i.toString()}amount`] = earnings[keys[i]];
-            }
-        }
+        `;
+    let parameters = { name: song, date: new LocalDate(year, month, 1), amount: amount };
 
-        queryString = queryString + `(insert Earning { user := (select User filter .username = <str>$earning${(keys.length - 1).toString()}name), amount := <int64>$earning${(keys.length - 1).toString()}amount }) } }) }`
-        parameters[`earning${(keys.length - 1).toString()}name`] = keys[keys.length - 1];
-        parameters[`earning${(keys.length - 1).toString()}amount`] = earnings[keys[keys.length - 1]];
-        
-        await client.execute(queryString, parameters);
-    },
-    getCreditedSongs: async(username = "") => {
-        if (username == "") {
-            let result = await client.query(`
+    let keys = Object.keys(earnings);
+    if (keys.length > 1) {
+        for (let i = 0; i < keys.length - 1; i++) {
+            queryString = queryString + `(insert Earning { user := (select User filter .username = <str>$earning${i.toString()}name), amount := <int64>$earning${i.toString()}amount }), `;
+            parameters[`earning${i.toString()}name`] = keys[i];
+            parameters[`earning${i.toString()}amount`] = earnings[keys[i]];
+        }
+    }
+
+    queryString = queryString + `(insert Earning { user := (select User filter .username = <str>$earning${(keys.length - 1).toString()}name), amount := <int64>$earning${(keys.length - 1).toString()}amount }) } }) }`;
+    parameters[`earning${(keys.length - 1).toString()}name`] = keys[keys.length - 1];
+    parameters[`earning${(keys.length - 1).toString()}amount`] = earnings[keys[keys.length - 1]];
+
+    await client.execute(queryString, parameters);
+}
+
+export async function getCreditedSongs(username = "") {
+    if (username == "") {
+        let result = await client.query(`
             with 
             songs := (select Song {
                 name
             })
             for song in songs union song.name
             `);
-            return result;
-        }
-        else {
-            let result = await client.query(`
+        return result;
+    }
+    else {
+        let result = await client.query(`
             with
             splits := (select Split {
                 songname := .song.name
             } filter .<splits[is User].username = <str>$user)
             select distinct (for split in splits union (split.songname))
             `, { user: username });
-            return result;
-        }
-    },
-    getFullRoyalties: async (song, page) => {
-        let newLimit = 12;
-        let result = await client.query(`
+        return result;
+    }
+}
+
+export async function getFullRoyalties(song, page) {
+    let newLimit = 12;
+    let result = await client.query(`
         select Royalty {
             date,
             amount,
@@ -258,12 +275,13 @@ module.exports = {
         filter .<royalties[is Song].name = <str>$name
         order by .date desc
         offset <int64>$offset limit <int64>$limit
-        `, {name: song, offset: (page - 1) * newLimit, limit: newLimit});
-        return result;
-    },
-    getUserRoyalties: async (user, song, page) => {
-        let newLimit = 12;
-        let result = await client.query(`
+        `, { name: song, offset: (page - 1) * newLimit, limit: newLimit });
+    return result;
+}
+
+export async function getUserRoyalties(user, song, page) {
+    let newLimit = 12;
+    let result = await client.query(`
         select Royalty {
             date,
             amount,
@@ -275,11 +293,12 @@ module.exports = {
         filter .<royalties[is Song].name = <str>$name
         order by .date desc
         offset <int64>$offset limit <int64>$limit
-        `, {user: user, name: song, offset: (page - 1) * newLimit, limit: newLimit});
-        return result;
-    },
-    getAccountEarnings: async () => {
-        let result = await client.querySingle(`
+        `, { user: user, name: song, offset: (page - 1) * newLimit, limit: newLimit });
+    return result;
+}
+
+export async function getAccountEarnings() {
+    let result = await client.querySingle(`
         select sum (
             (with 
             royalties := (select Royalty {
@@ -290,10 +309,11 @@ module.exports = {
             )
         )
         `);
-        return result;
-    },
-    getAccountEarningsBySong: async (song) => {
-        let result = await client.querySingle(`
+    return result;
+}
+
+export async function getAccountEarningsBySong(song) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             royalties := (select Royalty {
@@ -303,11 +323,12 @@ module.exports = {
             union royalty.amount
             )
         )
-        `, {name: song});
-        return result;
-    },
-    getAccountPayouts: async () => {
-        let result = await client.querySingle(`
+        `, { name: song });
+    return result;
+}
+
+export async function getAccountPayouts() {
+    let result = await client.querySingle(`
         select sum (
             (with 
             transactions := (select Transaction {
@@ -318,10 +339,11 @@ module.exports = {
             )
         )
         `);
-        return result;
-    },
-    getUserEarnings: async (user) => {
-        let result = await client.querySingle(`
+    return result;
+}
+
+export async function getUserEarnings(user) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             earnings := (select Earning {
@@ -331,11 +353,12 @@ module.exports = {
             union earning.amount
             )
         )
-        `, {name: user});
-        return result;
-    },
-    getUserEarningsBySong: async (user, song) => {
-        let result = await client.querySingle(`
+        `, { name: user });
+    return result;
+}
+
+export async function getUserEarningsBySong(user, song) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             earnings := (select Earning {
@@ -345,11 +368,12 @@ module.exports = {
             union earning.amount
             )
         )
-        `, {user: user, name: song});
-        return result;
-    },
-    getUserPayouts: async (user) => {
-        let result = await client.querySingle(`
+        `, { user: user, name: song });
+    return result;
+}
+
+export async function getUserPayouts(user) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             payouts := (select Payout {
@@ -359,11 +383,12 @@ module.exports = {
             union payout.amount
             )
         )
-        `, {name: user});
-        return result;
-    },
-    listUserPayouts: async (user) => {
-        let result = await client.query(`
+        `, { name: user });
+    return result;
+}
+
+export async function listUserPayouts(user) {
+    let result = await client.query(`
         select Transaction {
             date,
             withdrawal,
@@ -373,11 +398,12 @@ module.exports = {
         }
         filter .withdrawal > 0 or exists .myPayout
         order by .date desc
-        `, {name: user});
-        return result;
-    },
-    listAllTransactions: async () => {
-        let result = await client.query(`
+        `, { name: user });
+    return result;
+}
+
+export async function listAllTransactions() {
+    let result = await client.query(`
         select Transaction {
             date,
             withdrawal,
@@ -388,85 +414,93 @@ module.exports = {
         }
         order by .date desc
         `);
-        return result;
-    },
-    getPrimaryContact: async (user) => {
-        let result = await client.querySingle(`
+    return result;
+}
+
+export async function getPrimaryContact(user) {
+    let result = await client.querySingle(`
         select User {
             primary_contact
         }
         filter .username = <str>$name
-        `, {name: user});
-        return result;
-    },
-    setPrimaryContact: async (user, contact) => {
-        let result = await client.querySingle(`
+        `, { name: user });
+    return result;
+}
+
+export async function setPrimaryContact(user, contact) {
+    let result = await client.querySingle(`
         update User
         filter .username = <str>$name
         set {
             primary_contact := <str>$contact
         }
-        `, {name: user, contact: contact});
-        return result;
-    },
-    addTransaction: async (year, month, day, withdrawal, payouts) => {
-        let queryString = `
+        `, { name: user, contact: contact });
+    return result;
+}
+
+export async function addTransaction(year, month, day, withdrawal, payouts) {
+    let queryString = `
         insert Transaction {
             date := <cal::local_date>$date,
             withdrawal := <int64>$withdrawal,
             payouts := {
-        `
-        let parameters = { date: new gel.LocalDate(year, month, day), withdrawal: withdrawal }
+        `;
+    let parameters = { date: new LocalDate(year, month, day), withdrawal: withdrawal };
 
-        if (payouts.length > 1) {
-            for (let i = 0; i < payouts.length - 1; i++) {
-                queryString = queryString + `(insert Payout { user := (select User filter .username = <str>$name${i.toString()}), amount := <int64>$amount${i.toString()}}), `
-                parameters[`name${i}`] = payouts[i].name;
-                parameters[`amount${i}`] = payouts[i].payout;
-            }
+    if (payouts.length > 1) {
+        for (let i = 0; i < payouts.length - 1; i++) {
+            queryString = queryString + `(insert Payout { user := (select User filter .username = <str>$name${i.toString()}), amount := <int64>$amount${i.toString()}}), `;
+            parameters[`name${i}`] = payouts[i].name;
+            parameters[`amount${i}`] = payouts[i].payout;
         }
+    }
 
-        queryString = queryString + `(insert Payout { user := (select User filter .username = <str>$name${(payouts.length - 1).toString()}), amount := <int64>$amount${(payouts.length - 1).toString()}}) }}`
-        parameters[`name${payouts.length - 1}`] = payouts[payouts.length - 1].name;
-        parameters[`amount${payouts.length - 1}`] = payouts[payouts.length - 1].payout;
+    queryString = queryString + `(insert Payout { user := (select User filter .username = <str>$name${(payouts.length - 1).toString()}), amount := <int64>$amount${(payouts.length - 1).toString()}}) }}`;
+    parameters[`name${payouts.length - 1}`] = payouts[payouts.length - 1].name;
+    parameters[`amount${payouts.length - 1}`] = payouts[payouts.length - 1].payout;
 
-        await client.execute(queryString, parameters);
-    },
-    deleteRoyaltiesByDate: async (date) => {
-        await client.execute(`
+    await client.execute(queryString, parameters);
+}
+
+export async function deleteRoyaltiesByDate(date) {
+    await client.execute(`
         delete Royalty
         filter .date = <cal::local_date>$date
-        `, {date: date});
-    },
-    addProduct: async (url, name) => {
-        await client.execute(`
+        `, { date: date });
+}
+
+export async function addProduct(url, name) {
+    await client.execute(`
             insert Product {
                 url := <str>$url,
                 name := <str>$name
             }
             `, { url: url, name: name });
-    },
-    addUserProductSplit: async (username, product, percentage) => {
-        await client.execute(`
+}
+
+export async function addUserProductSplit(username, product, percentage) {
+    await client.execute(`
         update User
         filter .username = <str>$name
             set {
                 product_splits += (insert ProductSplit { percentage := <int64>$percentage, product := (select Product filter .url = <str>$url)})
             }
         `, { name: username, percentage: percentage, url: product });
-    },
-    getProductSplits: async (product) => {
-        let result = await client.query(`
+}
+
+export async function getProductSplits(product) {
+    let result = await client.query(`
         select ProductSplit { 
             percentage, 
             user := .<product_splits[is User].username 
         } 
         filter .product = (select Product filter .url = <str>$url)
         `, { url: product });
-        return result;
-    },
-    addSaleToProductDB: async (year, month, product, amount, count, earnings) => {
-        let queryString = `
+    return result;
+}
+
+export async function addSaleToProductDB(year, month, product, amount, count, earnings) {
+    let queryString = `
         update Product 
         filter .url = <str>$url
             set { 
@@ -475,56 +509,59 @@ module.exports = {
                     count := <int64>$count,
                     amount := <int64>$amount,
                     earnings := {
-        `
-        let parameters = { url: product, date: new gel.LocalDate(year, month, 1), count: count, amount: amount}
-        
-        let keys = Object.keys(earnings); 
-        if (keys.length > 1) {
-            for (let i = 0; i < keys.length - 1; i++) {
-                queryString = queryString + `(insert SaleEarning { user := (select User filter .username = <str>$earning${i.toString()}name), amount := <int64>$earning${i.toString()}amount }), `
-                parameters[`earning${i.toString()}name`] = keys[i];
-                parameters[`earning${i.toString()}amount`] = earnings[keys[i]];
-            }
-        }
+        `;
+    let parameters = { url: product, date: new LocalDate(year, month, 1), count: count, amount: amount };
 
-        queryString = queryString + `(insert SaleEarning { user := (select User filter .username = <str>$earning${(keys.length - 1).toString()}name), amount := <int64>$earning${(keys.length - 1).toString()}amount }) } }) }`
-        parameters[`earning${(keys.length - 1).toString()}name`] = keys[keys.length - 1];
-        parameters[`earning${(keys.length - 1).toString()}amount`] = earnings[keys[keys.length - 1]];
-        
-        await client.execute(queryString, parameters);
-    },
-    getCreditedProducts: async(username = "") => {
-        if (username == "") {
-            let result = await client.query(`
+    let keys = Object.keys(earnings);
+    if (keys.length > 1) {
+        for (let i = 0; i < keys.length - 1; i++) {
+            queryString = queryString + `(insert SaleEarning { user := (select User filter .username = <str>$earning${i.toString()}name), amount := <int64>$earning${i.toString()}amount }), `;
+            parameters[`earning${i.toString()}name`] = keys[i];
+            parameters[`earning${i.toString()}amount`] = earnings[keys[i]];
+        }
+    }
+
+    queryString = queryString + `(insert SaleEarning { user := (select User filter .username = <str>$earning${(keys.length - 1).toString()}name), amount := <int64>$earning${(keys.length - 1).toString()}amount }) } }) }`;
+    parameters[`earning${(keys.length - 1).toString()}name`] = keys[keys.length - 1];
+    parameters[`earning${(keys.length - 1).toString()}amount`] = earnings[keys[keys.length - 1]];
+
+    await client.execute(queryString, parameters);
+}
+
+export async function getCreditedProducts(username = "") {
+    if (username == "") {
+        let result = await client.query(`
             select Product {
                 url,
                 name
             }
             `);
-            return result;
-        }
-        else {
-            let result = await client.query(`
+        return result;
+    }
+    else {
+        let result = await client.query(`
             select ProductSplit {
                 url := .product.url,
                 name  := .product.name
             } filter .<product_splits[is User].username = <str>$user
             `, { user: username });
-            return result;
-        }
-    },
-    getProductSplits: async (product) => {
-        let result = await client.query(`
+        return result;
+    }
+}
+
+export async function getProductSplits(product) {
+    let result = await client.query(`
         select ProductSplit { 
             percentage, 
             user := .<product_splits[is User].username 
         } 
         filter .product = (select Product filter .url = <str>$url)
         `, { url: product });
-        return result;
-    },
-    getAccountEarningsByProduct: async (product) => {
-        let result = await client.querySingle(`
+    return result;
+}
+
+export async function getAccountEarningsByProduct(product) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             sales := (select Sale {
@@ -534,12 +571,13 @@ module.exports = {
             union sale.amount
             )
         )
-        `, {url: product});
-        return result;
-    },
-    getFullSales: async (product, page) => {
-        let newLimit = 12;
-        let result = await client.query(`
+        `, { url: product });
+    return result;
+}
+
+export async function getFullSales(product, page) {
+    let newLimit = 12;
+    let result = await client.query(`
         select Sale {
             date,
             count,
@@ -552,12 +590,13 @@ module.exports = {
         filter .<sales[is Product].url = <str>$url
         order by .date desc
         offset <int64>$offset limit <int64>$limit
-        `, {url: product, offset: (page - 1) * newLimit, limit: newLimit});
-        return result;
-    },
-    getUserSales: async (username, product, page) => {
-        let newLimit = 12;
-        let result = await client.query(`
+        `, { url: product, offset: (page - 1) * newLimit, limit: newLimit });
+    return result;
+}
+
+export async function getUserSales(username, product, page) {
+    let newLimit = 12;
+    let result = await client.query(`
         select Sale {
             date,
             count,
@@ -570,20 +609,22 @@ module.exports = {
         filter .<sales[is Product].url = <str>$url
         order by .date desc
         offset <int64>$offset limit <int64>$limit
-        `, {user: username, url: product, offset: (page - 1) * newLimit, limit: newLimit});
-        return result;
-    },
-    getUserProductSplit: async (username, product) => {
-        let result = await client.query(`
+        `, { user: username, url: product, offset: (page - 1) * newLimit, limit: newLimit });
+    return result;
+}
+
+export async function getUserProductSplit(username, product) {
+    let result = await client.query(`
         select ProductSplit {
             percentage
         }
         filter .<product_splits[is User].username = <str>$user and .product.url = <str>$url
-        `, {user: username, url: product});
-        return result;
-    },
-    getUserEarningsByProduct: async (username, product) => {
-        let result = await client.querySingle(`
+        `, { user: username, url: product });
+    return result;
+}
+
+export async function getUserEarningsByProduct(username, product) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             earnings := (select SaleEarning {
@@ -593,21 +634,23 @@ module.exports = {
             union earning.amount
             )
         )
-        `, {user: username, url: product});
-        return result;
-    },
-    addSalePayout: async(year, month, day, username, amount) => {
-        await client.execute(`
+        `, { user: username, url: product });
+    return result;
+}
+
+export async function addSalePayout(year, month, day, username, amount) {
+    await client.execute(`
         insert SalePayout {
             date := <cal::local_date>$date,
             user := (select User filter .username = <str>$user),
             amount := <int64>$amount
         }
-        `, {date: new gel.LocalDate(year, month, day), user: username, amount: amount})
-    },
-    getFullSalePayouts: async (page) => {
-        let newLimit = 12;
-        let result = await client.query(`
+        `, { date: new LocalDate(year, month, day), user: username, amount: amount });
+}
+
+export async function getFullSalePayouts(page) {
+    let newLimit = 12;
+    let result = await client.query(`
         select SalePayout {
             date,
             username := .user.username,
@@ -615,12 +658,13 @@ module.exports = {
         }
         order by .date desc
         offset <int64>$offset limit <int64>$limit
-        `, {offset: (page - 1) * newLimit, limit: newLimit});
-        return result;
-    },
-    listUserSalePayouts: async (username, page) => {
-        let newLimit = 12;
-        let result = await client.query(`
+        `, { offset: (page - 1) * newLimit, limit: newLimit });
+    return result;
+}
+
+export async function listUserSalePayouts(username, page) {
+    let newLimit = 12;
+    let result = await client.query(`
         select SalePayout {
             date,
             amount
@@ -628,11 +672,12 @@ module.exports = {
         filter .user.username = <str>$name
         order by .date desc
         offset <int64>$offset limit <int64>$limit
-        `, {name: username, offset: (page - 1) * newLimit, limit: newLimit});
-        return result;
-    },
-    getAccountSales: async () => {
-        let result = await client.querySingle(`
+        `, { name: username, offset: (page - 1) * newLimit, limit: newLimit });
+    return result;
+}
+
+export async function getAccountSales() {
+    let result = await client.querySingle(`
         select sum (
             (with 
             sales := (select Sale {
@@ -643,10 +688,11 @@ module.exports = {
             )
         )
         `);
-        return result;
-    },
-    getAccountSalePayouts: async () => {
-        let result = await client.querySingle(`
+    return result;
+}
+
+export async function getAccountSalePayouts() {
+    let result = await client.querySingle(`
         select sum (
             (with 
             payouts := (select SalePayout {
@@ -657,10 +703,11 @@ module.exports = {
             )
         )
         `);
-        return result;
-    },
-    getUserSaleEarnings: async (user) => {
-        let result = await client.querySingle(`
+    return result;
+}
+
+export async function getUserSaleEarnings(user) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             earnings := (select SaleEarning {
@@ -670,11 +717,12 @@ module.exports = {
             union earning.amount
             )
         )
-        `, {name: user});
-        return result;
-    },
-    getUserSalePayouts: async (user) => {
-        let result = await client.querySingle(`
+        `, { name: user });
+    return result;
+}
+
+export async function getUserSalePayouts(user) {
+    let result = await client.querySingle(`
         select sum (
             (with 
             payouts := (select SalePayout {
@@ -684,7 +732,6 @@ module.exports = {
             union payout.amount
             )
         )
-        `, {name: user});
-        return result;
-    }
+        `, { name: user });
+    return result;
 }

@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const database = require("../lib/database.js");
-const { getExchangeRate } = require("../lib/currency.js");
-const { updateUserPassword } = require("../lib/users.js");
+import { Router } from "express";
+const router = Router();
+
+import * as database from "../lib/database.js";
+import { getExchangeRate } from "../lib/currency.js";
+import { updateUserPassword } from "../lib/users.js";
 
 router.use((req, res, next) => {
     if (req.session.loggedin) next();
@@ -75,7 +76,7 @@ router.post("/setPrimaryContact", async (req, res) => {
 })
 
 router.get("/getDriveLink", async (req, res) => {
-    res.send({driveLink: process.env.POLICYLINK})
+    res.send({driveLink: import.meta.env.POLICYLINK})
 })
 
 router.post("/changePassword", async (req, res) => {
@@ -126,4 +127,4 @@ router.get("/listUserSalePayouts", async (req, res) => {
     else res.status(400).end();
 })
 
-module.exports = router
+export default router;

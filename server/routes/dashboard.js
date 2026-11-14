@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router()
+import { Router } from 'express';
+const router = Router()
 
 router.use((req, res, next) => {
     if (req.session.loggedin) next();
@@ -50,4 +50,4 @@ router.get('/salepayouts.js', (req, res) => {
     res.sendFile(process.cwd() + "/dashboard/salepayouts.js");
 })
 
-module.exports = router
+export default router;

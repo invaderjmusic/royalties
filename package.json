@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Accounting system to calculate and display revenue splits to song contributors",
-  "main": "index.js",
+  "exports": "./index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -1,44 +1,47 @@
-require("dotenv").config();
-
 // Third-party modules
-const fs = require("fs");
-const express = require("express");
-const session = require("express-session");
+import fs from "node:fs";
+import { createServer } from "node:http";
+import { createServer as createHttpsServer } from "node:https";
+import express from "express";
+import session from "express-session";
+
 const app = express();
-const http = require('http').Server(app);
+const http = createServer(app);
 
 // Libs
-const users = require("./server/lib/users.js");
-const api = require("./routes/api.js");
-const dashboard = require("./routes/dashboard.js");
-const admin = require("./routes/admin.js");
-const signup = require("./routes/signup.js");
-require("./server/lib/currency.js").setStartupExchangeRate();
+import * as currency from "./server/lib/currency.js";
+import * as users from "./server/lib/users.js";
+import admin from "./server/routes/admin.js";
+import api from "./server/routes/api.js";
+import dashboard from "./server/routes/dashboard.js";
+import signup from "./server/routes/signup.js";
+
+currency.setStartupExchangeRate();
 
 let sessionOptions = {
-    secret: process.env.COOKIESECRET,
+    secret: import.meta.env.COOKIESECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {}
 }
 
-http.listen(process.env.PORT || 80, () => {
-    console.log("[HTTP] Listening on port " + (process.env.PORT || 80));
+http.listen(import.meta.env.PORT || 80, () => {
+    console.log("[HTTP] Listening on port " + (import.meta.env.PORT || 80));
 });
 
 let https;
 
-if (process.env.HTTPS == "TRUE") {
-    const privateKey = fs.readFileSync(process.env.SSL_PRIVATEKEY_PATH, 'utf8');
-    const certificate = fs.readFileSync(process.env.SSL_CERTIFICATE_PATH, 'utf8');
+if (import.meta.env.HTTPS === "TRUE") {
+    const privateKey = fs.readFileSync(import.meta.env.SSL_PRIVATEKEY_PATH, 'utf8');
+    const certificate = fs.readFileSync(import.meta.env.SSL_CERTIFICATE_PATH, 'utf8');
     const credentials = {
         key: privateKey,
         cert: certificate,
     };
 
-    https = require('https').Server(credentials, app);
-    https.listen(process.env.SSLPORT || 443, () => {
-        console.log("[HTTPS] Listening on port " + (process.env.SSLPORT || 443));
+    https = createHttpsServer(credentials, app);
+    https.listen(import.meta.env.SSLPORT || 443, () => {
+        console.log("[HTTPS] Listening on port " + (import.meta.env.SSLPORT || 443));
     });
 
     sessionOptions.cookie.secure = true;
@@ -50,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.use(function (req, res, next) {
-    if (!req.secure && process.env.HTTPS == "TRUE") {
+    if (!req.secure && import.meta.env.HTTPS === "TRUE") {
         return res.redirect("https://" + req.headers.host + req.url);
     }
     next();

@@ -1,9 +1,10 @@
-const express = require('express');
+import express from "express";
+import * as database from "../lib/database.js";
+import * as royalties from "../lib/royalties.js";
+import * as users from "../lib/users.js";
+import { getExchangeRate } from "../lib/currency.js";
+
 const router = express.Router();
-const database = require("../lib/database.js");
-const royalties = require("../lib/royalties.js");
-const users = require("../lib/users.js");
-const { getExchangeRate } = require("../lib/currency.js");
 
 router.use((req, res, next) => {
     if (req.session.loggedin) {
@@ -364,4 +365,4 @@ router.get("/listSalePayouts", async (req, res) => {
     else res.status(400).end();
 })
 
-module.exports = router
+export default router;

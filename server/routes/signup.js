@@ -1,6 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const users = require("../lib/users.js");
+import { Router } from "express";
+import * as users from "../lib/users.js";
+
+const router = Router();
 
 router.get('/', (req, res) => {
     res.sendFile(process.cwd() + "/public/signup.html");
@@ -35,4 +36,4 @@ router.post("/setPassword", async (req, res) => {
     else res.status(400).end();
 })
 
-module.exports = router
+export default router;
