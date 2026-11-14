@@ -8,12 +8,12 @@ const app = express();
 const http = require('http').Server(app);
 
 // Libs
-const users = require("./lib/users.js");
+const users = require("./server/lib/users.js");
 const api = require("./routes/api.js");
 const dashboard = require("./routes/dashboard.js");
 const admin = require("./routes/admin.js");
 const signup = require("./routes/signup.js");
-require("./lib/currency.js").setStartupExchangeRate();
+require("./server/lib/currency.js").setStartupExchangeRate();
 
 let sessionOptions = {
     secret: process.env.COOKIESECRET,
